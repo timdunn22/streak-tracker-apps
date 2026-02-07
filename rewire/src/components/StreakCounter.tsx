@@ -77,7 +77,18 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
       </div>
 
       <div className="relative w-64 h-64 mb-8 animate-fade-in">
-        <svg className="w-full h-full -rotate-90" viewBox="0 0 200 200">
+        {/* Breathing glow ring behind the SVG */}
+        {days > 0 && (
+          <div
+            className="absolute inset-2 rounded-full animate-breathe"
+            style={{
+              background: `radial-gradient(circle, ${
+                days >= config.goalDays ? 'var(--color-success)' : 'var(--color-accent)'
+              }15 40%, transparent 70%)`,
+            }}
+          />
+        )}
+        <svg className="relative w-full h-full -rotate-90" viewBox="0 0 200 200">
           <circle
             cx="100" cy="100" r="88"
             fill="none"

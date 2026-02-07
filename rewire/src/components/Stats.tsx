@@ -4,9 +4,55 @@ interface Props {
   totalCleanDays: number
   totalResets: number
   streaks: number[]
+  startDate: string | null
 }
 
-export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks }: Props) {
+function StreakCalendar({ currentDays, startDate }: { currentDays: number; startDate: string | null }) {
+  const today = new Date()
+  const days: { date: Date; active: boolean; isToday: boolean }[] = []
+
+  for (let i = 34; i >= 0; i--) {
+    const d = new Date(today)
+    d.setDate(d.getDate() - i)
+    const daysAgo = i
+    days.push({
+      date: d,
+      active: startDate !== null && daysAgo < currentDays,
+      isToday: i === 0,
+    })
+  }
+
+  const weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+
+  return (
+    <div className="glass rounded-2xl p-4 mb-6">
+      <h3 className="text-sm font-semibold text-text mb-3">Last 5 Weeks</h3>
+      <div className="grid grid-cols-7 gap-1.5">
+        {weekdays.map((d, i) => (
+          <div key={i} className="text-center text-text-muted text-[9px] font-medium pb-1">{d}</div>
+        ))}
+        {days.map((d, i) => (
+          <div
+            key={i}
+            className={`aspect-square rounded-md flex items-center justify-center text-[9px] font-medium transition-all ${
+              d.isToday
+                ? d.active
+                  ? 'bg-accent text-white ring-1 ring-accent-glow'
+                  : 'bg-bg-card-hover text-text-dim ring-1 ring-border'
+                : d.active
+                ? 'bg-accent/40 text-accent-glow'
+                : 'bg-bg-card text-text-muted'
+            }`}
+          >
+            {d.date.getDate()}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks, startDate }: Props) {
   const isPersonalBest = currentDays > 0 && currentDays >= longestStreak
   const avgStreak = streaks.length > 0
     ? Math.round(streaks.reduce((a, b) => a + b, 0) / streaks.length)
@@ -32,6 +78,11 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
             Personal Best
           </span>
         )}
+      </div>
+
+      {/* Streak Calendar */}
+      <div className="animate-fade-in-delay-1">
+        <StreakCalendar currentDays={currentDays} startDate={startDate} />
       </div>
 
       {/* Stat grid */}

@@ -1,9 +1,48 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { config } from '../config'
 
 interface Props {
   milestone: number | null
   onClose: () => void
+}
+
+function Confetti({ show }: { show: boolean }) {
+  const particles = useMemo(() => {
+    const colors = [config.accentColor, config.accentGlow, config.successColor, '#fbbf24', '#f472b6', '#818cf8']
+    return Array.from({ length: 40 }, (_, i) => ({
+      id: i,
+      color: colors[i % colors.length],
+      left: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 0.8}s`,
+      duration: `${1.8 + Math.random() * 1.2}s`,
+      size: `${6 + Math.random() * 6}px`,
+      rotation: `${Math.random() * 360}deg`,
+      xDrift: `${(Math.random() - 0.5) * 120}px`,
+    }))
+  }, [])
+
+  if (!show) return null
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="confetti-piece"
+          style={{
+            left: p.left,
+            top: '-10px',
+            width: p.size,
+            height: p.size,
+            backgroundColor: p.color,
+            animationDelay: p.delay,
+            animationDuration: p.duration,
+            borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+          }}
+        />
+      ))}
+    </div>
+  )
 }
 
 export default function MilestoneModal({ milestone, onClose }: Props) {
@@ -30,6 +69,8 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-bg/80 backdrop-blur-md" />
+
+      <Confetti show={show} />
 
       <div
         className={`relative glass-accent rounded-3xl p-8 max-w-sm w-full text-center glow-accent transition-all duration-500 ${
@@ -61,7 +102,7 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
           <p className="text-accent-glow text-xs font-semibold tracking-widest uppercase mb-2">
             Milestone Unlocked
           </p>
-          <h2 className="text-2xl font-bold text-text mb-3">{data.label}</h2>
+          <h2 className="text-2xl font-bold text-shimmer mb-3">{data.label}</h2>
           <p className="text-text-secondary text-sm leading-relaxed mb-6">{data.message}</p>
 
           <button

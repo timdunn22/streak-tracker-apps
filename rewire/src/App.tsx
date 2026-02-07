@@ -52,6 +52,7 @@ function App() {
               totalCleanDays={totalCleanDays}
               totalResets={totalResets}
               streaks={data.streaks}
+              startDate={startDate}
             />
           )}
           {tab === 'share' && <ShareCard days={currentDays} longestStreak={longestStreak} />}

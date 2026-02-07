@@ -64,10 +64,10 @@ body {
 }
 
 .glass-accent {
-  background: rgba(124, 107, 245, 0.06);
+  background: color-mix(in srgb, var(--color-accent) 6%, transparent);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(124, 107, 245, 0.15);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 15%, transparent);
 }
 
 /* Pulse animation for active streak */
@@ -124,11 +124,57 @@ body {
 
 /* Glow effect */
 .glow-accent {
-  box-shadow: 0 0 30px rgba(124, 107, 245, 0.15), 0 0 60px rgba(124, 107, 245, 0.05);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--color-accent) 15%, transparent),
+              0 0 60px color-mix(in srgb, var(--color-accent) 5%, transparent);
 }
 
 .glow-green {
-  box-shadow: 0 0 30px rgba(52, 211, 153, 0.15), 0 0 60px rgba(52, 211, 153, 0.05);
+  box-shadow: 0 0 30px color-mix(in srgb, var(--color-success) 15%, transparent),
+              0 0 60px color-mix(in srgb, var(--color-success) 5%, transparent);
+}
+
+/* Breathing glow on streak ring */
+@keyframes breathe-glow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.04); }
+}
+
+.animate-breathe {
+  animation: breathe-glow 4s ease-in-out infinite;
+}
+
+/* Confetti keyframes */
+@keyframes confetti-fall {
+  0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: translateY(350px) rotate(720deg) scale(0.3); opacity: 0; }
+}
+
+@keyframes confetti-burst {
+  0% { transform: translate(0, 0) scale(0); opacity: 1; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-fall 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Shimmer effect for milestone */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, var(--color-accent-glow), var(--color-text), var(--color-accent-glow));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
 }
 
 /* Tab transition */
