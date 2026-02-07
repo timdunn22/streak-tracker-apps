@@ -13,7 +13,7 @@ type Tab = 'home' | 'timeline' | 'stats' | 'share'
 const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
 
 function App() {
-  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data } = useStreak()
+  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved } = useStreak()
   const [tab, setTab] = useState<Tab>('home')
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none')
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null)
@@ -59,6 +59,11 @@ function App() {
               totalResets={totalResets}
               onStart={startStreak}
               onReset={resetStreak}
+              freezesAvailable={freezesAvailable}
+              onUseFreeze={useFreeze}
+              dailyCost={dailyCost}
+              moneySaved={moneySaved}
+              onSetDailyCost={setDailyCost}
             />
           )}
           {tab === 'timeline' && <Timeline currentDays={currentDays} />}
@@ -70,6 +75,8 @@ function App() {
               totalResets={totalResets}
               streaks={data.streaks}
               startDate={startDate}
+              moneySaved={moneySaved}
+              dailyCost={dailyCost}
             />
           )}
           {tab === 'share' && <ShareCard days={currentDays} longestStreak={longestStreak} />}

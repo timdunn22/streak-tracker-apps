@@ -65,4 +65,6 @@ export const sober: AppConfig = {
     { maxWeek: 12, message: "Three months sober. Your brain has physically healed." },
     { maxWeek: Infinity, message: "You've chosen a sober life. Your health and clarity prove it." },
   ],
+  defaultDailyCost: 15,
+  costLabel: 'on alcohol',
 }

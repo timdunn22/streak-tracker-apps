@@ -65,4 +65,6 @@ export const clearlungs: AppConfig = {
     { maxWeek: 12, message: "Three months smoke-free. Your lungs have healed significantly." },
     { maxWeek: Infinity, message: "You're a non-smoker. Your heart disease risk drops more every day." },
   ],
+  defaultDailyCost: 10,
+  costLabel: 'on cigarettes',
 }

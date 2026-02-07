@@ -65,4 +65,6 @@ export const vapefree: AppConfig = {
     { maxWeek: 12, message: "Three months clean. Your lung function has significantly improved." },
     { maxWeek: Infinity, message: "You've broken free from nicotine. This is your life now." },
   ],
+  defaultDailyCost: 8,
+  costLabel: 'on vaping',
 }

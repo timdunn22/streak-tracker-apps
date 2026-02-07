@@ -65,4 +65,6 @@ export const sugarfree: AppConfig = {
     { maxWeek: 12, message: "Three months free. Your metabolic health has fundamentally improved." },
     { maxWeek: Infinity, message: "Sugar-free is your lifestyle now. You've beaten the sweetest trap." },
   ],
+  defaultDailyCost: 5,
+  costLabel: 'on sugary foods',
 }

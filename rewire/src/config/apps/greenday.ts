@@ -65,4 +65,6 @@ export const greenday: AppConfig = {
     { maxWeek: 12, message: "Three months clear. You've broken the psychological dependence." },
     { maxWeek: Infinity, message: "You've proven this is permanent. Clarity is your default now." },
   ],
+  defaultDailyCost: 12,
+  costLabel: 'on weed',
 }

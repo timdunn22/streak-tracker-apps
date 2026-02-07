@@ -65,4 +65,6 @@ export const decaf: AppConfig = {
     { maxWeek: 12, message: "Three months caffeine-free. Your adrenals are fully recovered." },
     { maxWeek: Infinity, message: "You run on your own energy. No stimulants needed." },
   ],
+  defaultDailyCost: 6,
+  costLabel: 'on coffee',
 }

@@ -8,6 +8,7 @@ import GrowthTree from './GrowthTree'
 import WeeklyRecap from './WeeklyRecap'
 import DailyCheckIn from './DailyCheckIn'
 import FloatingParticles from './FloatingParticles'
+import MoneySaved from './MoneySaved'
 
 interface Props {
   days: number
@@ -17,13 +18,18 @@ interface Props {
   totalResets: number
   onStart: () => void
   onReset: () => void
+  freezesAvailable: number
+  onUseFreeze: () => boolean
+  dailyCost: number | null
+  moneySaved: number | null
+  onSetDailyCost: (cost: number) => void
 }
 
 function getDailyQuote(daysSinceStart: number): string {
   return config.quotes[daysSinceStart % config.quotes.length]
 }
 
-export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, onStart, onReset }: Props) {
+export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost }: Props) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const liveTime = useLiveTimer(startDate)
   const { canInstall, install } = useInstallPrompt()
@@ -91,10 +97,19 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
   return (
     <div className="flex flex-col items-center pt-14 pb-6 px-6 bg-mesh min-h-[85vh]">
-      <div className={`animate-fade-in mb-8`}>
+      <div className={`animate-fade-in mb-8 flex items-center gap-3`}>
         <span className={`text-xs font-semibold tracking-widest uppercase ${phase.color}`}>
           {phase.label}
         </span>
+        {freezesAvailable > 0 && (
+          <div className="flex gap-0.5" title={`${freezesAvailable} streak freeze${freezesAvailable > 1 ? 's' : ''} available`}>
+            {Array.from({ length: freezesAvailable }).map((_, i) => (
+              <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="var(--color-accent-glow)" opacity="0.6">
+                <path d="M12 2L9 9H2l6 5-2 7 6-4 6 4-2-7 6-5h-7z"/>
+              </svg>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="relative w-64 h-64 mb-8 animate-fade-in">
@@ -192,6 +207,8 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </p>
       </div>
 
+      <MoneySaved days={days} dailyCost={dailyCost} moneySaved={moneySaved} onSetCost={onSetDailyCost} />
+
       <DailyCheckIn days={days} />
 
       <WeeklyRecap currentDays={days} longestStreak={longestStreak} totalResets={totalResets} />
@@ -209,10 +226,25 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             I relapsed
           </button>
         ) : (
-          <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm">
+          <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down">
             <p className="text-text-secondary text-sm text-center leading-relaxed">
               It's okay. Setbacks don't erase progress. Every day still counts.
             </p>
+            {freezesAvailable > 0 && (
+              <button
+                onClick={() => {
+                  haptic('success')
+                  onUseFreeze()
+                  setShowResetConfirm(false)
+                }}
+                className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L9 9H2l6 5-2 7 6-4 6 4-2-7 6-5h-7z"/>
+                </svg>
+                Use Streak Freeze ({freezesAvailable} left)
+              </button>
+            )}
             <div className="flex gap-3 w-full">
               <button
                 onClick={() => { haptic('tap'); setShowResetConfirm(false) }}

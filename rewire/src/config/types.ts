@@ -27,4 +27,8 @@ export interface AppConfig {
   quotes: string[]
   weeklyMessages: { maxWeek: number; message: string }[]
   goalDays: number
+  /** Default daily cost for money saved calculator (e.g. "$5/day on vaping"). Omit if not applicable. */
+  defaultDailyCost?: number
+  /** Label for the cost (e.g. "spent on vaping") */
+  costLabel?: string
 }

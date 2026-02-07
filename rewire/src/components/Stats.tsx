@@ -1,3 +1,6 @@
+import Badges from './Badges'
+import AnimatedNumber from './AnimatedNumber'
+
 interface Props {
   currentDays: number
   longestStreak: number
@@ -5,6 +8,8 @@ interface Props {
   totalResets: number
   streaks: number[]
   startDate: string | null
+  moneySaved: number | null
+  dailyCost: number | null
 }
 
 function StreakCalendar({ currentDays, startDate }: { currentDays: number; startDate: string | null }) {
@@ -52,7 +57,7 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
   )
 }
 
-export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks, startDate }: Props) {
+export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks, startDate, moneySaved, dailyCost }: Props) {
   const isPersonalBest = currentDays > 0 && currentDays >= longestStreak
   const avgStreak = streaks.length > 0
     ? Math.round(streaks.reduce((a, b) => a + b, 0) / streaks.length)
@@ -68,7 +73,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
 
       {/* Primary stat card */}
       <div className="glass-accent rounded-2xl p-6 mb-4 text-center animate-fade-in-delay-1 glow-accent">
-        <p className="text-5xl font-bold text-text mb-1">{currentDays}</p>
+        <AnimatedNumber value={currentDays} className="text-5xl font-bold text-text mb-1" />
         <p className="text-text-dim text-sm">current streak</p>
         {isPersonalBest && currentDays > 0 && (
           <span className="inline-flex items-center gap-1 mt-3 text-xs bg-success/10 border border-success/20 text-success px-3 py-1 rounded-full">
@@ -119,6 +124,30 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           </div>
         </div>
       )}
+
+      {/* Money Saved */}
+      {moneySaved !== null && dailyCost !== null && (
+        <div className="glass-accent rounded-2xl p-4 mb-6 animate-fade-in-delay-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-text-dim text-xs font-medium">Total Saved</p>
+              <div className="flex items-baseline gap-1">
+                <span className="text-success text-2xl font-bold">$</span>
+                <AnimatedNumber value={Math.floor(moneySaved)} duration={1200} className="text-success text-2xl font-bold tabular-nums" />
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-text-muted text-[10px]">${dailyCost}/day</p>
+              <p className="text-text-muted text-[10px]">${Math.round(dailyCost * 30)}/month</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Badges */}
+      <div className="mb-6">
+        <Badges currentDays={currentDays} totalCleanDays={totalCleanDays} />
+      </div>
 
       {/* Streak History */}
       {streaks.length > 0 ? (
