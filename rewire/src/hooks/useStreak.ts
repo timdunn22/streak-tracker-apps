@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { clearSeenMilestones } from './useMilestoneAlert'
+import { config } from '../config'
 
 export interface StreakData {
   startDate: string | null
@@ -11,7 +12,8 @@ export interface StreakData {
   dailyCost: number | null // user's daily spending on the habit
 }
 
-const STORAGE_KEY = 'rewire-streak-data'
+const STORAGE_KEY = `${config.id}-streak-data`
+const LEGACY_KEY = 'rewire-streak-data'
 
 const defaultData: StreakData = {
   startDate: null,
@@ -25,10 +27,17 @@ const defaultData: StreakData = {
 
 function loadData(): StreakData {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
+    let raw = localStorage.getItem(STORAGE_KEY)
+    // Migrate from legacy key if needed
+    if (!raw && STORAGE_KEY !== LEGACY_KEY) {
+      raw = localStorage.getItem(LEGACY_KEY)
+      if (raw) {
+        localStorage.setItem(STORAGE_KEY, raw)
+        localStorage.removeItem(LEGACY_KEY)
+      }
+    }
     if (!raw) return defaultData
     const parsed = JSON.parse(raw)
-    // Migrate old data that doesn't have freeze fields
     return {
       ...defaultData,
       ...parsed,
@@ -89,18 +98,23 @@ export function useStreak() {
         startDate: new Date().toISOString(),
         streaks: daysCompleted > 0 ? [...prev.streaks, daysCompleted] : prev.streaks,
         totalCleanDays: prev.totalCleanDays + daysCompleted,
+        freezesAvailable: 2,
+        freezesUsed: 0,
+        lastFreezeRecharge: null,
       }
     })
   }, [])
 
   const useFreeze = useCallback(() => {
     if (data.freezesAvailable <= 0) return false
-    setData(prev => ({
-      ...prev,
-      freezesAvailable: prev.freezesAvailable - 1,
-      freezesUsed: prev.freezesUsed + 1,
-      lastFreezeRecharge: new Date().toISOString(),
-    }))
+    setData(prev => {
+      if (prev.freezesAvailable <= 0) return prev
+      return {
+        ...prev,
+        freezesAvailable: prev.freezesAvailable - 1,
+        freezesUsed: prev.freezesUsed + 1,
+      }
+    })
     return true
   }, [data.freezesAvailable])
 

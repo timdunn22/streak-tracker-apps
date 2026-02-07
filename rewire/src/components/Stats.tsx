@@ -22,7 +22,7 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
     const daysAgo = i
     days.push({
       date: d,
-      active: startDate !== null && daysAgo < currentDays,
+      active: startDate !== null && daysAgo <= currentDays,
       isToday: i === 0,
     })
   }

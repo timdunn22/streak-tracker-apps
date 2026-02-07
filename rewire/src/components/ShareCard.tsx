@@ -103,7 +103,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
     const statsY = h * 0.68
     const stats = [
       { val: `${Math.floor(days / 7)}`, label: 'WEEKS' },
-      { val: `${Math.round((days / config.goalDays) * 100)}%`, label: 'PROGRESS' },
+      { val: `${Math.min(100, Math.round((days / config.goalDays) * 100))}%`, label: 'PROGRESS' },
       { val: `${longestStreak}`, label: 'BEST' },
     ]
 
@@ -198,7 +198,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
               <p className="text-text-muted text-[10px]">weeks</p>
             </div>
             <div className="text-center">
-              <p className="text-text text-sm font-bold">{Math.round((days / config.goalDays) * 100)}%</p>
+              <p className="text-text text-sm font-bold">{Math.min(100, Math.round((days / config.goalDays) * 100))}%</p>
               <p className="text-text-muted text-[10px]">progress</p>
             </div>
             <div className="text-center">

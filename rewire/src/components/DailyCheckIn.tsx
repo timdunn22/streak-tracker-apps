@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
 
-const CHECKIN_KEY = 'rewire-last-checkin'
+const CHECKIN_KEY = `${config.id}-last-checkin`
 
 function getToday(): string {
   return new Date().toISOString().split('T')[0]

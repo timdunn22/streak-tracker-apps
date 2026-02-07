@@ -19,6 +19,7 @@ function Confetti({ show }: { show: boolean }) {
       size: `${6 + Math.random() * 6}px`,
       rotation: `${Math.random() * 360}deg`,
       xDrift: `${(Math.random() - 0.5) * 120}px`,
+      borderRadius: Math.random() > 0.5 ? '50%' : '2px',
     }))
   }, [])
 
@@ -38,7 +39,7 @@ function Confetti({ show }: { show: boolean }) {
             backgroundColor: p.color,
             animationDelay: p.delay,
             animationDuration: p.duration,
-            borderRadius: Math.random() > 0.5 ? '50%' : '2px',
+            borderRadius: p.borderRadius,
           }}
         />
       ))}

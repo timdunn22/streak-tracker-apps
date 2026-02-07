@@ -196,7 +196,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </div>
         <div className="w-px h-10 bg-border" />
         <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{Math.round((days / config.goalDays) * 100)}%</p>
+          <p className="text-xl font-bold text-text tabular-nums">{Math.min(100, Math.round((days / config.goalDays) * 100))}%</p>
           <p className="text-text-muted text-[11px] mt-0.5">to goal</p>
         </div>
       </div>

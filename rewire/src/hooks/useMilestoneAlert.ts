@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
+import { config } from '../config'
 
 const MILESTONES = [1, 3, 7, 14, 21, 30, 45, 60, 90, 120, 180, 365]
-const SEEN_KEY = 'rewire-seen-milestones'
+const SEEN_KEY = `${config.id}-seen-milestones`
 
 function getSeenMilestones(): number[] {
   try {
