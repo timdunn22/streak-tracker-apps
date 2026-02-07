@@ -11,8 +11,10 @@ const apps = [
     keywords: 'quit vaping app, stop vaping tracker, vape free counter, nicotine free app, quit juul app, vaping streak tracker, quit nicotine app free, days without vaping, vape quit counter, stop vaping free app',
     heroTitle: 'Quit Vaping.<br><span class="gradient">Reclaim Your Lungs.</span>',
     heroSub: 'The free vaping streak tracker that keeps your data private. No account, no ads. Watch your body heal day by day.',
+    emotionalLine: "You're here because you want your lungs back. That decision already matters.",
     accentColor: '#06b6d4',
     accentGlow: '#67e8f9',
+    streakLabel: 'days vape-free',
     features: [
       { icon: '&#9201;', title: 'Live Ticking Timer', desc: 'Watch every nicotine-free second count. Days, hours, minutes — always ticking forward.' },
       { icon: '&#127793;', title: 'Growing Tree Visual', desc: 'A seed that grows into a golden tree as your lungs heal and body recovers.' },
@@ -35,7 +37,7 @@ const apps = [
       { q: 'How do I install it on my phone?', a: 'Open the app in your browser. On iOS, tap Share then "Add to Home Screen." On Android, tap the menu and "Install App." It works like a native app.' },
       { q: 'Can anyone see my vaping data?', a: 'No. All data stays in your browser\'s local storage on your device. Nothing is sent to any server. We have zero access to your information.' },
       { q: 'What happens when I get a craving?', a: 'Open VapeFree and look at your streak. See how far you\'ve come. Read the daily quote. The craving typically passes in 3-5 minutes.' },
-      { q: 'I vaped again. Is my progress lost?', a: 'No. VapeFree saves your previous streak and tracks total vape-free days across all attempts. Every day counts.' },
+      { q: 'I vaped again. Is my progress lost?', a: 'No. VapeFree saves your previous streak and counts total vape-free days across all attempts. Every day counts.' },
     ],
   },
   {
@@ -47,8 +49,10 @@ const apps = [
     keywords: 'intermittent fasting tracker free, fasting app no subscription, IF tracker, fasting streak counter, 16:8 fasting app, intermittent fasting app free, fasting timer free, autophagy tracker, fasting day counter',
     heroTitle: 'Master Fasting.<br><span class="gradient">Transform Your Body.</span>',
     heroSub: 'The free fasting streak tracker. No account, no subscription. Track your consistency and watch your metabolism transform.',
+    emotionalLine: "Your body already knows how to heal. This just helps you stay consistent.",
     accentColor: '#f59e0b',
     accentGlow: '#fcd34d',
+    streakLabel: 'days fasting',
     features: [
       { icon: '&#9201;', title: 'Live Fasting Timer', desc: 'Track every hour of your fasting streak. Days, hours, minutes of metabolic transformation.' },
       { icon: '&#127793;', title: 'Growing Tree Visual', desc: 'Watch your discipline grow from a seed into a golden tree as you stay consistent.' },
@@ -83,8 +87,10 @@ const apps = [
     keywords: 'quit weed app, stop smoking weed tracker, cannabis free counter, quit marijuana app, weed sobriety tracker, days without weed, quit weed free app, marijuana detox tracker, THC detox app, r/leaves tracker',
     heroTitle: 'Quit Weed.<br><span class="gradient">Think Clearly Again.</span>',
     heroSub: 'The free weed sobriety tracker. No account, no judgment. Watch your brain fog lift and clarity return day by day.',
+    emotionalLine: "You already know the fog isn't serving you. Clarity is closer than you think.",
     accentColor: '#22c55e',
     accentGlow: '#86efac',
+    streakLabel: 'days clear',
     features: [
       { icon: '&#9201;', title: 'Live Sobriety Timer', desc: 'Every sober second counted. Watch your THC-free time grow in real-time.' },
       { icon: '&#127793;', title: 'Growing Tree Visual', desc: 'Your clarity grows like a tree — from seed to golden canopy as your brain heals.' },
@@ -119,8 +125,10 @@ const apps = [
     keywords: 'quit sugar app, no sugar challenge tracker, sugar free counter, sugar detox app, quit sugar tracker free, days without sugar app, sugar addiction app, no sugar streak tracker, sugar free challenge app',
     heroTitle: 'Quit Sugar.<br><span class="gradient">Feel Alive Again.</span>',
     heroSub: 'The free sugar-free streak tracker. No account, no ads. Watch your energy stabilize and cravings disappear.',
+    emotionalLine: "The cravings are loud, but your body is asking you for something better.",
     accentColor: '#ec4899',
     accentGlow: '#f9a8d4',
+    streakLabel: 'days sugar-free',
     features: [
       { icon: '&#9201;', title: 'Live Timer', desc: 'Track every sugar-free hour. Watch your streak grow in real-time.' },
       { icon: '&#127793;', title: 'Growing Tree', desc: 'A visual metaphor for your healing — growing stronger every sugar-free day.' },
@@ -155,8 +163,10 @@ const apps = [
     keywords: 'quit caffeine app, caffeine free tracker, quit coffee app, caffeine detox tracker, days without coffee app, quit caffeine free app, caffeine withdrawal tracker, decaf challenge app, stop caffeine app',
     heroTitle: 'Quit Caffeine.<br><span class="gradient">Find Natural Energy.</span>',
     heroSub: 'The free caffeine-free streak tracker. No account, no data collection. Watch your natural energy return.',
+    emotionalLine: "What if the energy you've been chasing was already inside you?",
     accentColor: '#d97706',
     accentGlow: '#fbbf24',
+    streakLabel: 'days caffeine-free',
     features: [
       { icon: '&#9201;', title: 'Live Timer', desc: 'Every caffeine-free second counted. Watch your natural energy timeline grow.' },
       { icon: '&#127793;', title: 'Growing Tree', desc: 'Your energy grows naturally — visualized as a tree that grows with your streak.' },
@@ -191,8 +201,10 @@ const apps = [
     keywords: 'testosterone tracker app, boost testosterone naturally app, testosterone optimization, T level tracker, mens health tracker, testosterone habits app, natural testosterone app, hormone optimization tracker',
     heroTitle: 'Optimize Your T.<br><span class="gradient">Naturally.</span>',
     heroSub: 'The free testosterone optimization tracker. Track your daily habits — sleep, exercise, nutrition, cold exposure — and watch your levels rise.',
+    emotionalLine: "Your body was built for strength. Give it the right inputs and watch what happens.",
     accentColor: '#ef4444',
     accentGlow: '#fca5a5',
+    streakLabel: 'days optimizing',
     features: [
       { icon: '&#9201;', title: 'Daily Streak', desc: 'Track consecutive days of optimizing: sleep, exercise, diet, and recovery.' },
       { icon: '&#127793;', title: 'Growing Visual', desc: 'Watch your optimization grow from a seed into full primal strength.' },
@@ -227,8 +239,10 @@ const apps = [
     keywords: 'cold plunge tracker app, cold exposure app, cold shower streak, wim hof tracker, ice bath tracker, cold therapy app, cold plunge counter, daily cold shower app, cold exposure streak',
     heroTitle: 'Cold Plunge.<br><span class="gradient">Build Resilience.</span>',
     heroSub: 'The free cold exposure streak tracker. Track your daily plunge habit and build unshakeable mental toughness.',
+    emotionalLine: "The resistance you feel before getting in is the exact thing you need to overcome.",
     accentColor: '#3b82f6',
     accentGlow: '#93c5fd',
+    streakLabel: 'days plunging',
     features: [
       { icon: '&#9201;', title: 'Streak Timer', desc: 'Track consecutive days of cold exposure. Every plunge counted.' },
       { icon: '&#127793;', title: 'Growing Visual', desc: 'Watch your resilience grow from a seed into ice-forged strength.' },
@@ -263,8 +277,10 @@ const apps = [
     keywords: 'sobriety tracker app free, quit drinking app, sober counter, alcohol free tracker, days sober counter, quit alcohol app free, sobriety day counter, sober streak app, stop drinking tracker, alcohol free app',
     heroTitle: 'Get Sober.<br><span class="gradient">Choose Clarity.</span>',
     heroSub: 'The free sobriety tracker. No account, no judgment. Watch your body and mind heal day by day.',
+    emotionalLine: "You're here because you want something better. That takes real courage.",
     accentColor: '#6366f1',
     accentGlow: '#a5b4fc',
+    streakLabel: 'days sober',
     features: [
       { icon: '&#9201;', title: 'Live Sober Timer', desc: 'Every sober second counted. Days, hours, minutes of clarity.' },
       { icon: '&#127793;', title: 'Growing Tree', desc: 'Your recovery grows like a tree — from seed to golden strength.' },
@@ -299,8 +315,10 @@ const apps = [
     keywords: 'quit smoking app free, stop smoking tracker, smoke free counter, cigarette quit tracker, days without smoking app, quit smoking app no subscription, smoke free app, quit cigarettes app, smoking cessation tracker',
     heroTitle: 'Quit Smoking.<br><span class="gradient">Breathe Free.</span>',
     heroSub: 'The free smoke-free streak tracker. No account, no ads. Watch your lungs heal and heart strengthen.',
+    emotionalLine: "Your lungs are already healing. Every smoke-free minute counts.",
     accentColor: '#10b981',
     accentGlow: '#6ee7b7',
+    streakLabel: 'days smoke-free',
     features: [
       { icon: '&#9201;', title: 'Live Timer', desc: 'Every smoke-free second counted. Your lungs are healing right now.' },
       { icon: '&#127793;', title: 'Growing Tree', desc: 'Like your lungs regrowing cilia, watch your progress grow into a golden tree.' },
@@ -350,72 +368,218 @@ function generateHTML(app) {
   </script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--bg:#06060b;--accent:${app.accentColor};--accent-glow:${app.accentGlow};--success:#34d399;--text:#f4f4f8;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
+    :root{--bg:#06060b;--accent:${app.accentColor};--accent-glow:${app.accentGlow};--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
     html{scroll-behavior:smooth}
     body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
-    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;background-image:radial-gradient(ellipse at 20% 0%,${app.accentColor}1f 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
+
+    /* Sticky header */
+    .sticky-header{position:fixed;top:0;left:0;right:0;z-index:90;padding:.625rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,11,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .3s ease}
+    .sticky-header.show{transform:translateY(0)}
+    .sticky-header .logo{font-weight:700;font-size:1rem;color:var(--text)}
+    .sticky-header .hdr-cta{background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;padding:.5rem 1.25rem;border-radius:.75rem;text-decoration:none;transition:all .2s}
+    .sticky-header .hdr-cta:hover{background:var(--accent-glow)}
+
+    /* Hero */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem 6rem;position:relative;background-image:radial-gradient(ellipse at 20% 0%,${app.accentColor}1f 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
     .badge{display:inline-flex;align-items:center;gap:.5rem;background:${app.accentColor}1a;border:1px solid ${app.accentColor}33;border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:${app.accentGlow};font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
     h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
     h1 .gradient{background:linear-gradient(135deg,${app.accentGlow},${app.accentColor});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.6}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:1.5rem;line-height:1.6}
+    .emotional{font-size:.9rem;color:var(--text-sec);font-style:italic;max-width:400px;margin-bottom:2.5rem;line-height:1.6}
     .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px ${app.accentColor}33,0 0 60px ${app.accentColor}14}
     .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
     .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
+    .trust-row{display:flex;gap:1.5rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+    .trust-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--text-dim)}
+    .trust-item svg{width:14px;height:14px;stroke:var(--accent-glow);fill:none;stroke-width:2}
+
+    /* Phone mockup */
+    .phone-wrap{margin:2.5rem auto 0;perspective:800px}
+    .phone{width:220px;height:440px;background:#0d0d14;border:2px solid rgba(255,255,255,0.1);border-radius:2rem;padding:1rem .75rem;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px ${app.accentColor}1a;transform:rotateY(-4deg) rotateX(2deg)}
+    .phone-notch{position:absolute;top:.5rem;left:50%;transform:translateX(-50%);width:60px;height:6px;background:rgba(255,255,255,0.08);border-radius:100px}
+    .phone-ring{position:relative;width:120px;height:120px;margin-bottom:.75rem}
+    .phone-ring svg{width:100%;height:100%}
+    .phone-days{font-size:2rem;font-weight:800;color:var(--text);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+    .phone-label{font-size:.65rem;color:var(--text-dim);margin-top:-.25rem}
+    .phone-phase{font-size:.6rem;font-weight:600;color:${app.accentGlow};letter-spacing:.06em;text-transform:uppercase;margin-top:.75rem}
+    .phone-tree{margin-top:.5rem;font-size:1.5rem}
+    .phone-bottom{position:absolute;bottom:.75rem;left:0;right:0;display:flex;justify-content:center;gap:1.25rem}
+    .phone-dot{width:6px;height:6px;border-radius:50%;background:var(--text-muted)}
+    .phone-dot.active{background:${app.accentGlow}}
+
+    /* Scroll animations */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* Sections */
     section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
     h2{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;text-align:center}
     .sub{text-align:center;color:var(--text-dim);max-width:500px;margin:0 auto 3rem;font-size:1rem}
+
+    /* How it works */
+    .steps{display:flex;gap:1.5rem;max-width:700px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+    .step{flex:1;min-width:180px;text-align:center;padding:1.5rem}
+    .step-num{width:40px;height:40px;border-radius:50%;background:${app.accentColor}1a;border:1px solid ${app.accentColor}33;color:${app.accentGlow};font-weight:700;font-size:1.1rem;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem}
+    .step h3{font-size:.95rem;font-weight:600;margin-bottom:.35rem}
+    .step p{font-size:.82rem;color:var(--text-dim);line-height:1.5}
+
+    /* Feature grid */
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;backdrop-filter:blur(20px)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;backdrop-filter:blur(20px);transition:border-color .2s,transform .2s}
+    .card:hover{border-color:${app.accentColor}33;transform:translateY(-2px)}
     .card .icon{font-size:1.75rem;margin-bottom:.75rem}
     .card h3{font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
     .card p{font-size:.88rem;color:var(--text-dim);line-height:1.6}
+
+    /* Phases */
     .phases{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}
     .phase{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;background:var(--card);border:1px solid var(--border)}
     .phase-day{font-size:.75rem;font-weight:700;min-width:70px;letter-spacing:.04em;text-transform:uppercase}
     .phase-label{font-weight:600;font-size:.95rem}
     .phase-desc{font-size:.82rem;color:var(--text-dim)}
+
+    /* Privacy */
     .privacy{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:700px;margin:0 auto}
     .priv-item{text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:1.25rem}
     .priv-item .pi{font-size:2rem;margin-bottom:.75rem}
     .priv-item h3{font-size:.95rem;margin-bottom:.35rem}
     .priv-item p{font-size:.82rem;color:var(--text-dim)}
+
+    /* FAQ */
     .faq{max-width:650px;margin:0 auto}
-    .faq-item{border-bottom:1px solid var(--border);padding:1.5rem 0}
-    .faq-item h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
-    .faq-item p{font-size:.9rem;color:var(--text-dim);line-height:1.7}
+    .faq-item{border-bottom:1px solid var(--border);overflow:hidden}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600}
+    .faq-q svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;transition:transform .2s}
+    .faq-item.open .faq-q svg{transform:rotate(180deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:.9rem;color:var(--text-dim);line-height:1.7}
+    .faq-item.open .faq-a{max-height:200px;padding-bottom:1.25rem}
+
+    /* Final CTA */
     .final{text-align:center;padding:6rem 1.5rem;background-image:radial-gradient(ellipse at 50% 50%,${app.accentColor}14 0%,transparent 60%)}
     .final p{color:var(--text-dim);margin-bottom:2rem;font-size:1.05rem}
-    footer{text-align:center;padding:2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+
+    /* Sticky bottom CTA */
+    .bottom-cta{position:fixed;bottom:0;left:0;right:0;z-index:80;padding:.75rem 1.5rem;padding-bottom:max(.75rem,env(safe-area-inset-bottom));background:rgba(6,6,11,0.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.75rem;transform:translateY(100%);transition:transform .3s ease}
+    .bottom-cta.show{transform:translateY(0)}
+    .bottom-cta a{background:var(--accent);color:#fff;font-size:.95rem;font-weight:600;padding:.75rem 2rem;border-radius:.75rem;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .bottom-cta a:hover{background:var(--accent-glow)}
+    .bottom-cta-text{font-size:.78rem;color:var(--text-dim);display:none}
+    @media(min-width:500px){.bottom-cta-text{display:block}}
+
+    /* Footer */
+    footer{text-align:center;padding:2rem 1.5rem 5rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+
     .div{height:1px;background:var(--border);max-width:900px;margin:0 auto}
-    @media(max-width:600px){.grid,.privacy{grid-template-columns:1fr}section{padding:3.5rem 1.25rem}}
+
+    @media(max-width:600px){
+      .grid,.privacy{grid-template-columns:1fr}
+      section{padding:3.5rem 1.25rem}
+      .phone{width:180px;height:360px}
+      .phone-days{font-size:1.5rem}
+      .phone-ring{width:90px;height:90px}
+      .steps{flex-direction:column;align-items:center}
+      .step{min-width:unset;max-width:280px}
+    }
   </style>
 </head>
 <body>
-  <header class="hero">
+
+  <!-- Sticky Header (shows on scroll) -->
+  <div class="sticky-header" id="stickyHeader">
+    <span class="logo">${app.name}</span>
+    <a href="${app.appUrl}" class="hdr-cta">Open App</a>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero" id="hero">
     <div class="badge">100% Free &amp; Private</div>
     <h1>${app.heroTitle}</h1>
     <p class="hero-sub">${app.heroSub}</p>
-    <a href="${app.appUrl}" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-    <span class="cta-sub">No signup required. Works on any device.</span>
+    <p class="emotional">${app.emotionalLine}</p>
+    <a href="${app.appUrl}" class="cta" id="heroCta">Start Your Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup. No download. Just open and start.</span>
+
+    <div class="trust-row">
+      <span class="trust-item"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> 100% Private</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 3 4-6"/></svg> No Account Needed</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Works Offline</span>
+    </div>
+
+    <!-- Phone Mockup -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-ring">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="5"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="${app.accentColor}" stroke-width="5" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="94" transform="rotate(-90 60 60)" style="filter:drop-shadow(0 0 8px ${app.accentColor})"/>
+          </svg>
+          <span class="phone-days">47</span>
+        </div>
+        <span class="phone-label">${app.streakLabel}</span>
+        <span class="phone-phase">${app.phases[4]?.label || app.phases[3]?.label}</span>
+        <div class="phone-tree">&#127793;</div>
+        <div class="phone-bottom">
+          <div class="phone-dot active"></div>
+          <div class="phone-dot"></div>
+          <div class="phone-dot"></div>
+          <div class="phone-dot"></div>
+        </div>
+      </div>
+    </div>
   </header>
+
   <div class="div"></div>
-  <section>
+
+  <!-- How it works -->
+  <section class="reveal">
+    <h2>Start in 3 Seconds</h2>
+    <p class="sub">No account. No app store. No friction.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Open the Link</h3>
+        <p>Tap the button. ${app.name} opens instantly in your browser.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Tap "Start"</h3>
+        <p>One tap to begin. Your streak starts counting immediately.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Watch Progress</h3>
+        <p>Track milestones, see your tree grow, and celebrate every day.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- Features -->
+  <section class="reveal">
     <h2>Everything You Need</h2>
     <p class="sub">Built for people who want to change. Every feature exists because it actually helps.</p>
     <div class="grid">${app.features.map(f => `
       <div class="card"><div class="icon">${f.icon}</div><h3>${f.title}</h3><p>${f.desc}</p></div>`).join('')}
     </div>
   </section>
+
   <div class="div"></div>
-  <section>
+
+  <!-- Recovery Phases -->
+  <section class="reveal">
     <h2>Science-Backed Recovery Phases</h2>
     <p class="sub">Your body goes through real changes. ${app.name} shows you exactly where you are.</p>
     <div class="phases">${app.phases.map(p => `
       <div class="phase"><span class="phase-day" style="color:${p.color}">${p.days}</span><div><div class="phase-label">${p.label}</div><div class="phase-desc">${p.desc}</div></div></div>`).join('')}
     </div>
   </section>
+
   <div class="div"></div>
-  <section>
+
+  <!-- Privacy -->
+  <section class="reveal">
     <h2>Your Privacy is Non-Negotiable</h2>
     <p class="sub">Your journey is personal. Your data should be yours alone.</p>
     <div class="privacy">
@@ -425,22 +589,58 @@ function generateHTML(app) {
       <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
     </div>
   </section>
+
   <div class="div"></div>
-  <section>
+
+  <!-- FAQ -->
+  <section class="reveal">
     <h2>Frequently Asked Questions</h2>
     <div class="faq">${app.faqs.map(f => `
-      <div class="faq-item"><h3>${f.q}</h3><p>${f.a}</p></div>`).join('')}
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">${f.q}<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        <div class="faq-a">${f.a}</div>
+      </div>`).join('')}
     </div>
   </section>
-  <div class="final">
+
+  <!-- Final CTA -->
+  <div class="final reveal">
     <h2>Start Today</h2>
     <p>Every journey begins with a single day. Make today Day 1.</p>
-    <a href="${app.appUrl}" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <a href="${app.appUrl}" class="cta">Start Your Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <span class="cta-sub">No signup. No download. Just open and start.</span>
   </div>
+
+  <!-- Sticky Bottom CTA -->
+  <div class="bottom-cta" id="bottomCta">
+    <span class="bottom-cta-text">100% free &amp; private</span>
+    <a href="${app.appUrl}">Start Your Streak</a>
+  </div>
+
   <footer><p>${app.name} is a free, open tool for anyone ready to change.</p><p style="margin-top:.5rem">Your data never leaves your device.</p></footer>
+
+  <!-- FAQ Schema -->
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[${app.faqs.map(f => `{"@type":"Question","name":"${f.q}","acceptedAnswer":{"@type":"Answer","text":"${f.a.replace(/"/g, '\\"')}"}}`).join(',')}]}
+  </script>
+
+  <script>
+    // Sticky header: show after scrolling past hero CTA
+    const heroCta = document.getElementById('heroCta');
+    const stickyHeader = document.getElementById('stickyHeader');
+    const bottomCta = document.getElementById('bottomCta');
+    const observer = new IntersectionObserver(([e]) => {
+      stickyHeader.classList.toggle('show', !e.isIntersecting);
+      bottomCta.classList.toggle('show', !e.isIntersecting);
+    }, { threshold: 0 });
+    observer.observe(heroCta);
+
+    // Scroll reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
+    }, { threshold: 0.1 });
+    reveals.forEach(el => revealObs.observe(el));
   </script>
 </body>
 </html>`
