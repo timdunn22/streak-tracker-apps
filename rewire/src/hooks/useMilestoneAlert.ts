@@ -52,17 +52,6 @@ function playChime() {
   }
 }
 
-// Trigger haptic vibration
-function triggerHaptic() {
-  try {
-    if (navigator.vibrate) {
-      navigator.vibrate([50, 30, 100])
-    }
-  } catch {
-    // Vibration API not available
-  }
-}
-
 export function useMilestoneAlert(
   currentDays: number,
   onMilestone: (day: number) => void
@@ -84,7 +73,6 @@ export function useMilestoneAlert(
     // New milestone reached!
     markSeen(milestone)
     playChime()
-    triggerHaptic()
     onMilestone(milestone)
   }, [currentDays, onMilestone])
 }

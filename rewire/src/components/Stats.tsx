@@ -28,6 +28,9 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
   }
 
   const weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+  // Pad empty cells so the first day aligns to its correct weekday (0=Sun → col 7, 1=Mon → col 1, etc.)
+  const firstDayOfWeek = days[0].date.getDay() // 0=Sun, 1=Mon...
+  const padCount = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1 // Mon-based offset
 
   return (
     <div className="glass rounded-2xl p-4 mb-6">
@@ -35,6 +38,9 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
       <div className="grid grid-cols-7 gap-1.5">
         {weekdays.map((d, i) => (
           <div key={i} className="text-center text-text-muted text-[9px] font-medium pb-1">{d}</div>
+        ))}
+        {Array.from({ length: padCount }).map((_, i) => (
+          <div key={`pad-${i}`} />
         ))}
         {days.map((d, i) => (
           <div
@@ -146,7 +152,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
 
       {/* Badges */}
       <div className="mb-6">
-        <Badges currentDays={currentDays} totalCleanDays={totalCleanDays} />
+        <Badges currentDays={currentDays} longestStreak={longestStreak} />
       </div>
 
       {/* Streak History */}

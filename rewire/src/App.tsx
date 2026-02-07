@@ -40,6 +40,11 @@ function App() {
     root.style.setProperty('--color-glow-purple', config.accentColor + '1f')
     root.style.setProperty('--color-border-accent', config.accentColor + '33')
     document.title = `${config.name} — ${config.tagline}`
+
+    // Dynamic favicon from config colors
+    const svgFavicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${config.accentColor}"/><stop offset="100%" style="stop-color:${config.accentGlow}"/></linearGradient></defs><circle cx="50" cy="50" r="48" fill="url(#g)"/><text x="50" y="66" text-anchor="middle" font-size="50" font-family="Arial" font-weight="bold" fill="white">${config.name[0]}</text></svg>`
+    const link = document.querySelector('link[rel="icon"]') as HTMLLinkElement
+    if (link) link.href = `data:image/svg+xml,${encodeURIComponent(svgFavicon)}`
   }, [])
 
   return (

@@ -2,7 +2,7 @@ import { config } from '../config'
 
 interface Props {
   currentDays: number
-  totalCleanDays: number
+  longestStreak: number
 }
 
 interface Badge {
@@ -24,8 +24,8 @@ const BADGES: Badge[] = [
   { day: 365, icon: '\u{1F3C6}', label: '1 Year' },
 ]
 
-export default function Badges({ currentDays, totalCleanDays }: Props) {
-  const bestStreak = Math.max(currentDays, totalCleanDays)
+export default function Badges({ currentDays, longestStreak }: Props) {
+  const bestStreak = Math.max(currentDays, longestStreak)
   const earned = BADGES.filter(b => bestStreak >= b.day).length
 
   return (
@@ -49,7 +49,7 @@ export default function Badges({ currentDays, totalCleanDays }: Props) {
                 boxShadow: `0 0 12px color-mix(in srgb, ${config.accentColor} 15%, transparent)`,
               } : undefined}
             >
-              <span className={`text-2xl ${unlocked ? '' : 'grayscale'}`}>
+              <span className="text-2xl">
                 {badge.icon}
               </span>
               <span className={`text-[9px] font-medium text-center leading-tight ${

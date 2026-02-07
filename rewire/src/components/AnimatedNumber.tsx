@@ -7,8 +7,8 @@ interface Props {
 }
 
 export default function AnimatedNumber({ value, duration = 800, className = '' }: Props) {
-  const [display, setDisplay] = useState(0)
-  const prevValue = useRef(0)
+  const [display, setDisplay] = useState(value)
+  const prevValue = useRef(value)
   const rafRef = useRef<number>(0)
 
   useEffect(() => {

@@ -186,7 +186,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className="text-3xl font-bold text-text">{days}</span>
-              <span className="text-text-muted text-[10px]">days</span>
+              <span className="text-text-muted text-[10px]">{days === 1 ? config.unitLabelSingular : config.unitLabel}</span>
             </div>
           </div>
 
