@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SugarFree — Break the sugar cycle. Feel alive. | Free SugarFree App</title>
+  <meta name="description" content="Free private streak tracker for quitting sugar. No account needed. Track your sugar-free journey with milestones and recovery phases.">
+  <meta name="keywords" content="quit sugar app, no sugar challenge tracker, sugar free counter, sugar detox app, quit sugar tracker free, days without sugar app, sugar addiction app, no sugar streak tracker, sugar free challenge app">
+  <link rel="canonical" href="https://sugarfree-landing.vercel.app">
+  <meta property="og:title" content="SugarFree — Break the sugar cycle. Feel alive.">
+  <meta property="og:description" content="Free private streak tracker for quitting sugar. No account needed. Track your sugar-free journey with milestones and recovery phases.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sugarfree-landing.vercel.app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SugarFree — Break the sugar cycle. Feel alive.">
+  <meta name="twitter:description" content="Free private streak tracker for quitting sugar. No account needed. Track your sugar-free journey with milestones and recovery phases.">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"SugarFree","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting sugar. No account needed. Track your sugar-free journey with milestones and recovery phases.","url":"https://sugarfree-app.vercel.app"}
+  </script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#06060b;--accent:#ec4899;--accent-glow:#f9a8d4;--success:#34d399;--text:#f4f4f8;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;background-image:radial-gradient(ellipse at 20% 0%,#ec48991f 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:#ec48991a;border:1px solid #ec489933;border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:#f9a8d4;font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
+    h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
+    h1 .gradient{background:linear-gradient(135deg,#f9a8d4,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.6}
+    .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px #ec489933,0 0 60px #ec489914}
+    .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
+    .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
+    section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
+    h2{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;text-align:center}
+    .sub{text-align:center;color:var(--text-dim);max-width:500px;margin:0 auto 3rem;font-size:1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;backdrop-filter:blur(20px)}
+    .card .icon{font-size:1.75rem;margin-bottom:.75rem}
+    .card h3{font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+    .card p{font-size:.88rem;color:var(--text-dim);line-height:1.6}
+    .phases{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}
+    .phase{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;background:var(--card);border:1px solid var(--border)}
+    .phase-day{font-size:.75rem;font-weight:700;min-width:70px;letter-spacing:.04em;text-transform:uppercase}
+    .phase-label{font-weight:600;font-size:.95rem}
+    .phase-desc{font-size:.82rem;color:var(--text-dim)}
+    .privacy{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:700px;margin:0 auto}
+    .priv-item{text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:1.25rem}
+    .priv-item .pi{font-size:2rem;margin-bottom:.75rem}
+    .priv-item h3{font-size:.95rem;margin-bottom:.35rem}
+    .priv-item p{font-size:.82rem;color:var(--text-dim)}
+    .faq{max-width:650px;margin:0 auto}
+    .faq-item{border-bottom:1px solid var(--border);padding:1.5rem 0}
+    .faq-item h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
+    .faq-item p{font-size:.9rem;color:var(--text-dim);line-height:1.7}
+    .final{text-align:center;padding:6rem 1.5rem;background-image:radial-gradient(ellipse at 50% 50%,#ec489914 0%,transparent 60%)}
+    .final p{color:var(--text-dim);margin-bottom:2rem;font-size:1.05rem}
+    footer{text-align:center;padding:2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+    .div{height:1px;background:var(--border);max-width:900px;margin:0 auto}
+    @media(max-width:600px){.grid,.privacy{grid-template-columns:1fr}section{padding:3.5rem 1.25rem}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="badge">100% Free &amp; Private</div>
+    <h1>Quit Sugar.<br><span class="gradient">Feel Alive Again.</span></h1>
+    <p class="hero-sub">The free sugar-free streak tracker. No account, no ads. Watch your energy stabilize and cravings disappear.</p>
+    <a href="https://sugarfree-app.vercel.app" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup required. Works on any device.</span>
+  </header>
+  <div class="div"></div>
+  <section>
+    <h2>Everything You Need</h2>
+    <p class="sub">Built for people who want to change. Every feature exists because it actually helps.</p>
+    <div class="grid">
+      <div class="card"><div class="icon">&#9201;</div><h3>Live Timer</h3><p>Track every sugar-free hour. Watch your streak grow in real-time.</p></div>
+      <div class="card"><div class="icon">&#127793;</div><h3>Growing Tree</h3><p>A visual metaphor for your healing — growing stronger every sugar-free day.</p></div>
+      <div class="card"><div class="icon">&#127942;</div><h3>12 Milestones</h3><p>Celebrate blood sugar stabilization, taste bud reset, gut healing, and more.</p></div>
+      <div class="card"><div class="icon">&#129504;</div><h3>Detox Phases</h3><p>Withdrawal, Detoxing, Resensitizing, Stabilizing, Healing, Renewed, Sugar-Free.</p></div>
+      <div class="card"><div class="icon">&#128202;</div><h3>Streak Stats</h3><p>Track your longest sugar-free streak, total clean days, and progress trends.</p></div>
+      <div class="card"><div class="icon">&#128247;</div><h3>Share Card</h3><p>Share your sugar-free milestone for accountability or the #NoSugarChallenge.</p></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Science-Backed Recovery Phases</h2>
+    <p class="sub">Your body goes through real changes. SugarFree shows you exactly where you are.</p>
+    <div class="phases">
+      <div class="phase"><span class="phase-day" style="color:#f87171">Day 0-3</span><div><div class="phase-label">Withdrawal</div><div class="phase-desc">Headaches, irritability, intense cravings. Your blood sugar is recalibrating.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 3-7</span><div><div class="phase-label">Detoxing</div><div class="phase-desc">Cravings start easing. Energy crashes becoming less severe.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 7-14</span><div><div class="phase-label">Resensitizing</div><div class="phase-desc">Taste buds reset. Natural foods start tasting sweeter and more satisfying.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#f9a8d4">Day 14-30</span><div><div class="phase-label">Stabilizing</div><div class="phase-desc">Blood sugar stable. Energy consistent throughout the day. Skin clearing.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#f9a8d4">Day 30-60</span><div><div class="phase-label">Healing</div><div class="phase-desc">Gut microbiome shifting. Inflammation dropping. Weight normalizing.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 60-90</span><div><div class="phase-label">Renewed</div><div class="phase-desc">Metabolic health transformed. Sugar cravings feel distant.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 90+</span><div><div class="phase-label">Sugar-Free</div><div class="phase-desc">New relationship with food. Sugar no longer controls you.</div></div></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Your Privacy is Non-Negotiable</h2>
+    <p class="sub">Your journey is personal. Your data should be yours alone.</p>
+    <div class="privacy">
+      <div class="priv-item"><div class="pi">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open and start.</p></div>
+      <div class="priv-item"><div class="pi">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser. Nothing sent to any server.</p></div>
+      <div class="priv-item"><div class="pi">&#128683;</div><h3>No Tracking</h3><p>No analytics, no cookies, no telemetry. Zero data collection.</p></div>
+      <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item"><h3>Is SugarFree really free?</h3><p>Yes. No subscription, no ads, no premium tier. Every feature is free forever.</p></div>
+      <div class="faq-item"><h3>Does this mean no fruit?</h3><p>That's up to you. Many people quit added/refined sugar while keeping whole fruits. SugarFree tracks whatever protocol you choose.</p></div>
+      <div class="faq-item"><h3>How long until cravings stop?</h3><p>Most people report cravings peaking at day 3-5 and significantly decreasing by day 14-21. Everyone is different.</p></div>
+      <div class="faq-item"><h3>I ate sugar. What now?</h3><p>Reset your streak — your previous days are saved. Many people need several attempts. The trend matters more than any single day.</p></div>
+      <div class="faq-item"><h3>Is sugar really addictive?</h3><p>Research shows sugar activates the same brain reward pathways as addictive substances. It triggers dopamine release and can create dependency patterns.</p></div>
+    </div>
+  </section>
+  <div class="final">
+    <h2>Start Today</h2>
+    <p>Every journey begins with a single day. Make today Day 1.</p>
+    <a href="https://sugarfree-app.vercel.app" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup. No download. Just open and start.</span>
+  </div>
+  <footer><p>SugarFree is a free, open tool for anyone ready to change.</p><p style="margin-top:.5rem">Your data never leaves your device.</p></footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is SugarFree really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. No subscription, no ads, no premium tier. Every feature is free forever."}},{"@type":"Question","name":"Does this mean no fruit?","acceptedAnswer":{"@type":"Answer","text":"That's up to you. Many people quit added/refined sugar while keeping whole fruits. SugarFree tracks whatever protocol you choose."}},{"@type":"Question","name":"How long until cravings stop?","acceptedAnswer":{"@type":"Answer","text":"Most people report cravings peaking at day 3-5 and significantly decreasing by day 14-21. Everyone is different."}},{"@type":"Question","name":"I ate sugar. What now?","acceptedAnswer":{"@type":"Answer","text":"Reset your streak — your previous days are saved. Many people need several attempts. The trend matters more than any single day."}},{"@type":"Question","name":"Is sugar really addictive?","acceptedAnswer":{"@type":"Answer","text":"Research shows sugar activates the same brain reward pathways as addictive substances. It triggers dopamine release and can create dependency patterns."}}]}
+  </script>
+</body>
+</html>

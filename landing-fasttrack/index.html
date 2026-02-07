@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastTrack — Master your fasting. Transform your body. | Free FastTrack App</title>
+  <meta name="description" content="Free private intermittent fasting streak tracker. No account, no data collection. Track your fasting consistency with live timer, milestones, and metabolic phases.">
+  <meta name="keywords" content="intermittent fasting tracker free, fasting app no subscription, IF tracker, fasting streak counter, 16:8 fasting app, intermittent fasting app free, fasting timer free, autophagy tracker, fasting day counter">
+  <link rel="canonical" href="https://fasttrack-landing.vercel.app">
+  <meta property="og:title" content="FastTrack — Master your fasting. Transform your body.">
+  <meta property="og:description" content="Free private intermittent fasting streak tracker. No account, no data collection. Track your fasting consistency with live timer, milestones, and metabolic phases.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://fasttrack-landing.vercel.app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FastTrack — Master your fasting. Transform your body.">
+  <meta name="twitter:description" content="Free private intermittent fasting streak tracker. No account, no data collection. Track your fasting consistency with live timer, milestones, and metabolic phases.">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"FastTrack","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private intermittent fasting streak tracker. No account, no data collection. Track your fasting consistency with live timer, milestones, and metabolic phases.","url":"https://fasttrack-app-three.vercel.app"}
+  </script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#06060b;--accent:#f59e0b;--accent-glow:#fcd34d;--success:#34d399;--text:#f4f4f8;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;background-image:radial-gradient(ellipse at 20% 0%,#f59e0b1f 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:#f59e0b1a;border:1px solid #f59e0b33;border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:#fcd34d;font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
+    h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
+    h1 .gradient{background:linear-gradient(135deg,#fcd34d,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.6}
+    .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px #f59e0b33,0 0 60px #f59e0b14}
+    .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
+    .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
+    section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
+    h2{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;text-align:center}
+    .sub{text-align:center;color:var(--text-dim);max-width:500px;margin:0 auto 3rem;font-size:1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;backdrop-filter:blur(20px)}
+    .card .icon{font-size:1.75rem;margin-bottom:.75rem}
+    .card h3{font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+    .card p{font-size:.88rem;color:var(--text-dim);line-height:1.6}
+    .phases{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}
+    .phase{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;background:var(--card);border:1px solid var(--border)}
+    .phase-day{font-size:.75rem;font-weight:700;min-width:70px;letter-spacing:.04em;text-transform:uppercase}
+    .phase-label{font-weight:600;font-size:.95rem}
+    .phase-desc{font-size:.82rem;color:var(--text-dim)}
+    .privacy{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:700px;margin:0 auto}
+    .priv-item{text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:1.25rem}
+    .priv-item .pi{font-size:2rem;margin-bottom:.75rem}
+    .priv-item h3{font-size:.95rem;margin-bottom:.35rem}
+    .priv-item p{font-size:.82rem;color:var(--text-dim)}
+    .faq{max-width:650px;margin:0 auto}
+    .faq-item{border-bottom:1px solid var(--border);padding:1.5rem 0}
+    .faq-item h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
+    .faq-item p{font-size:.9rem;color:var(--text-dim);line-height:1.7}
+    .final{text-align:center;padding:6rem 1.5rem;background-image:radial-gradient(ellipse at 50% 50%,#f59e0b14 0%,transparent 60%)}
+    .final p{color:var(--text-dim);margin-bottom:2rem;font-size:1.05rem}
+    footer{text-align:center;padding:2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+    .div{height:1px;background:var(--border);max-width:900px;margin:0 auto}
+    @media(max-width:600px){.grid,.privacy{grid-template-columns:1fr}section{padding:3.5rem 1.25rem}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="badge">100% Free &amp; Private</div>
+    <h1>Master Fasting.<br><span class="gradient">Transform Your Body.</span></h1>
+    <p class="hero-sub">The free fasting streak tracker. No account, no subscription. Track your consistency and watch your metabolism transform.</p>
+    <a href="https://fasttrack-app-three.vercel.app" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup required. Works on any device.</span>
+  </header>
+  <div class="div"></div>
+  <section>
+    <h2>Everything You Need</h2>
+    <p class="sub">Built for people who want to change. Every feature exists because it actually helps.</p>
+    <div class="grid">
+      <div class="card"><div class="icon">&#9201;</div><h3>Live Fasting Timer</h3><p>Track every hour of your fasting streak. Days, hours, minutes of metabolic transformation.</p></div>
+      <div class="card"><div class="icon">&#127793;</div><h3>Growing Tree Visual</h3><p>Watch your discipline grow from a seed into a golden tree as you stay consistent.</p></div>
+      <div class="card"><div class="icon">&#127942;</div><h3>12 Milestones</h3><p>Celebrate fat adaptation, autophagy activation, metabolic flexibility, and more.</p></div>
+      <div class="card"><div class="icon">&#129504;</div><h3>Metabolic Phases</h3><p>Track your body's changes: Adapting, Fat-Adapting, Metabolic Shift, Deep Ketosis.</p></div>
+      <div class="card"><div class="icon">&#128202;</div><h3>Streak History</h3><p>See your consistency over time. Longest streak, total fasting days, and trends.</p></div>
+      <div class="card"><div class="icon">&#128247;</div><h3>Share Card</h3><p>Generate a progress image showing your fasting consistency for accountability.</p></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Science-Backed Recovery Phases</h2>
+    <p class="sub">Your body goes through real changes. FastTrack shows you exactly where you are.</p>
+    <div class="phases">
+      <div class="phase"><span class="phase-day" style="color:#f87171">Day 0-3</span><div><div class="phase-label">Adapting</div><div class="phase-desc">Your body is adjusting to the new eating pattern. Hunger hormones are recalibrating.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 3-7</span><div><div class="phase-label">Adjusting</div><div class="phase-desc">Insulin levels are dropping. Your body is learning to access fat stores.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 7-14</span><div><div class="phase-label">Fat-Adapting</div><div class="phase-desc">Metabolic switch is happening. Your body efficiently burns fat for fuel.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fcd34d">Day 14-30</span><div><div class="phase-label">Metabolic Shift</div><div class="phase-desc">Autophagy increases. Cellular cleanup accelerates. Energy stabilizes.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fcd34d">Day 30-60</span><div><div class="phase-label">Autophagy</div><div class="phase-desc">Deep cellular repair. Body composition is changing. Inflammation drops.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 60-90</span><div><div class="phase-label">Deep Ketosis</div><div class="phase-desc">Metabolic flexibility is high. Your body efficiently switches between fuel sources.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 90+</span><div><div class="phase-label">Metabolically Flexible</div><div class="phase-desc">Fasting is second nature. Your metabolism is optimized.</div></div></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Your Privacy is Non-Negotiable</h2>
+    <p class="sub">Your journey is personal. Your data should be yours alone.</p>
+    <div class="privacy">
+      <div class="priv-item"><div class="pi">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open and start.</p></div>
+      <div class="priv-item"><div class="pi">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser. Nothing sent to any server.</p></div>
+      <div class="priv-item"><div class="pi">&#128683;</div><h3>No Tracking</h3><p>No analytics, no cookies, no telemetry. Zero data collection.</p></div>
+      <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item"><h3>Is FastTrack really free?</h3><p>Yes. No subscription, no premium tier. Every feature is free. Unlike Simple or DoFasting, we will never charge you.</p></div>
+      <div class="faq-item"><h3>How is this different from other fasting apps?</h3><p>Most fasting apps charge $10-20/month and require accounts. FastTrack is 100% free, requires no account, and stores data only on your device.</p></div>
+      <div class="faq-item"><h3>Does it track my fasting window?</h3><p>FastTrack tracks your consecutive days of successful fasting. It's a consistency tracker — count each day you complete your fasting protocol.</p></div>
+      <div class="faq-item"><h3>I broke my fast early. What do I do?</h3><p>If you completed most of your fasting window, keep the streak. If you fully broke protocol, use the reset — your history is preserved.</p></div>
+      <div class="faq-item"><h3>What is autophagy?</h3><p>Autophagy is your body's cellular cleanup process, activated during fasting. Damaged cells are recycled and repaired. It typically increases significantly after 16-24 hours of fasting.</p></div>
+    </div>
+  </section>
+  <div class="final">
+    <h2>Start Today</h2>
+    <p>Every journey begins with a single day. Make today Day 1.</p>
+    <a href="https://fasttrack-app-three.vercel.app" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup. No download. Just open and start.</span>
+  </div>
+  <footer><p>FastTrack is a free, open tool for anyone ready to change.</p><p style="margin-top:.5rem">Your data never leaves your device.</p></footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is FastTrack really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. No subscription, no premium tier. Every feature is free. Unlike Simple or DoFasting, we will never charge you."}},{"@type":"Question","name":"How is this different from other fasting apps?","acceptedAnswer":{"@type":"Answer","text":"Most fasting apps charge $10-20/month and require accounts. FastTrack is 100% free, requires no account, and stores data only on your device."}},{"@type":"Question","name":"Does it track my fasting window?","acceptedAnswer":{"@type":"Answer","text":"FastTrack tracks your consecutive days of successful fasting. It's a consistency tracker — count each day you complete your fasting protocol."}},{"@type":"Question","name":"I broke my fast early. What do I do?","acceptedAnswer":{"@type":"Answer","text":"If you completed most of your fasting window, keep the streak. If you fully broke protocol, use the reset — your history is preserved."}},{"@type":"Question","name":"What is autophagy?","acceptedAnswer":{"@type":"Answer","text":"Autophagy is your body's cellular cleanup process, activated during fasting. Damaged cells are recycled and repaired. It typically increases significantly after 16-24 hours of fasting."}}]}
+  </script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+const fs = require('fs')
+const path = require('path')
+
+const apps = [
+  {
+    id: 'vapefree',
+    name: 'VapeFree',
+    appUrl: 'https://vapefree-app.vercel.app',
+    tagline: 'Ditch the vape. Reclaim your lungs.',
+    description: 'Free private streak tracker for quitting vaping. No account, no data collection. Track your nicotine-free journey with live timer, milestones, and recovery phases.',
+    keywords: 'quit vaping app, stop vaping tracker, vape free counter, nicotine free app, quit juul app, vaping streak tracker, quit nicotine app free, days without vaping, vape quit counter, stop vaping free app',
+    heroTitle: 'Quit Vaping.<br><span class="gradient">Reclaim Your Lungs.</span>',
+    heroSub: 'The free vaping streak tracker that keeps your data private. No account, no ads. Watch your body heal day by day.',
+    accentColor: '#06b6d4',
+    accentGlow: '#67e8f9',
+    features: [
+      { icon: '&#9201;', title: 'Live Ticking Timer', desc: 'Watch every nicotine-free second count. Days, hours, minutes — always ticking forward.' },
+      { icon: '&#127793;', title: 'Growing Tree Visual', desc: 'A seed that grows into a golden tree as your lungs heal and body recovers.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrations when nicotine leaves your body, lungs clear, circulation improves, and more.' },
+      { icon: '&#129729;', title: 'Recovery Phases', desc: 'Track your body healing: Withdrawal, Detoxing, Clearing, Healing, Restoring, Renewed, Free.' },
+      { icon: '&#128202;', title: 'Streak History', desc: 'Track every attempt. See your longest streak, total vape-free days, and progress over time.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Generate a beautiful progress image for accountability or social media. No personal info shown.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Withdrawal', desc: 'Nicotine is leaving your system. Cravings peak around 72 hours.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Detoxing', desc: 'Nicotine is gone. Your body is flushing out toxins.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Clearing', desc: 'Lungs start clearing. Breathing gets easier. Cilia begin regrowing.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Healing', desc: 'Circulation improves. Taste and smell sharpen. Energy stabilizes.', color: '#67e8f9' },
+      { days: 'Day 30-60', label: 'Restoring', desc: 'Lung function measurably improves. Exercise capacity increases.', color: '#67e8f9' },
+      { days: 'Day 60-90', label: 'Renewing', desc: 'Cardiovascular health improving. Respiratory infections decrease.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Free', desc: 'Your lungs have significantly healed. You are vape-free.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is VapeFree really free?', a: 'Yes, completely free. No premium tier, no paywall, no upsells. Every feature is available to everyone.' },
+      { q: 'How do I install it on my phone?', a: 'Open the app in your browser. On iOS, tap Share then "Add to Home Screen." On Android, tap the menu and "Install App." It works like a native app.' },
+      { q: 'Can anyone see my vaping data?', a: 'No. All data stays in your browser\'s local storage on your device. Nothing is sent to any server. We have zero access to your information.' },
+      { q: 'What happens when I get a craving?', a: 'Open VapeFree and look at your streak. See how far you\'ve come. Read the daily quote. The craving typically passes in 3-5 minutes.' },
+      { q: 'I vaped again. Is my progress lost?', a: 'No. VapeFree saves your previous streak and tracks total vape-free days across all attempts. Every day counts.' },
+    ],
+  },
+  {
+    id: 'fasttrack',
+    name: 'FastTrack',
+    appUrl: 'https://fasttrack-app-three.vercel.app',
+    tagline: 'Master your fasting. Transform your body.',
+    description: 'Free private intermittent fasting streak tracker. No account, no data collection. Track your fasting consistency with live timer, milestones, and metabolic phases.',
+    keywords: 'intermittent fasting tracker free, fasting app no subscription, IF tracker, fasting streak counter, 16:8 fasting app, intermittent fasting app free, fasting timer free, autophagy tracker, fasting day counter',
+    heroTitle: 'Master Fasting.<br><span class="gradient">Transform Your Body.</span>',
+    heroSub: 'The free fasting streak tracker. No account, no subscription. Track your consistency and watch your metabolism transform.',
+    accentColor: '#f59e0b',
+    accentGlow: '#fcd34d',
+    features: [
+      { icon: '&#9201;', title: 'Live Fasting Timer', desc: 'Track every hour of your fasting streak. Days, hours, minutes of metabolic transformation.' },
+      { icon: '&#127793;', title: 'Growing Tree Visual', desc: 'Watch your discipline grow from a seed into a golden tree as you stay consistent.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate fat adaptation, autophagy activation, metabolic flexibility, and more.' },
+      { icon: '&#129504;', title: 'Metabolic Phases', desc: 'Track your body\'s changes: Adapting, Fat-Adapting, Metabolic Shift, Deep Ketosis.' },
+      { icon: '&#128202;', title: 'Streak History', desc: 'See your consistency over time. Longest streak, total fasting days, and trends.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Generate a progress image showing your fasting consistency for accountability.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Adapting', desc: 'Your body is adjusting to the new eating pattern. Hunger hormones are recalibrating.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Adjusting', desc: 'Insulin levels are dropping. Your body is learning to access fat stores.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Fat-Adapting', desc: 'Metabolic switch is happening. Your body efficiently burns fat for fuel.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Metabolic Shift', desc: 'Autophagy increases. Cellular cleanup accelerates. Energy stabilizes.', color: '#fcd34d' },
+      { days: 'Day 30-60', label: 'Autophagy', desc: 'Deep cellular repair. Body composition is changing. Inflammation drops.', color: '#fcd34d' },
+      { days: 'Day 60-90', label: 'Deep Ketosis', desc: 'Metabolic flexibility is high. Your body efficiently switches between fuel sources.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Metabolically Flexible', desc: 'Fasting is second nature. Your metabolism is optimized.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is FastTrack really free?', a: 'Yes. No subscription, no premium tier. Every feature is free. Unlike Simple or DoFasting, we will never charge you.' },
+      { q: 'How is this different from other fasting apps?', a: 'Most fasting apps charge $10-20/month and require accounts. FastTrack is 100% free, requires no account, and stores data only on your device.' },
+      { q: 'Does it track my fasting window?', a: 'FastTrack tracks your consecutive days of successful fasting. It\'s a consistency tracker — count each day you complete your fasting protocol.' },
+      { q: 'I broke my fast early. What do I do?', a: 'If you completed most of your fasting window, keep the streak. If you fully broke protocol, use the reset — your history is preserved.' },
+      { q: 'What is autophagy?', a: 'Autophagy is your body\'s cellular cleanup process, activated during fasting. Damaged cells are recycled and repaired. It typically increases significantly after 16-24 hours of fasting.' },
+    ],
+  },
+  {
+    id: 'greenday',
+    name: 'GreenDay',
+    appUrl: 'https://greenday-app.vercel.app',
+    tagline: 'Clear your mind. Live sharper.',
+    description: 'Free private streak tracker for quitting weed. No account, no data collection. Track your cannabis-free journey with recovery phases and milestones.',
+    keywords: 'quit weed app, stop smoking weed tracker, cannabis free counter, quit marijuana app, weed sobriety tracker, days without weed, quit weed free app, marijuana detox tracker, THC detox app, r/leaves tracker',
+    heroTitle: 'Quit Weed.<br><span class="gradient">Think Clearly Again.</span>',
+    heroSub: 'The free weed sobriety tracker. No account, no judgment. Watch your brain fog lift and clarity return day by day.',
+    accentColor: '#22c55e',
+    accentGlow: '#86efac',
+    features: [
+      { icon: '&#9201;', title: 'Live Sobriety Timer', desc: 'Every sober second counted. Watch your THC-free time grow in real-time.' },
+      { icon: '&#127793;', title: 'Growing Tree Visual', desc: 'Your clarity grows like a tree — from seed to golden canopy as your brain heals.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate when REM sleep returns, fog lifts, motivation surges, and THC clears.' },
+      { icon: '&#129504;', title: 'Recovery Phases', desc: 'Withdrawal, Detoxing, Clearing, Recovering, Sharpening, Resetting, Clear.' },
+      { icon: '&#128202;', title: 'Streak History', desc: 'Track attempts, longest streak, and total sober days. Every day counts.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Generate a progress card for accountability partners or r/leaves community.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Withdrawal', desc: 'Irritability, insomnia, loss of appetite. THC is starting to leave fat cells.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Detoxing', desc: 'Sleep disruption peaks. Vivid dreams return as REM sleep restores.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Clearing', desc: 'Brain fog begins lifting. Appetite normalizes. Short-term memory improves.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Recovering', desc: 'Motivation returns. Focus sharpens. Emotional regulation improves.', color: '#86efac' },
+      { days: 'Day 30-60', label: 'Sharpening', desc: 'THC mostly cleared from system. Cognitive function significantly improved.', color: '#86efac' },
+      { days: 'Day 60-90', label: 'Resetting', desc: 'Dopamine system recalibrated. Natural motivation and drive restored.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Clear', desc: 'Brain fully reset. Psychological dependence broken. Living with clarity.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is GreenDay really free?', a: 'Yes. Free forever. No subscription, no premium features behind a paywall.' },
+      { q: 'How long does THC stay in your system?', a: 'THC stores in fat cells and can take 30-90 days to fully clear, depending on usage frequency and body composition. GreenDay tracks your progress through this entire timeline.' },
+      { q: 'Is this app private?', a: 'Completely. No account, no server, no data collection. Everything stays on your device in local storage.' },
+      { q: 'I smoked again. Is my progress gone?', a: 'No. GreenDay saves your previous streak and counts total sober days. Setbacks are normal — what matters is the overall trend.' },
+      { q: 'Why are my dreams so vivid?', a: 'Cannabis suppresses REM sleep. When you quit, REM rebounds intensely, causing extremely vivid dreams. This is normal and actually a sign of healing.' },
+    ],
+  },
+  {
+    id: 'sugarfree',
+    name: 'SugarFree',
+    appUrl: 'https://sugarfree-app.vercel.app',
+    tagline: 'Break the sugar cycle. Feel alive.',
+    description: 'Free private streak tracker for quitting sugar. No account needed. Track your sugar-free journey with milestones and recovery phases.',
+    keywords: 'quit sugar app, no sugar challenge tracker, sugar free counter, sugar detox app, quit sugar tracker free, days without sugar app, sugar addiction app, no sugar streak tracker, sugar free challenge app',
+    heroTitle: 'Quit Sugar.<br><span class="gradient">Feel Alive Again.</span>',
+    heroSub: 'The free sugar-free streak tracker. No account, no ads. Watch your energy stabilize and cravings disappear.',
+    accentColor: '#ec4899',
+    accentGlow: '#f9a8d4',
+    features: [
+      { icon: '&#9201;', title: 'Live Timer', desc: 'Track every sugar-free hour. Watch your streak grow in real-time.' },
+      { icon: '&#127793;', title: 'Growing Tree', desc: 'A visual metaphor for your healing — growing stronger every sugar-free day.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate blood sugar stabilization, taste bud reset, gut healing, and more.' },
+      { icon: '&#129504;', title: 'Detox Phases', desc: 'Withdrawal, Detoxing, Resensitizing, Stabilizing, Healing, Renewed, Sugar-Free.' },
+      { icon: '&#128202;', title: 'Streak Stats', desc: 'Track your longest sugar-free streak, total clean days, and progress trends.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Share your sugar-free milestone for accountability or the #NoSugarChallenge.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Withdrawal', desc: 'Headaches, irritability, intense cravings. Your blood sugar is recalibrating.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Detoxing', desc: 'Cravings start easing. Energy crashes becoming less severe.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Resensitizing', desc: 'Taste buds reset. Natural foods start tasting sweeter and more satisfying.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Stabilizing', desc: 'Blood sugar stable. Energy consistent throughout the day. Skin clearing.', color: '#f9a8d4' },
+      { days: 'Day 30-60', label: 'Healing', desc: 'Gut microbiome shifting. Inflammation dropping. Weight normalizing.', color: '#f9a8d4' },
+      { days: 'Day 60-90', label: 'Renewed', desc: 'Metabolic health transformed. Sugar cravings feel distant.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Sugar-Free', desc: 'New relationship with food. Sugar no longer controls you.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is SugarFree really free?', a: 'Yes. No subscription, no ads, no premium tier. Every feature is free forever.' },
+      { q: 'Does this mean no fruit?', a: 'That\'s up to you. Many people quit added/refined sugar while keeping whole fruits. SugarFree tracks whatever protocol you choose.' },
+      { q: 'How long until cravings stop?', a: 'Most people report cravings peaking at day 3-5 and significantly decreasing by day 14-21. Everyone is different.' },
+      { q: 'I ate sugar. What now?', a: 'Reset your streak — your previous days are saved. Many people need several attempts. The trend matters more than any single day.' },
+      { q: 'Is sugar really addictive?', a: 'Research shows sugar activates the same brain reward pathways as addictive substances. It triggers dopamine release and can create dependency patterns.' },
+    ],
+  },
+  {
+    id: 'decaf',
+    name: 'Decaf',
+    appUrl: 'https://decaf-app-black.vercel.app',
+    tagline: 'Find your natural energy.',
+    description: 'Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.',
+    keywords: 'quit caffeine app, caffeine free tracker, quit coffee app, caffeine detox tracker, days without coffee app, quit caffeine free app, caffeine withdrawal tracker, decaf challenge app, stop caffeine app',
+    heroTitle: 'Quit Caffeine.<br><span class="gradient">Find Natural Energy.</span>',
+    heroSub: 'The free caffeine-free streak tracker. No account, no data collection. Watch your natural energy return.',
+    accentColor: '#d97706',
+    accentGlow: '#fbbf24',
+    features: [
+      { icon: '&#9201;', title: 'Live Timer', desc: 'Every caffeine-free second counted. Watch your natural energy timeline grow.' },
+      { icon: '&#127793;', title: 'Growing Tree', desc: 'Your energy grows naturally — visualized as a tree that grows with your streak.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate when headaches end, sleep improves, natural energy returns, and more.' },
+      { icon: '&#129504;', title: 'Recovery Phases', desc: 'Withdrawal, Detoxing, Stabilizing, Resetting, Balancing, Natural Energy, Caffeine-Free.' },
+      { icon: '&#128202;', title: 'Streak Stats', desc: 'Track your longest caffeine-free streak and total days without stimulants.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Share your caffeine-free progress for accountability.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Withdrawal', desc: 'Headaches, fatigue, brain fog. Adenosine receptors are overwhelmed.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Detoxing', desc: 'Headaches fading. Sleep quality starting to improve.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Stabilizing', desc: 'Adenosine receptors resetting. Natural tiredness cues returning.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Resetting', desc: 'Sleep architecture normalizing. Afternoon crashes disappearing.', color: '#fbbf24' },
+      { days: 'Day 30-60', label: 'Balancing', desc: 'Cortisol rhythm normalizing. Steady energy throughout the day.', color: '#fbbf24' },
+      { days: 'Day 60-90', label: 'Natural Energy', desc: 'Adrenals recovered. Natural wakefulness stronger than caffeine ever was.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Caffeine-Free', desc: 'Running on your own energy. No stimulants needed.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is Decaf really free?', a: 'Yes. Completely free. No subscription, no ads, no premium features.' },
+      { q: 'How long do withdrawal headaches last?', a: 'Typically 2-9 days, with peak intensity around day 1-2. Stay hydrated — it helps significantly.' },
+      { q: 'Will I have energy without caffeine?', a: 'Yes. After 2-4 weeks, most people report more stable, consistent energy than they had with caffeine. The spikes and crashes disappear.' },
+      { q: 'Does this include tea?', a: 'That\'s your choice. Some people quit all caffeine (coffee, tea, energy drinks), others just reduce. Decaf tracks whatever protocol you follow.' },
+      { q: 'I had a coffee. Is my progress lost?', a: 'Reset your streak if you want to start fresh — previous days are always saved. Or keep going if it was a one-time slip.' },
+    ],
+  },
+  {
+    id: 'primal',
+    name: 'Primal',
+    appUrl: 'https://primal-app.vercel.app',
+    tagline: 'Optimize your testosterone. Naturally.',
+    description: 'Free private testosterone optimization streak tracker. Track your daily habits for naturally boosting T levels. No account needed.',
+    keywords: 'testosterone tracker app, boost testosterone naturally app, testosterone optimization, T level tracker, mens health tracker, testosterone habits app, natural testosterone app, hormone optimization tracker',
+    heroTitle: 'Optimize Your T.<br><span class="gradient">Naturally.</span>',
+    heroSub: 'The free testosterone optimization tracker. Track your daily habits — sleep, exercise, nutrition, cold exposure — and watch your levels rise.',
+    accentColor: '#ef4444',
+    accentGlow: '#fca5a5',
+    features: [
+      { icon: '&#9201;', title: 'Daily Streak', desc: 'Track consecutive days of optimizing: sleep, exercise, diet, and recovery.' },
+      { icon: '&#127793;', title: 'Growing Visual', desc: 'Watch your optimization grow from a seed into full primal strength.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate as sleep improves, strength rises, body composition changes, and energy peaks.' },
+      { icon: '&#129504;', title: 'Optimization Phases', desc: 'Starting, Building, Adapting, Optimizing, Elevating, Peak, Primal.' },
+      { icon: '&#128202;', title: 'Progress Stats', desc: 'Track your longest optimization streak and consistency over time.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Share your optimization streak for accountability and motivation.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Starting', desc: 'Committing to the fundamentals: sleep, compound lifts, real food.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Building', desc: 'Habits forming. Sleep quality is the first marker to improve.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Adapting', desc: 'Body responding to new inputs. Recovery improving.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Optimizing', desc: 'Hormonal pathways adapting. Strength and energy noticeably rising.', color: '#fca5a5' },
+      { days: 'Day 30-60', label: 'Elevating', desc: 'Deep changes. Body composition shifting. Confidence building.', color: '#fca5a5' },
+      { days: 'Day 60-90', label: 'Peak', desc: 'Operating at a new level. Strength, drive, and focus are transformed.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Primal', desc: 'This is your new operating system. Optimized naturally.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is Primal really free?', a: 'Yes. No subscription, no supplements to buy, no upsells. Just a free tracker.' },
+      { q: 'What should I track?', a: 'Count each day you hit your core habits: 7+ hours sleep, exercise (especially compound lifts), whole foods diet, and stress management. Mark days you follow through.' },
+      { q: 'Does this replace blood work?', a: 'No. Primal tracks your habits, not your hormone levels. Get blood work done separately to measure actual T levels.' },
+      { q: 'How long until I see results?', a: 'Most men notice improved energy and sleep within 2 weeks. Body composition and strength changes typically become visible at 4-8 weeks.' },
+      { q: 'I missed a day. What do I do?', a: 'Be honest — reset if you want clean tracking, or keep going if it was a minor slip. Consistency over perfection.' },
+    ],
+  },
+  {
+    id: 'iceplunge',
+    name: 'IcePlunge',
+    appUrl: 'https://iceplunge-app.vercel.app',
+    tagline: 'Embrace the cold. Build resilience.',
+    description: 'Free private cold plunge streak tracker. Track your daily cold exposure habit. No account, no data collection.',
+    keywords: 'cold plunge tracker app, cold exposure app, cold shower streak, wim hof tracker, ice bath tracker, cold therapy app, cold plunge counter, daily cold shower app, cold exposure streak',
+    heroTitle: 'Cold Plunge.<br><span class="gradient">Build Resilience.</span>',
+    heroSub: 'The free cold exposure streak tracker. Track your daily plunge habit and build unshakeable mental toughness.',
+    accentColor: '#3b82f6',
+    accentGlow: '#93c5fd',
+    features: [
+      { icon: '&#9201;', title: 'Streak Timer', desc: 'Track consecutive days of cold exposure. Every plunge counted.' },
+      { icon: '&#127793;', title: 'Growing Visual', desc: 'Watch your resilience grow from a seed into ice-forged strength.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate norepinephrine spikes, brown fat activation, deep adaptation, and more.' },
+      { icon: '&#129504;', title: 'Adaptation Phases', desc: 'Shocking, Adapting, Building, Hardening, Resilient, Ice-Forged, Unbreakable.' },
+      { icon: '&#128202;', title: 'Plunge Stats', desc: 'Track your longest streak of daily cold exposure and total plunge days.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Share your cold plunge streak. Ice-forged bragging rights.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Shocking', desc: 'Cold shock response is intense. Learning to breathe through the initial gasp.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Adapting', desc: 'Norepinephrine spiking. Natural energy and mood elevation after each plunge.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Building', desc: 'Cold shock response diminishing. Brown fat beginning to activate.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Hardening', desc: 'Thermoregulation improving. Recovery from workouts is faster.', color: '#93c5fd' },
+      { days: 'Day 30-60', label: 'Resilient', desc: 'Baseline dopamine elevated. Inflammation markers lower.', color: '#93c5fd' },
+      { days: 'Day 60-90', label: 'Ice-Forged', desc: 'Deep adaptation. Cold feels different — you welcome it.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Unbreakable', desc: 'Mind and body are forged. The cold is your ally.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is IcePlunge really free?', a: 'Yes. No subscription, no equipment sales, no upsells. Just a free tracker.' },
+      { q: 'Do cold showers count?', a: 'Absolutely. Any deliberate cold exposure counts — cold showers, ice baths, cold plunge tubs, lake swims. Track whatever you do.' },
+      { q: 'How long should I plunge?', a: 'Start with 30 seconds to 1 minute. Work up to 2-5 minutes over weeks. Even 30 seconds triggers beneficial norepinephrine release.' },
+      { q: 'What does cold exposure actually do?', a: 'Research shows cold exposure increases norepinephrine (2-3x), elevates dopamine (250%+), activates brown fat, reduces inflammation, and improves recovery.' },
+      { q: 'I skipped a day. Reset?', a: 'Your choice. Some people track consecutive daily plunges strictly, others allow rest days. IcePlunge saves your history either way.' },
+    ],
+  },
+  {
+    id: 'sober',
+    name: 'Sober',
+    appUrl: 'https://sober-app-theta.vercel.app',
+    tagline: 'Choose clarity. Every single day.',
+    description: 'Free private sobriety tracker for quitting alcohol. No account, no data collection. Track your sober journey with milestones and health recovery phases.',
+    keywords: 'sobriety tracker app free, quit drinking app, sober counter, alcohol free tracker, days sober counter, quit alcohol app free, sobriety day counter, sober streak app, stop drinking tracker, alcohol free app',
+    heroTitle: 'Get Sober.<br><span class="gradient">Choose Clarity.</span>',
+    heroSub: 'The free sobriety tracker. No account, no judgment. Watch your body and mind heal day by day.',
+    accentColor: '#6366f1',
+    accentGlow: '#a5b4fc',
+    features: [
+      { icon: '&#9201;', title: 'Live Sober Timer', desc: 'Every sober second counted. Days, hours, minutes of clarity.' },
+      { icon: '&#127793;', title: 'Growing Tree', desc: 'Your recovery grows like a tree — from seed to golden strength.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate liver healing, sleep improvement, blood pressure normalization, and more.' },
+      { icon: '&#129504;', title: 'Recovery Phases', desc: 'Detox, Stabilizing, Clearing, Healing, Recovering, Renewing, Sober.' },
+      { icon: '&#128202;', title: 'Sobriety Stats', desc: 'Track your longest sober streak, total alcohol-free days, and patterns.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Share your sobriety milestone for accountability.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Detox', desc: 'Alcohol leaving your system. Sleep disruption, anxiety, and cravings are normal.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Stabilizing', desc: 'Worst withdrawal symptoms passing. Blood sugar beginning to stabilize.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Clearing', desc: 'Sleep quality improving. Mental clarity increasing. Skin clearing up.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Healing', desc: 'Liver fat reducing. Blood pressure normalizing. Energy improving.', color: '#a5b4fc' },
+      { days: 'Day 30-60', label: 'Recovering', desc: 'Brain chemistry stabilizing. Emotional regulation improving.', color: '#a5b4fc' },
+      { days: 'Day 60-90', label: 'Renewing', desc: 'Liver significantly healed. Immune system strengthening.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Sober', desc: 'Brain and body profoundly healed. Living with clarity and purpose.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is Sober really free?', a: 'Yes. No subscription, no paywall. Unlike I Am Sober, every feature is free with no upsells.' },
+      { q: 'Is this app private?', a: 'Completely. No account, no email, no server. All data stays on your device. Nobody can see your sobriety status.' },
+      { q: 'Should I see a doctor before quitting?', a: 'If you drink heavily, yes. Alcohol withdrawal can be medically serious. This app is a tracking tool, not medical advice.' },
+      { q: 'I drank. Is my progress gone?', a: 'No. Sober saves your previous streak and tracks total sober days. Relapse is part of recovery for many people.' },
+      { q: 'How does this compare to I Am Sober?', a: 'I Am Sober requires an account and charges for premium features. Sober is completely free, requires no account, and keeps all data on your device.' },
+    ],
+  },
+  {
+    id: 'clearlungs',
+    name: 'ClearLungs',
+    appUrl: 'https://clearlungs-app.vercel.app',
+    tagline: 'Quit smoking. Breathe free.',
+    description: 'Free private streak tracker for quitting smoking. No account, no data collection. Track your smoke-free journey with health recovery milestones.',
+    keywords: 'quit smoking app free, stop smoking tracker, smoke free counter, cigarette quit tracker, days without smoking app, quit smoking app no subscription, smoke free app, quit cigarettes app, smoking cessation tracker',
+    heroTitle: 'Quit Smoking.<br><span class="gradient">Breathe Free.</span>',
+    heroSub: 'The free smoke-free streak tracker. No account, no ads. Watch your lungs heal and heart strengthen.',
+    accentColor: '#10b981',
+    accentGlow: '#6ee7b7',
+    features: [
+      { icon: '&#9201;', title: 'Live Timer', desc: 'Every smoke-free second counted. Your lungs are healing right now.' },
+      { icon: '&#127793;', title: 'Growing Tree', desc: 'Like your lungs regrowing cilia, watch your progress grow into a golden tree.' },
+      { icon: '&#127942;', title: '12 Milestones', desc: 'Celebrate nicotine clearance, lung clearing, circulation improvement, and more.' },
+      { icon: '&#129504;', title: 'Recovery Phases', desc: 'Withdrawal, Detoxing, Clearing, Healing, Restoring, Renewed, Smoke-Free.' },
+      { icon: '&#128202;', title: 'Smoke-Free Stats', desc: 'Track your longest streak, total smoke-free days, and quit attempts.' },
+      { icon: '&#128247;', title: 'Share Card', desc: 'Share your smoke-free progress for accountability and motivation.' },
+    ],
+    phases: [
+      { days: 'Day 0-3', label: 'Withdrawal', desc: 'Nicotine leaving your body. Heart rate already dropping within 20 minutes of last cigarette.', color: '#f87171' },
+      { days: 'Day 3-7', label: 'Detoxing', desc: 'Nicotine is out of your system. Chemical addiction is broken. Habit triggers remain.', color: '#fbbf24' },
+      { days: 'Day 7-14', label: 'Clearing', desc: 'Lungs starting to clear. Breathing gets easier. Coughing may increase temporarily.', color: '#fbbf24' },
+      { days: 'Day 14-30', label: 'Healing', desc: 'Circulation improving. Walking and exercise feel easier. Lung function increasing.', color: '#6ee7b7' },
+      { days: 'Day 30-60', label: 'Restoring', desc: 'Lung cilia regrowing. Body\'s natural defenses restoring. Infection risk dropping.', color: '#6ee7b7' },
+      { days: 'Day 60-90', label: 'Renewed', desc: 'Lung capacity improved up to 30%. Heart disease risk already dropping.', color: '#34d399' },
+      { days: 'Day 90+', label: 'Smoke-Free', desc: 'Lungs significantly healed. At 1 year, heart disease risk is halved.', color: '#34d399' },
+    ],
+    faqs: [
+      { q: 'Is ClearLungs really free?', a: 'Yes. No subscription, no premium tier, no ads. Unlike Smoke Free or QuitNow, everything is free.' },
+      { q: 'How quickly do lungs heal?', a: 'Within 72 hours, breathing improves. Within 1-9 months, cilia regrow and lung function increases up to 30%. Within 1 year, heart disease risk is halved.' },
+      { q: 'Is this app private?', a: 'Completely. No account, no data sent anywhere. Everything stays on your device.' },
+      { q: 'I smoked one cigarette. Reset?', a: 'Your choice. One slip doesn\'t erase the healing. But if you want a clean count, reset — your previous streak is saved.' },
+      { q: 'Does this work for cigars/pipes?', a: 'Yes. ClearLungs tracks your smoke-free streak regardless of what you were smoking.' },
+    ],
+  },
+]
+
+function generateHTML(app) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${app.name} — ${app.tagline} | Free ${app.name} App</title>
+  <meta name="description" content="${app.description}">
+  <meta name="keywords" content="${app.keywords}">
+  <link rel="canonical" href="https://${app.id}-landing.vercel.app">
+  <meta property="og:title" content="${app.name} — ${app.tagline}">
+  <meta property="og:description" content="${app.description}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://${app.id}-landing.vercel.app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${app.name} — ${app.tagline}">
+  <meta name="twitter:description" content="${app.description}">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"${app.name}","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"${app.description}","url":"${app.appUrl}"}
+  </script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#06060b;--accent:${app.accentColor};--accent-glow:${app.accentGlow};--success:#34d399;--text:#f4f4f8;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
+    html{scroll-behavior:smooth}
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem;background-image:radial-gradient(ellipse at 20% 0%,${app.accentColor}1f 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:${app.accentColor}1a;border:1px solid ${app.accentColor}33;border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:${app.accentGlow};font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
+    h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
+    h1 .gradient{background:linear-gradient(135deg,${app.accentGlow},${app.accentColor});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.6}
+    .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px ${app.accentColor}33,0 0 60px ${app.accentColor}14}
+    .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
+    .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
+    section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
+    h2{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;text-align:center}
+    .sub{text-align:center;color:var(--text-dim);max-width:500px;margin:0 auto 3rem;font-size:1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:1.25rem;padding:1.75rem;backdrop-filter:blur(20px)}
+    .card .icon{font-size:1.75rem;margin-bottom:.75rem}
+    .card h3{font-size:1.05rem;font-weight:600;margin-bottom:.5rem}
+    .card p{font-size:.88rem;color:var(--text-dim);line-height:1.6}
+    .phases{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}
+    .phase{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;background:var(--card);border:1px solid var(--border)}
+    .phase-day{font-size:.75rem;font-weight:700;min-width:70px;letter-spacing:.04em;text-transform:uppercase}
+    .phase-label{font-weight:600;font-size:.95rem}
+    .phase-desc{font-size:.82rem;color:var(--text-dim)}
+    .privacy{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;max-width:700px;margin:0 auto}
+    .priv-item{text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:1.25rem}
+    .priv-item .pi{font-size:2rem;margin-bottom:.75rem}
+    .priv-item h3{font-size:.95rem;margin-bottom:.35rem}
+    .priv-item p{font-size:.82rem;color:var(--text-dim)}
+    .faq{max-width:650px;margin:0 auto}
+    .faq-item{border-bottom:1px solid var(--border);padding:1.5rem 0}
+    .faq-item h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
+    .faq-item p{font-size:.9rem;color:var(--text-dim);line-height:1.7}
+    .final{text-align:center;padding:6rem 1.5rem;background-image:radial-gradient(ellipse at 50% 50%,${app.accentColor}14 0%,transparent 60%)}
+    .final p{color:var(--text-dim);margin-bottom:2rem;font-size:1.05rem}
+    footer{text-align:center;padding:2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+    .div{height:1px;background:var(--border);max-width:900px;margin:0 auto}
+    @media(max-width:600px){.grid,.privacy{grid-template-columns:1fr}section{padding:3.5rem 1.25rem}}
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="badge">100% Free &amp; Private</div>
+    <h1>${app.heroTitle}</h1>
+    <p class="hero-sub">${app.heroSub}</p>
+    <a href="${app.appUrl}" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup required. Works on any device.</span>
+  </header>
+  <div class="div"></div>
+  <section>
+    <h2>Everything You Need</h2>
+    <p class="sub">Built for people who want to change. Every feature exists because it actually helps.</p>
+    <div class="grid">${app.features.map(f => `
+      <div class="card"><div class="icon">${f.icon}</div><h3>${f.title}</h3><p>${f.desc}</p></div>`).join('')}
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Science-Backed Recovery Phases</h2>
+    <p class="sub">Your body goes through real changes. ${app.name} shows you exactly where you are.</p>
+    <div class="phases">${app.phases.map(p => `
+      <div class="phase"><span class="phase-day" style="color:${p.color}">${p.days}</span><div><div class="phase-label">${p.label}</div><div class="phase-desc">${p.desc}</div></div></div>`).join('')}
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Your Privacy is Non-Negotiable</h2>
+    <p class="sub">Your journey is personal. Your data should be yours alone.</p>
+    <div class="privacy">
+      <div class="priv-item"><div class="pi">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open and start.</p></div>
+      <div class="priv-item"><div class="pi">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser. Nothing sent to any server.</p></div>
+      <div class="priv-item"><div class="pi">&#128683;</div><h3>No Tracking</h3><p>No analytics, no cookies, no telemetry. Zero data collection.</p></div>
+      <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
+    </div>
+  </section>
+  <div class="div"></div>
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">${app.faqs.map(f => `
+      <div class="faq-item"><h3>${f.q}</h3><p>${f.a}</p></div>`).join('')}
+    </div>
+  </section>
+  <div class="final">
+    <h2>Start Today</h2>
+    <p>Every journey begins with a single day. Make today Day 1.</p>
+    <a href="${app.appUrl}" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <span class="cta-sub">No signup. No download. Just open and start.</span>
+  </div>
+  <footer><p>${app.name} is a free, open tool for anyone ready to change.</p><p style="margin-top:.5rem">Your data never leaves your device.</p></footer>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[${app.faqs.map(f => `{"@type":"Question","name":"${f.q}","acceptedAnswer":{"@type":"Answer","text":"${f.a.replace(/"/g, '\\"')}"}}`).join(',')}]}
+  </script>
+</body>
+</html>`
+}
+
+// Generate all landing pages
+apps.forEach(app => {
+  const dir = path.join(__dirname, `landing-${app.id}`)
+  fs.mkdirSync(dir, { recursive: true })
+  fs.writeFileSync(path.join(dir, 'index.html'), generateHTML(app))
+  console.log(`Generated: landing-${app.id}/index.html`)
+})
+
+console.log('\nAll 9 landing pages generated!')

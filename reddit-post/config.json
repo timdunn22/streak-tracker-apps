@@ -1,0 +1,6 @@
+{
+  "clientId": "PASTE_YOUR_CLIENT_ID_HERE",
+  "clientSecret": "PASTE_YOUR_CLIENT_SECRET_HERE",
+  "username": "YOUR_REDDIT_USERNAME",
+  "password": "YOUR_REDDIT_PASSWORD"
+}
