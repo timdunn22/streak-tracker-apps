@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { config } from '../config'
+import { haptic } from '../hooks/useHaptic'
 
 interface Props {
   milestone: number | null
@@ -50,6 +51,7 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
 
   useEffect(() => {
     if (milestone) {
+      haptic('success')
       const timer = setTimeout(() => setShow(true), 100)
       return () => clearTimeout(timer)
     } else {
@@ -106,7 +108,7 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
           <p className="text-text-secondary text-sm leading-relaxed mb-6">{data.message}</p>
 
           <button
-            onClick={onClose}
+            onClick={() => { haptic('tap'); onClose() }}
             className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all duration-200 active:scale-[0.97]"
           >
             Continue

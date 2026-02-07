@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { useLiveTimer } from '../hooks/useLiveTimer'
 import { config } from '../config'
+import { haptic } from '../hooks/useHaptic'
+import { useInstallPrompt } from '../hooks/useInstallPrompt'
+import AnimatedNumber from './AnimatedNumber'
 import GrowthTree from './GrowthTree'
 import WeeklyRecap from './WeeklyRecap'
+import DailyCheckIn from './DailyCheckIn'
+import FloatingParticles from './FloatingParticles'
 
 interface Props {
   days: number
@@ -21,6 +26,7 @@ function getDailyQuote(daysSinceStart: number): string {
 export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, onStart, onReset }: Props) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const liveTime = useLiveTimer(startDate)
+  const { canInstall, install } = useInstallPrompt()
 
   const getPhase = () => {
     for (const phase of config.phases) {
@@ -36,9 +42,10 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
   if (!isActive) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[85vh] px-8 bg-mesh">
+      <div className="relative flex flex-col items-center justify-center min-h-[85vh] px-8 bg-mesh">
+        <FloatingParticles />
         <div className="animate-fade-in">
-          <div className="w-20 h-20 rounded-3xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-8 glow-accent">
+          <div className="w-20 h-20 rounded-3xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-8 glow-accent animate-breathe">
             <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2a10 10 0 0 1 0 20 10 10 0 0 1 0-20" />
               <path d="M12 6v6l4 2" />
@@ -59,11 +66,25 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </p>
 
         <button
-          onClick={onStart}
+          onClick={() => { haptic('success'); onStart() }}
           className="w-full max-w-[280px] bg-accent hover:bg-accent-glow text-white font-semibold text-base py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-3"
         >
           Start My Journey
         </button>
+
+        {canInstall && (
+          <button
+            onClick={() => { haptic('tap'); install() }}
+            className="mt-4 w-full max-w-[280px] bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-2xl transition-all duration-200 active:scale-[0.97] animate-fade-in-delay-3 flex items-center justify-center gap-2"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Install App
+          </button>
+        )}
       </div>
     )
   }
@@ -134,7 +155,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </svg>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-7xl font-bold text-text tracking-tighter animate-count tabular-nums">{days}</span>
+          <AnimatedNumber value={days} className="text-7xl font-bold text-text tracking-tighter animate-count tabular-nums" />
           <span className="text-text-dim text-sm mt-1 font-medium">
             {days === 1 ? config.unitLabelSingular : config.unitLabel}
           </span>
@@ -171,6 +192,8 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </p>
       </div>
 
+      <DailyCheckIn days={days} />
+
       <WeeklyRecap currentDays={days} longestStreak={longestStreak} totalResets={totalResets} />
 
       {days < 365 && (
@@ -180,7 +203,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
       <div className="mt-auto pt-6 animate-fade-in-delay-3">
         {!showResetConfirm ? (
           <button
-            onClick={() => setShowResetConfirm(true)}
+            onClick={() => { haptic('tap'); setShowResetConfirm(true) }}
             className="text-text-muted text-xs hover:text-danger/70 transition-colors py-2 px-4"
           >
             I relapsed
@@ -192,13 +215,14 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             </p>
             <div className="flex gap-3 w-full">
               <button
-                onClick={() => setShowResetConfirm(false)}
+                onClick={() => { haptic('tap'); setShowResetConfirm(false) }}
                 className="flex-1 bg-bg-card-hover text-text-dim py-3 rounded-xl text-sm font-medium transition-all hover:text-text active:scale-[0.97]"
               >
                 Keep Going
               </button>
               <button
                 onClick={() => {
+                  haptic('heavy')
                   onReset()
                   setShowResetConfirm(false)
                 }}

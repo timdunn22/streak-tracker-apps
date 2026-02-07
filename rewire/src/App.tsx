@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useStreak } from './hooks/useStreak'
 import { useMilestoneAlert } from './hooks/useMilestoneAlert'
 import { config } from './config'
+import { haptic } from './hooks/useHaptic'
 import StreakCounter from './components/StreakCounter'
 import Timeline from './components/Timeline'
 import Stats from './components/Stats'
@@ -9,13 +10,26 @@ import ShareCard from './components/ShareCard'
 import MilestoneModal from './components/MilestoneModal'
 
 type Tab = 'home' | 'timeline' | 'stats' | 'share'
+const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
 
 function App() {
   const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data } = useStreak()
   const [tab, setTab] = useState<Tab>('home')
+  const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none')
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null)
+  const prevTabRef = useRef<Tab>('home')
 
   useMilestoneAlert(currentDays, setActiveMilestone)
+
+  const switchTab = (next: Tab) => {
+    if (next === tab) return
+    haptic('tap')
+    const prevIdx = TAB_ORDER.indexOf(prevTabRef.current)
+    const nextIdx = TAB_ORDER.indexOf(next)
+    setSlideDir(nextIdx > prevIdx ? 'left' : 'right')
+    prevTabRef.current = next
+    setTab(next)
+  }
 
   // Apply dynamic theme colors from config
   useEffect(() => {
@@ -32,7 +46,10 @@ function App() {
     <div className="flex flex-col min-h-full bg-bg">
       {/* Content */}
       <div className="flex-1 overflow-y-auto pb-20">
-        <div className="tab-content" key={tab}>
+        <div
+          className={slideDir === 'left' ? 'tab-slide-left' : slideDir === 'right' ? 'tab-slide-right' : 'tab-content'}
+          key={tab}
+        >
           {tab === 'home' && (
             <StreakCounter
               days={currentDays}
@@ -66,7 +83,7 @@ function App() {
             <NavItem
               label="Streak"
               active={tab === 'home'}
-              onClick={() => setTab('home')}
+              onClick={() => switchTab('home')}
               icon={
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
@@ -77,7 +94,7 @@ function App() {
             <NavItem
               label="Timeline"
               active={tab === 'timeline'}
-              onClick={() => setTab('timeline')}
+              onClick={() => switchTab('timeline')}
               icon={
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="12" y1="20" x2="12" y2="4"/>
@@ -88,7 +105,7 @@ function App() {
             <NavItem
               label="Stats"
               active={tab === 'stats'}
-              onClick={() => setTab('stats')}
+              onClick={() => switchTab('stats')}
               icon={
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="12" width="4" height="8" rx="1"/>
@@ -100,7 +117,7 @@ function App() {
             <NavItem
               label="Share"
               active={tab === 'share'}
-              onClick={() => setTab('share')}
+              onClick={() => switchTab('share')}
               icon={
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
