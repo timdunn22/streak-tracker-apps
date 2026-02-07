@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://clearlungs-landing.vercel.app/sitemap.xml
