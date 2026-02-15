@@ -48,9 +48,12 @@ export default function Badges({ currentDays, longestStreak }: Props) {
               style={unlocked ? {
                 boxShadow: `0 0 12px color-mix(in srgb, ${config.accentColor} 15%, transparent)`,
               } : undefined}
+              title={unlocked ? `Earned: ${badge.label}` : `Reach ${badge.day} days to unlock`}
+              role="img"
+              aria-label={unlocked ? `Badge earned: ${badge.label}` : `Badge locked: ${badge.label} — reach ${badge.day} days`}
             >
-              <span className="text-2xl">
-                {badge.icon}
+              <span className="text-2xl" aria-hidden="true">
+                {unlocked ? badge.icon : '🔒'}
               </span>
               <span className={`text-[9px] font-medium text-center leading-tight ${
                 unlocked ? 'text-text-dim' : 'text-text-muted'

@@ -17,12 +17,12 @@ function getSeenMilestones(): number[] {
 function markSeen(day: number) {
   const seen = getSeenMilestones()
   if (!seen.includes(day)) {
-    localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, day]))
+    try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, day])) } catch { /* quota exceeded */ }
   }
 }
 
 export function clearSeenMilestones() {
-  localStorage.removeItem(SEEN_KEY)
+  try { localStorage.removeItem(SEEN_KEY) } catch { /* localStorage unavailable */ }
 }
 
 // Play a short ascending chime using Web Audio API

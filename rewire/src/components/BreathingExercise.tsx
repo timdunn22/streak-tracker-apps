@@ -95,6 +95,22 @@ export default function BreathingExercise({ onClose }: Props) {
 
   useEffect(() => cleanup, [cleanup])
 
+  // Handle Escape key and scroll lock
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        cleanup()
+        onClose()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [onClose, cleanup])
+
   const getCircleScale = () => {
     if (phase === 'inhale') return 'scale-100'
     if (phase === 'hold') return 'scale-100'
@@ -110,7 +126,7 @@ export default function BreathingExercise({ onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 backdrop-blur-xl" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 backdrop-blur-xl" onClick={onClose} role="dialog" aria-modal="true" aria-label="Breathing exercise">
       <div className="relative w-full max-w-sm mx-8 text-center" onClick={e => e.stopPropagation()}>
         <button
           onClick={onClose}

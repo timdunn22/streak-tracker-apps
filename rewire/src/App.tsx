@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useStreak } from './hooks/useStreak'
 import { useMilestoneAlert } from './hooks/useMilestoneAlert'
 import { config } from './config'
@@ -9,6 +9,7 @@ import Stats from './components/Stats'
 import ShareCard from './components/ShareCard'
 import MilestoneModal from './components/MilestoneModal'
 import BreathingExercise from './components/BreathingExercise'
+import Toast from './components/Toast'
 
 type Tab = 'home' | 'timeline' | 'stats' | 'share'
 const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
@@ -19,7 +20,23 @@ function App() {
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none')
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null)
   const [showBreathing, setShowBreathing] = useState(false)
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null)
   const prevTabRef = useRef<Tab>('home')
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({ message, type })
+  }, [])
+
+  const handleExport = useCallback(() => {
+    exportData()
+    showToast('Backup exported successfully')
+  }, [exportData, showToast])
+
+  const handleImport = useCallback((file: File) => {
+    importData(file)
+    showToast('Data imported successfully')
+  }, [importData, showToast])
 
   useMilestoneAlert(currentDays, setActiveMilestone)
 
@@ -31,6 +48,8 @@ function App() {
     setSlideDir(nextIdx > prevIdx ? 'left' : 'right')
     prevTabRef.current = next
     setTab(next)
+    // Reset scroll position when switching tabs
+    scrollRef.current?.scrollTo({ top: 0 })
   }
 
   // Apply dynamic theme colors from config + request persistent storage
@@ -56,8 +75,11 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-full bg-bg">
+      {/* Toast notifications */}
+      {toast && <Toast message={toast.message} type={toast.type} onDone={() => setToast(null)} />}
+
       {/* Content */}
-      <div className="flex-1 overflow-y-auto pb-20">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto pb-20">
         <div
           className={slideDir === 'left' ? 'tab-slide-left' : slideDir === 'right' ? 'tab-slide-right' : 'tab-content'}
           key={tab}
@@ -95,8 +117,8 @@ function App() {
               moneySaved={moneySaved}
               dailyCost={dailyCost}
               journal={data.journal}
-              onExport={exportData}
-              onImport={importData}
+              onExport={handleExport}
+              onImport={handleImport}
             />
           )}
           {tab === 'share' && <ShareCard days={currentDays} longestStreak={longestStreak} />}

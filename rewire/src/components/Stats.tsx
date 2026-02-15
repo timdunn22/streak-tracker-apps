@@ -62,6 +62,8 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
                 ? 'bg-accent/40 text-accent-glow'
                 : 'bg-bg-card text-text-muted'
             }`}
+            title={`${d.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}${d.active ? ' — active' : ''}${d.isToday ? ' (today)' : ''}`}
+            aria-label={`${d.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}${d.active ? ', streak active' : ', no streak'}${d.isToday ? ', today' : ''}`}
           >
             {d.date.getDate()}
           </div>
@@ -83,7 +85,7 @@ function MoodChart({ journal }: { journal: JournalEntry[] }) {
         <h3 className="text-sm font-semibold text-text">Mood Trend</h3>
         <span className="text-text-muted text-[10px]">Last {last14.length} entries</span>
       </div>
-      <div className="flex items-end gap-1 h-16 mb-2">
+      <div className="flex items-end gap-1 h-16 mb-2" role="img" aria-label="Mood chart showing recent mood entries">
         {last14.map((entry, i) => (
           <div
             key={entry.id}
@@ -98,6 +100,7 @@ function MoodChart({ journal }: { journal: JournalEntry[] }) {
               opacity: 0.3 + (i / last14.length) * 0.7,
             }}
             title={`${MOODS[entry.mood]} ${new Date(entry.date).toLocaleDateString()}`}
+            aria-hidden="true"
           />
         ))}
       </div>
@@ -223,11 +226,11 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
       {streaks.length > 0 ? (
         <div className="animate-fade-in-delay-3">
           <h3 className="text-sm font-semibold text-text mb-3">Streak History</h3>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2" role="list" aria-label="Past streak history">
             {[...streaks].reverse().slice(0, 10).map((s, i) => {
               const pct = Math.max(10, (s / Math.max(longestStreak, 1)) * 100)
               return (
-                <div key={i} className="flex items-center gap-3">
+                <div key={i} className="flex items-center gap-3" role="listitem" aria-label={`Streak #${streaks.length - i}: ${s} ${s === 1 ? 'day' : 'days'}${s === longestStreak ? ' — longest streak' : ''}`}>
                   <span className="text-text-muted text-[11px] w-5 text-right">#{streaks.length - i}</span>
                   <div className="flex-1 h-6 bg-border/50 rounded-lg overflow-hidden relative">
                     <div
@@ -264,8 +267,9 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <button
             onClick={() => { haptic('tap'); onExport() }}
             className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2"
+            aria-label="Export backup to JSON file"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
@@ -275,8 +279,9 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <button
             onClick={() => { haptic('tap'); fileInputRef.current?.click() }}
             className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2"
+            aria-label="Import backup from JSON file"
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="17 8 12 3 7 8"/>
               <line x1="12" y1="3" x2="12" y2="15"/>
@@ -289,6 +294,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           type="file"
           accept=".json"
           className="hidden"
+          aria-label="Select backup file to import"
           onChange={e => {
             const file = e.target.files?.[0]
             if (file) onImport(file)

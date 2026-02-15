@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
 import type { JournalEntry } from '../hooks/useStreak'
@@ -22,7 +22,21 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
   const [isWriting, setIsWriting] = useState(false)
   const [mood, setMood] = useState(3)
   const [text, setText] = useState('')
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const confirmDelete = useCallback((id: string) => {
+    haptic('tap')
+    setPendingDeleteId(id)
+  }, [])
+
+  const executeDelete = useCallback(() => {
+    if (pendingDeleteId) {
+      haptic('heavy')
+      onDelete(pendingDeleteId)
+      setPendingDeleteId(null)
+    }
+  }, [pendingDeleteId, onDelete])
 
   const prompts = config.journalPrompts || []
   const todaysPrompt = prompts.length > 0 ? prompts[currentDays % prompts.length] : null
@@ -39,6 +53,14 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
     setText('')
     setMood(3)
     setIsWriting(false)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Ctrl/Cmd + Enter to submit
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault()
+      submit()
+    }
   }
 
   const recentEntries = [...entries].reverse().slice(0, 5)
@@ -92,7 +114,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
             </button>
           </div>
 
-          <div className="flex justify-between mb-4">
+          <div className="flex justify-between mb-4" role="radiogroup" aria-label="Select your mood">
             {MOODS.map(m => (
               <button
                 key={m.value}
@@ -102,8 +124,11 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
                     ? 'bg-accent/10 border border-accent/20 scale-110'
                     : 'opacity-50 hover:opacity-75'
                 }`}
+                role="radio"
+                aria-checked={mood === m.value}
+                aria-label={`${m.label} mood`}
               >
-                <span className="text-xl">{m.emoji}</span>
+                <span className="text-xl" aria-hidden="true">{m.emoji}</span>
                 <span className="text-[9px] text-text-muted">{m.label}</span>
               </button>
             ))}
@@ -117,9 +142,12 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
             ref={textareaRef}
             value={text}
             onChange={e => setText(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Write about your day, triggers, wins..."
             className="w-full bg-bg-card border border-border rounded-xl p-3 text-text text-sm placeholder:text-text-muted resize-none h-24 focus:outline-none focus:border-accent/30 transition-colors"
             maxLength={500}
+            autoFocus
+            aria-label="Journal entry text"
           />
 
           <div className="flex items-center justify-between mt-3">
@@ -138,21 +166,40 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
       {recentEntries.length > 0 && !isWriting && (
         <div className="mt-3 space-y-2 animate-fade-in-delay-3">
           {recentEntries.map(entry => (
-            <div key={entry.id} className="glass rounded-xl p-3 group">
+            <div key={entry.id} className="glass rounded-xl p-3">
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm">{MOODS.find(m => m.value === entry.mood)?.emoji || '😐'}</span>
                   <span className="text-text-muted text-[10px]">{formatDate(entry.date)}</span>
                 </div>
-                <button
-                  onClick={() => { haptic('tap'); onDelete(entry.id) }}
-                  className="opacity-0 group-hover:opacity-100 text-text-muted hover:text-danger text-[10px] transition-all"
-                  aria-label="Delete entry"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                  </svg>
-                </button>
+                {pendingDeleteId === entry.id ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setPendingDeleteId(null)}
+                      className="text-text-muted text-[10px] py-1 px-2 rounded-lg hover:text-text-dim transition-colors"
+                      aria-label="Cancel delete"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={executeDelete}
+                      className="text-danger text-[10px] font-semibold py-1 px-2 rounded-lg bg-danger/10 transition-colors"
+                      aria-label="Confirm delete entry"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => confirmDelete(entry.id)}
+                    className="text-text-muted hover:text-danger text-[10px] transition-all p-1.5 -mr-1.5 rounded-lg"
+                    aria-label={`Delete journal entry from ${formatDate(entry.date)}`}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                )}
               </div>
               <p className="text-text-secondary text-xs leading-relaxed">{entry.text}</p>
             </div>

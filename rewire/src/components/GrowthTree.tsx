@@ -17,9 +17,9 @@ export default function GrowthTree({ days }: Props) {
   const stage = getStage()
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center" role="img" aria-label={`Growth tree: ${stage.replace('-', ' ')} stage at ${days} days`}>
       <div className="relative w-20 h-20">
-        <svg viewBox="0 0 80 80" className="w-full h-full">
+        <svg viewBox="0 0 80 80" className="w-full h-full" aria-hidden="true">
           {/* Ground */}
           <ellipse cx="40" cy="72" rx="20" ry="3" fill="var(--color-accent)" opacity="0.1" />
 

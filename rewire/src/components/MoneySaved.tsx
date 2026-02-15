@@ -43,11 +43,18 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
           <input
             type="number"
             inputMode="decimal"
+            min="0"
+            step="0.01"
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') {
+              const val = parseFloat(inputVal) || config.defaultDailyCost || 0
+              if (val > 0) { haptic('success'); onSetCost(val); setEditing(false) }
+            }}}
             placeholder={config.defaultDailyCost?.toString() || '0'}
             className="flex-1 bg-bg-card border border-border rounded-xl px-3 py-2.5 text-text text-lg font-semibold text-center outline-none focus:border-accent transition-colors"
             autoFocus
+            aria-label="Daily spending amount in dollars"
           />
           <span className="text-text-muted text-sm">/day</span>
         </div>

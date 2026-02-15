@@ -22,9 +22,10 @@
   <meta name="twitter:description" content="Track your streak, see your brain heal, celebrate milestones. 100% private, no account needed.">
   <meta name="twitter:image" content="https://rewire-landing.vercel.app/og-image.svg">
   <meta name="twitter:image:alt" content="Rewire NoFap streak tracker app screenshot">
+  <meta name="theme-color" content="#06060b">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Rewire","applicationCategory":"HealthApplication","applicationSubCategory":"Addiction Recovery","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting porn and rewiring your brain. No account, no data collection, works offline.","url":"https://rewire-psi.vercel.app","author":{"@type":"Organization","name":"Rewire"},"featureList":["Live streak timer","Recovery phases","Milestone celebrations","Streak freeze","Badge collection","Streak calendar","Share card generator","Works offline"]}
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Rewire","applicationCategory":"HealthApplication","applicationSubCategory":"Addiction Recovery","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting porn and rewiring your brain. No account, no data collection, works offline.","url":"https://rewire-psi.vercel.app","author":{"@type":"Person","name":"Tim Dunn"},"featureList":["Live streak timer","Recovery phases","Milestone celebrations","Streak freeze","Badge collection","Streak calendar","Share card generator","Works offline"]}
   </script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -114,7 +115,7 @@
     /* FAQ */
     .faq{max-width:650px;margin:0 auto}
     .faq-item{border-bottom:1px solid var(--border);overflow:hidden}
-    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600;background:none;border:none;color:var(--text);width:100%;text-align:left}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600;background:none;border:none;color:var(--text);width:100%;text-align:left;font-family:inherit}
     .faq-q svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;transition:transform .2s;flex-shrink:0}
     .faq-item.open .faq-q svg{transform:rotate(180deg)}
     .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:.9rem;color:var(--text-dim);line-height:1.7}
@@ -155,6 +156,10 @@
       .steps{flex-direction:column;align-items:center}
       .step{min-width:unset;max-width:280px}
     }
+
+    /* Focus visible styles for keyboard navigation */
+    *:focus-visible{outline:2px solid var(--accent-glow);outline-offset:2px;border-radius:4px}
+    *:focus:not(:focus-visible){outline:none}
 
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
@@ -351,7 +356,7 @@
     <a href="https://rewire-psi.vercel.app">Start Free</a>
   </div>
 
-  <div class="cross-links">
+  <nav class="cross-links" aria-label="Related streak tracker apps">
     <p>More Free Streak Trackers</p>
     <div class="cross-links-list">
       <a href="https://vapefree-landing.vercel.app">Quit Vaping Tracker</a>
@@ -364,7 +369,7 @@
       <a href="https://primal-landing.vercel.app">Testosterone Streak Tracker</a>
       <a href="https://iceplunge-landing.vercel.app">Cold Plunge Tracker</a>
     </div>
-  </div>
+  </nav>
 
   <footer>
     <p>Rewire is a free, open tool for anyone working to break free from porn addiction. Your recovery is private, personal, and possible.</p>
@@ -398,6 +403,6 @@
 
   <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HDGV4Y1W5J"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-HDGV4Y1W5J');</script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-HDGV4Y1W5J',{anonymize_ip:true});</script>
 </body>
 </html>

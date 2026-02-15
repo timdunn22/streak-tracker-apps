@@ -8,7 +8,7 @@ interface Props {
 
 export default function ShareCard({ days, longestStreak }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
+  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
 
   const getMessage = () => {
     if (days < 3) return 'The journey begins.'
@@ -161,8 +161,14 @@ export default function ShareCard({ days, longestStreak }: Props) {
       URL.revokeObjectURL(url)
       setStatus('saved')
       setTimeout(() => setStatus('idle'), 2000)
-    } catch {
-      setStatus('idle')
+    } catch (err) {
+      // Share cancelled by user is not an error
+      if (err instanceof Error && err.name === 'AbortError') {
+        setStatus('idle')
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 2000)
+      }
     }
   }
 
@@ -218,7 +224,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
         disabled={status === 'saving'}
         className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-2"
       >
-        {status === 'saving' ? 'Generating...' : status === 'saved' ? 'Saved!' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
+        {status === 'saving' ? 'Generating...' : status === 'saved' ? 'Saved!' : status === 'error' ? 'Something went wrong' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
       </button>
 
       <p className="text-text-muted text-[11px] text-center mt-3 animate-fade-in-delay-3">

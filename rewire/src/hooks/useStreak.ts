@@ -57,26 +57,45 @@ function loadData(): StreakData {
   }
 }
 
+function isValidDate(s: string): boolean {
+  return !isNaN(new Date(s).getTime())
+}
+
 function validateData(parsed: unknown): StreakData {
   if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
     return defaultData
   }
   const p = parsed as Record<string, unknown>
   return {
-    startDate: typeof p.startDate === 'string' ? p.startDate : null,
-    streaks: Array.isArray(p.streaks) ? p.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0) : [],
-    totalCleanDays: typeof p.totalCleanDays === 'number' && isFinite(p.totalCleanDays) ? Math.max(0, p.totalCleanDays) : 0,
+    startDate: typeof p.startDate === 'string' && isValidDate(p.startDate) ? p.startDate : null,
+    streaks: Array.isArray(p.streaks) ? p.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0 && n <= 36500).slice(0, 10000) : [],
+    totalCleanDays: typeof p.totalCleanDays === 'number' && isFinite(p.totalCleanDays) ? Math.max(0, Math.min(p.totalCleanDays, 1000000)) : 0,
     freezesAvailable: typeof p.freezesAvailable === 'number' ? Math.min(Math.max(p.freezesAvailable, 0), 2) : 2,
     freezesUsed: typeof p.freezesUsed === 'number' && isFinite(p.freezesUsed) ? Math.max(0, p.freezesUsed) : 0,
-    lastFreezeRecharge: typeof p.lastFreezeRecharge === 'string' ? p.lastFreezeRecharge : null,
-    dailyCost: typeof p.dailyCost === 'number' && isFinite(p.dailyCost) && p.dailyCost >= 0 ? p.dailyCost : null,
+    lastFreezeRecharge: typeof p.lastFreezeRecharge === 'string' && isValidDate(p.lastFreezeRecharge) ? p.lastFreezeRecharge : null,
+    dailyCost: typeof p.dailyCost === 'number' && isFinite(p.dailyCost) && p.dailyCost >= 0 && p.dailyCost <= 10000 ? p.dailyCost : null,
     journal: Array.isArray(p.journal) ? p.journal.filter((e: unknown) => {
       if (typeof e !== 'object' || e === null) return false
       const j = e as Record<string, unknown>
       return typeof j.id === 'string' && typeof j.date === 'string' &&
         typeof j.mood === 'number' && j.mood >= 1 && j.mood <= 5 &&
         typeof j.text === 'string' && j.text.length <= 1000
-    }) : [],
+    }).map((e: unknown) => {
+      const j = e as Record<string, unknown>
+      const entry: JournalEntry = {
+        id: (j.id as string).slice(0, 50),
+        date: (j.date as string).slice(0, 30),
+        mood: j.mood as number,
+        text: (j.text as string).slice(0, 1000),
+      }
+      if (Array.isArray(j.triggers)) {
+        entry.triggers = j.triggers
+          .filter((t: unknown) => typeof t === 'string')
+          .slice(0, 20)
+          .map((t: string) => t.slice(0, 100))
+      }
+      return entry
+    }).slice(0, 1000) : [],
   }
 }
 
@@ -102,7 +121,7 @@ export function useStreak() {
   }, [data])
 
   const currentDays = data.startDate ? getDaysBetween(data.startDate) : 0
-  const longestStreak = Math.max(currentDays, ...data.streaks, 0)
+  const longestStreak = Math.max(currentDays, data.streaks.length > 0 ? data.streaks.reduce((a, b) => Math.max(a, b), 0) : 0)
 
   // Recharge a freeze every 7 consecutive days (max 2)
   useEffect(() => {
@@ -156,7 +175,8 @@ export function useStreak() {
   }, [data.freezesAvailable])
 
   const setDailyCost = useCallback((cost: number) => {
-    setData(prev => ({ ...prev, dailyCost: cost }))
+    if (!isFinite(cost) || cost < 0 || cost > 10000) return
+    setData(prev => ({ ...prev, dailyCost: Math.round(cost * 100) / 100 }))
   }, [])
 
   const addJournalEntry = useCallback((mood: number, text: string, triggers?: string[]) => {
@@ -197,17 +217,27 @@ export function useStreak() {
   }, [data])
 
   const importData = useCallback((file: File) => {
+    const MAX_IMPORT_SIZE = 1024 * 1024 // 1 MB
+    if (file.size > MAX_IMPORT_SIZE) {
+      alert('Backup file is too large (max 1 MB). Please select a valid backup.')
+      return
+    }
     const reader = new FileReader()
     reader.onload = (e) => {
       try {
         const parsed = JSON.parse(e.target?.result as string)
-        if (parsed.app !== config.id) {
-          alert(`This backup is for ${parsed.app}, not ${config.id}. Import cancelled.`)
+        if (typeof parsed.app !== 'string' || parsed.app !== config.id) {
+          alert('This backup is for a different app. Import cancelled.')
           return
         }
         if (parsed.data) {
+          const confirmed = confirm(
+            'Import will replace all your current data (streak, journal, stats). This cannot be undone.\n\nContinue?'
+          )
+          if (!confirmed) return
           const validated = validateData(parsed.data)
           setData(validated)
+          clearSeenMilestones()
         }
       } catch {
         alert('Invalid backup file. Please select a valid JSON backup.')

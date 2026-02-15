@@ -59,7 +59,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         <FloatingParticles />
         <div className="animate-fade-in">
           <div className="w-20 h-20 rounded-3xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-8 glow-accent animate-breathe">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 2a10 10 0 0 1 0 20 10 10 0 0 1 0-20" />
               <path d="M12 6v6l4 2" />
             </svg>
@@ -90,7 +90,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             onClick={() => { haptic('tap'); install() }}
             className="mt-4 w-full max-w-[280px] bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-2xl transition-all duration-200 active:scale-[0.97] animate-fade-in-delay-3 flex items-center justify-center gap-2"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
@@ -109,9 +109,9 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
           {phase.label}
         </span>
         {freezesAvailable > 0 && (
-          <div className="flex gap-0.5" title={`${freezesAvailable} streak freeze${freezesAvailable > 1 ? 's' : ''} available`}>
+          <div className="flex gap-0.5" title={`${freezesAvailable} streak freeze${freezesAvailable > 1 ? 's' : ''} available`} aria-label={`${freezesAvailable} streak freeze${freezesAvailable > 1 ? 's' : ''} available`}>
             {Array.from({ length: freezesAvailable }).map((_, i) => (
-              <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="var(--color-accent-glow)" opacity="0.6">
+              <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="var(--color-accent-glow)" opacity="0.6" aria-hidden="true">
                 <path d="M12 2L9 9H2l6 5-2 7 6-4 6 4-2-7 6-5h-7z"/>
               </svg>
             ))}
@@ -131,7 +131,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             }}
           />
         )}
-        <svg className="relative w-full h-full -rotate-90" viewBox="0 0 200 200">
+        <svg className="relative w-full h-full -rotate-90" viewBox="0 0 200 200" role="img" aria-label={`Streak progress: ${Math.min(100, Math.round(progress * 100))}% toward ${config.goalDays}-day goal`}>
           <circle
             cx="100" cy="100" r="88"
             fill="none"
@@ -192,7 +192,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         onClick={() => { haptic('tap'); onShowBreathing() }}
         className="mb-6 flex items-center gap-2 bg-bg-card border border-border hover:border-accent/20 text-text-dim text-xs font-medium py-2.5 px-5 rounded-full transition-all active:scale-[0.97] animate-fade-in"
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
           <path d="M9 12h6"/><path d="M12 9v6"/>
         </svg>

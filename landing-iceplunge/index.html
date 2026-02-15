@@ -8,6 +8,7 @@
   <meta name="keywords" content="cold plunge tracker app, cold exposure app, cold shower streak, wim hof tracker, ice bath tracker, cold therapy app, cold plunge counter, daily cold shower app, cold exposure streak">
   <link rel="canonical" href="https://iceplunge-landing.vercel.app">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="theme-color" content="#06060b">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <meta property="og:title" content="Free Cold Plunge Tracker — IcePlunge | Streaks">
   <meta property="og:description" content="Track your daily cold plunge streak with IcePlunge — 100% free, private. Adaptation phases, milestones. Start building resilience today.">
@@ -74,7 +75,7 @@
     /* Scroll animations */
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
-    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
     /* Sections */
     section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
@@ -143,6 +144,10 @@
     footer .disclaimer{margin-top:.75rem;font-size:.72rem;color:var(--text-muted);opacity:.7}
 
     hr.divider{height:1px;background:var(--border);max-width:900px;margin:0 auto;border:none}
+
+    /* Focus visible styles for keyboard navigation */
+    *:focus-visible{outline:2px solid var(--accent-glow);outline-offset:2px;border-radius:4px}
+    *:focus:not(:focus-visible){outline:none}
 
     @media(max-width:600px){
       .grid,.privacy{grid-template-columns:1fr}
@@ -335,7 +340,7 @@
   </div>
 
   <!-- Cross Links -->
-  <div class="cross-links">
+  <nav class="cross-links" aria-label="Related streak tracker apps">
     <p>More Free Streak Trackers</p>
     <div class="cross-links-list">
       <a href="https://rewire-landing.vercel.app">NoFap Streak Tracker</a>
@@ -348,7 +353,7 @@
       <a href="https://sober-landing.vercel.app">Sobriety Tracker</a>
       <a href="https://clearlungs-landing.vercel.app">Quit Smoking Tracker</a>
     </div>
-  </div>
+  </nav>
 
   <footer>
     <p>Built for people who embrace discomfort. The cold forges strength.</p>
@@ -363,7 +368,7 @@
 
   <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1N9N8ZQEG"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-P1N9N8ZQEG');</script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-P1N9N8ZQEG',{anonymize_ip:true});</script>
 
   <script>
     // Sticky header: show after scrolling past hero CTA

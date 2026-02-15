@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
 
@@ -50,16 +50,32 @@ function Confetti({ show }: { show: boolean }) {
 
 export default function MilestoneModal({ milestone, onClose }: Props) {
   const [show, setShow] = useState(false)
+  const continueRef = useRef<HTMLButtonElement>(null)
+
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose()
+  }, [onClose])
 
   useEffect(() => {
     if (milestone) {
       haptic('success')
-      const timer = setTimeout(() => setShow(true), 100)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => {
+        setShow(true)
+        // Focus the Continue button after animation
+        setTimeout(() => continueRef.current?.focus(), 500)
+      }, 100)
+      document.addEventListener('keydown', handleKeyDown)
+      // Prevent background scrolling
+      document.body.style.overflow = 'hidden'
+      return () => {
+        clearTimeout(timer)
+        document.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = ''
+      }
     } else {
       setShow(false)
     }
-  }, [milestone])
+  }, [milestone, handleKeyDown])
 
   if (!milestone) return null
   const data = config.milestones.find(m => m.day === milestone)
@@ -71,6 +87,9 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
         show ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Milestone unlocked: ${data.label}`}
     >
       <div className="absolute inset-0 bg-bg/80 backdrop-blur-md" />
 
@@ -111,6 +130,7 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
 
           <div className="flex gap-3 justify-center">
             <button
+              ref={continueRef}
               onClick={() => { haptic('tap'); onClose() }}
               className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all duration-200 active:scale-[0.97]"
             >

@@ -139,28 +139,40 @@ function seoPlugin(): Plugin {
       const cfg = pwaConfig
       const structuredData = JSON.stringify({
         '@context': 'https://schema.org',
-        '@type': 'SoftwareApplication',
+        '@type': 'WebApplication',
         name: cfg.shortName,
         applicationCategory: 'HealthApplication',
-        operatingSystem: 'Any (Web Browser)',
+        applicationSubCategory: 'Habit Tracker',
+        operatingSystem: 'Any',
+        browserRequirements: 'Requires a modern web browser with JavaScript',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         description: cfg.metaDescription,
         url: cfg.appUrl,
+        author: { '@type': 'Person', name: 'Tim Dunn' },
+        featureList: 'Live streak timer, Recovery phases, Milestones, Streak freeze, Badge collection, Journal, Share progress card, Offline support',
       })
 
       const metaTags = `
     <meta name="description" content="${cfg.metaDescription}" />
     <meta name="keywords" content="${cfg.keywords}" />
-    <link rel="canonical" href="${cfg.appUrl}" />
+    <meta name="author" content="Tim Dunn" />
+    <link rel="canonical" href="${cfg.appUrl}/" />
+    <link rel="alternate" href="${cfg.landingUrl}/" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
     <meta property="og:title" content="${cfg.title}" />
     <meta property="og:description" content="${cfg.metaDescription}" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="${cfg.appUrl}" />
+    <meta property="og:url" content="${cfg.appUrl}/" />
     <meta property="og:site_name" content="${cfg.shortName}" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="${cfg.landingUrl}/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${cfg.title}" />
     <meta name="twitter:description" content="${cfg.metaDescription}" />
+    <meta name="twitter:image" content="${cfg.landingUrl}/og-image.svg" />
+    <meta name="twitter:image:alt" content="${cfg.shortName} streak tracker app" />
     <script type="application/ld+json">${structuredData}</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','${cfg.gaId}',{anonymize_ip:true});</script>`
@@ -224,6 +236,8 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
+        categories: ['health', 'lifestyle', 'utilities'],
+        id: '/',
         icons: [
           {
             src: 'pwa-192x192.svg',
