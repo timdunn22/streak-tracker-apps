@@ -38,9 +38,17 @@ function loadData(): StreakData {
     }
     if (!raw) return defaultData
     const parsed = JSON.parse(raw)
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+      return defaultData
+    }
     return {
-      ...defaultData,
-      ...parsed,
+      startDate: typeof parsed.startDate === 'string' ? parsed.startDate : null,
+      streaks: Array.isArray(parsed.streaks) ? parsed.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0) : [],
+      totalCleanDays: typeof parsed.totalCleanDays === 'number' && isFinite(parsed.totalCleanDays) ? Math.max(0, parsed.totalCleanDays) : 0,
+      freezesAvailable: typeof parsed.freezesAvailable === 'number' ? Math.min(Math.max(parsed.freezesAvailable, 0), 2) : 2,
+      freezesUsed: typeof parsed.freezesUsed === 'number' && isFinite(parsed.freezesUsed) ? Math.max(0, parsed.freezesUsed) : 0,
+      lastFreezeRecharge: typeof parsed.lastFreezeRecharge === 'string' ? parsed.lastFreezeRecharge : null,
+      dailyCost: typeof parsed.dailyCost === 'number' && isFinite(parsed.dailyCost) && parsed.dailyCost >= 0 ? parsed.dailyCost : null,
     }
   } catch {
     return defaultData

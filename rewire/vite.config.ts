@@ -163,7 +163,7 @@ function seoPlugin(): Plugin {
     <meta name="twitter:description" content="${cfg.metaDescription}" />
     <script type="application/ld+json">${structuredData}</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${cfg.gaId}');</script>`
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','${cfg.gaId}',{anonymize_ip:true});</script>`
 
       return html
         .replace(/<title>.*<\/title>/, `<title>${cfg.title}</title>${metaTags}`)
@@ -183,6 +183,25 @@ function seoPlugin(): Plugin {
       const outDir = resolve(process.cwd(), process.env.VITE_OUT_DIR || `../dist-${appId}`)
       writeFileSync(resolve(outDir, 'sitemap.xml'), sitemap)
       writeFileSync(resolve(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${cfg.appUrl}/sitemap.xml\n`)
+
+      // Generate vercel.json with security headers
+      const vercelConfig = JSON.stringify({
+        buildCommand: '',
+        outputDirectory: '.',
+        headers: [{
+          source: '/(.*)',
+          headers: [
+            { key: 'X-Content-Type-Options', value: 'nosniff' },
+            { key: 'X-Frame-Options', value: 'DENY' },
+            { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+            { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
+            { key: 'X-XSS-Protection', value: '0' },
+            { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+            { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" },
+          ],
+        }],
+      }, null, 2)
+      writeFileSync(resolve(outDir, 'vercel.json'), vercelConfig)
     },
   }
 }
@@ -226,6 +245,8 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
       },
     }),
   ],

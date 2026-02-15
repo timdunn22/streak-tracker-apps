@@ -379,9 +379,9 @@ function generateHTML(app) {
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"${app.name}","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"${app.description}","url":"${app.appUrl}"}
   </script>
-  <!-- Google Analytics 4 -->
+  <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=${app.gaId}"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${app.gaId}');</script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','${app.gaId}',{anonymize_ip:true});</script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{--bg:#06060b;--accent:${app.accentColor};--accent-glow:${app.accentGlow};--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
@@ -601,7 +601,7 @@ function generateHTML(app) {
     <div class="privacy">
       <div class="priv-item"><div class="pi">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open and start.</p></div>
       <div class="priv-item"><div class="pi">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser. Nothing sent to any server.</p></div>
-      <div class="priv-item"><div class="pi">&#128683;</div><h3>No Tracking</h3><p>No analytics, no cookies, no telemetry. Zero data collection.</p></div>
+      <div class="priv-item"><div class="pi">&#128683;</div><h3>Minimal Analytics</h3><p>Cookieless, anonymous page view counts only. No personal data collected.</p></div>
       <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
     </div>
   </section>
@@ -677,7 +677,23 @@ apps.forEach(app => {
   fs.writeFileSync(path.join(dir, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://${app.id}-landing.vercel.app/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>\n</urlset>\n`)
 
-  console.log(`Generated: landing-${app.id}/ (index.html, robots.txt, sitemap.xml)`)
+  // Generate vercel.json with security headers
+  fs.writeFileSync(path.join(dir, 'vercel.json'), JSON.stringify({
+    headers: [{
+      source: '/(.*)',
+      headers: [
+        { key: 'X-Content-Type-Options', value: 'nosniff' },
+        { key: 'X-Frame-Options', value: 'DENY' },
+        { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
+        { key: 'X-XSS-Protection', value: '0' },
+        { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+        { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" },
+      ],
+    }],
+  }, null, 2))
+
+  console.log(`Generated: landing-${app.id}/ (index.html, robots.txt, sitemap.xml, vercel.json)`)
 })
 
 console.log('\nAll 9 landing pages generated!')

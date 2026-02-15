@@ -6,7 +6,9 @@ const SEEN_KEY = `${config.id}-seen-milestones`
 
 function getSeenMilestones(): number[] {
   try {
-    return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')
+    const parsed = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')
+    if (!Array.isArray(parsed)) return []
+    return parsed.filter((n: unknown) => typeof n === 'number' && isFinite(n))
   } catch {
     return []
   }
