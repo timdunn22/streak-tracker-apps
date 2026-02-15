@@ -35,7 +35,15 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
     })
   }
 
-  const weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+  const weekdays = [
+    { abbr: 'M', full: 'Monday' },
+    { abbr: 'T', full: 'Tuesday' },
+    { abbr: 'W', full: 'Wednesday' },
+    { abbr: 'T', full: 'Thursday' },
+    { abbr: 'F', full: 'Friday' },
+    { abbr: 'S', full: 'Saturday' },
+    { abbr: 'S', full: 'Sunday' },
+  ]
   // Pad empty cells so the first day aligns to its correct weekday (0=Sun → col 7, 1=Mon → col 1, etc.)
   const firstDayOfWeek = days[0].date.getDay() // 0=Sun, 1=Mon...
   const padCount = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1 // Mon-based offset
@@ -45,7 +53,7 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
       <h3 className="text-sm font-semibold text-text mb-3">Last 5 Weeks</h3>
       <div className="grid grid-cols-7 gap-1.5">
         {weekdays.map((d, i) => (
-          <div key={i} className="text-center text-text-muted text-[9px] font-medium pb-1">{d}</div>
+          <div key={i} className="text-center text-text-muted text-[9px] font-medium pb-1" aria-label={d.full}>{d.abbr}</div>
         ))}
         {Array.from({ length: padCount }).map((_, i) => (
           <div key={`pad-${i}`} />
@@ -130,7 +138,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <div className="px-6 pt-8 pb-8">
+    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
       {/* Header */}
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Your Stats</h2>

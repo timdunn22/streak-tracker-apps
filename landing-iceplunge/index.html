@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Free Cold Plunge Tracker — IcePlunge | Streaks</title>
   <meta name="description" content="Track your daily cold plunge streak with IcePlunge — 100% free, private. Adaptation phases, milestones. Start building resilience today.">
+  <meta name="author" content="Tim Dunn">
   <meta name="keywords" content="cold plunge tracker app, cold exposure app, cold shower streak, wim hof tracker, ice bath tracker, cold therapy app, cold plunge counter, daily cold shower app, cold exposure streak">
-  <link rel="canonical" href="https://iceplunge-landing.vercel.app">
+  <link rel="canonical" href="https://iceplunge-landing.vercel.app/">
+  <link rel="alternate" href="https://iceplunge-app.vercel.app/">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
   <meta name="theme-color" content="#06060b">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <meta property="og:title" content="Free Cold Plunge Tracker — IcePlunge | Streaks">
   <meta property="og:description" content="Track your daily cold plunge streak with IcePlunge — 100% free, private. Adaptation phases, milestones. Start building resilience today.">
@@ -16,7 +19,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://iceplunge-landing.vercel.app">
+  <meta property="og:url" content="https://iceplunge-landing.vercel.app/">
   <meta property="og:site_name" content="IcePlunge">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
@@ -387,6 +390,24 @@
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
     }, { threshold: 0.1 });
     reveals.forEach(el => revealObs.observe(el));
+
+    // FAQ accessibility: add ids, aria-controls, and aria-hidden
+    document.querySelectorAll('.faq-item').forEach(function(item, i) {
+      var btn = item.querySelector('.faq-q');
+      var ans = item.querySelector('.faq-a');
+      if (btn && ans) {
+        var id = 'faq-a-' + (i + 1);
+        ans.id = id;
+        ans.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-controls', id);
+        btn.onclick = function() {
+          item.classList.toggle('open');
+          var open = item.classList.contains('open');
+          btn.setAttribute('aria-expanded', open);
+          ans.setAttribute('aria-hidden', !open);
+        };
+      }
+    });
   </script>
 </body>
 </html>

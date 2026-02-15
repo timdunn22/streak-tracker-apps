@@ -1,7 +1,8 @@
 const canVibrate = typeof navigator !== 'undefined' && 'vibrate' in navigator
+const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export function haptic(type: 'tap' | 'success' | 'warning' | 'heavy' = 'tap') {
-  if (!canVibrate) return
+  if (!canVibrate || prefersReducedMotion) return
 
   switch (type) {
     case 'tap':

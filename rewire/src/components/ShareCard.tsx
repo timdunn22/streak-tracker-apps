@@ -173,7 +173,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
   }
 
   return (
-    <div className="px-6 pt-8 pb-8">
+    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Share Progress</h2>
         <p className="text-text-dim text-xs">Generate a card to share on TikTok, Instagram, or X.</p>
@@ -231,7 +231,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
         Generates a 1080x1350 image — perfect for TikTok and Instagram
       </p>
 
-      <canvas ref={canvasRef} className="hidden" />
+      <canvas ref={canvasRef} className="hidden" aria-hidden="true" />
     </div>
   )
 }

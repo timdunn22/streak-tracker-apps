@@ -13,17 +13,19 @@ export default function Timeline({ currentDays }: Props) {
   const [view, setView] = useState<View>(recovery.length > 0 ? 'recovery' : 'milestones')
 
   return (
-    <div className="px-6 pt-8 pb-8">
+    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Recovery Timeline</h2>
         <p className="text-text-dim text-xs">Your progress. Here's what's happening.</p>
       </div>
 
       {recovery.length > 0 && (
-        <div className="flex gap-2 mb-6 animate-fade-in">
+        <div className="flex gap-2 mb-6 animate-fade-in" role="tablist" aria-label="Timeline view">
           <button
             onClick={() => setView('recovery')}
-            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${
+            role="tab"
+            aria-selected={view === 'recovery'}
+            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
               view === 'recovery'
                 ? 'bg-accent/10 border border-accent/20 text-accent-glow'
                 : 'bg-bg-card border border-border text-text-muted'
@@ -33,7 +35,9 @@ export default function Timeline({ currentDays }: Props) {
           </button>
           <button
             onClick={() => setView('milestones')}
-            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all ${
+            role="tab"
+            aria-selected={view === 'milestones'}
+            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
               view === 'milestones'
                 ? 'bg-accent/10 border border-accent/20 text-accent-glow'
                 : 'bg-bg-card border border-border text-text-muted'

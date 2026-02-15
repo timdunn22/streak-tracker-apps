@@ -52,8 +52,24 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
   const [show, setShow] = useState(false)
   const continueRef = useRef<HTMLButtonElement>(null)
 
+  const modalRef = useRef<HTMLDivElement>(null)
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') onClose()
+    // Focus trap: keep Tab cycling within the modal
+    if (e.key === 'Tab' && modalRef.current) {
+      const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
+    }
   }, [onClose])
 
   useEffect(() => {
@@ -83,6 +99,7 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
 
   return (
     <div
+      ref={modalRef}
       className={`fixed inset-0 z-[100] flex items-center justify-center px-8 transition-all duration-500 ${
         show ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
@@ -143,11 +160,12 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
                 if (navigator.share) {
                   try { await navigator.share({ title: `${config.name} Milestone`, text, url: window.location.origin }) } catch {}
                 } else if (navigator.clipboard) {
-                  navigator.clipboard.writeText(text)
+                  try { await navigator.clipboard.writeText(text) } catch {}
                 }
                 onClose()
               }}
               className="bg-bg-card border border-border hover:border-accent/30 text-text-dim font-semibold py-3 px-6 rounded-2xl transition-all duration-200 active:scale-[0.97]"
+              aria-label="Share this milestone"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="inline mr-1"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
               Share

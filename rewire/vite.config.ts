@@ -168,12 +168,15 @@ function seoPlugin(): Plugin {
     <meta property="og:image" content="${cfg.landingUrl}/og-image.svg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:alt" content="${cfg.shortName} streak tracker app" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${cfg.title}" />
     <meta name="twitter:description" content="${cfg.metaDescription}" />
     <meta name="twitter:image" content="${cfg.landingUrl}/og-image.svg" />
     <meta name="twitter:image:alt" content="${cfg.shortName} streak tracker app" />
     <script type="application/ld+json">${structuredData}</script>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
     <script async src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','${cfg.gaId}',{anonymize_ip:true});</script>`
 
@@ -209,7 +212,8 @@ function seoPlugin(): Plugin {
             { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
             { key: 'X-XSS-Protection', value: '0' },
             { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
-            { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" },
+            { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+            { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" },
           ],
         }],
       }, null, 2)

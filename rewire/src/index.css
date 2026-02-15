@@ -44,8 +44,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {
+/* Hide scrollbar for the main app container (mobile-optimized) while keeping it for desktop overflow */
+#root ::-webkit-scrollbar {
   display: none;
+}
+
+#root {
+  scrollbar-width: none;
 }
 
 /* Focus visible ring for keyboard navigation */

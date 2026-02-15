@@ -95,12 +95,28 @@ export default function BreathingExercise({ onClose }: Props) {
 
   useEffect(() => cleanup, [cleanup])
 
-  // Handle Escape key and scroll lock
+  const dialogRef = useRef<HTMLDivElement>(null)
+
+  // Handle Escape key, scroll lock, and focus trap
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         cleanup()
         onClose()
+      }
+      // Focus trap: keep Tab cycling within the modal
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus() }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus() }
+        }
       }
     }
     document.addEventListener('keydown', handleKeyDown)
@@ -126,14 +142,14 @@ export default function BreathingExercise({ onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 backdrop-blur-xl" onClick={onClose} role="dialog" aria-modal="true" aria-label="Breathing exercise">
+    <div ref={dialogRef} className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 backdrop-blur-xl" onClick={onClose} role="dialog" aria-modal="true" aria-label="Breathing exercise">
       <div className="relative w-full max-w-sm mx-8 text-center" onClick={e => e.stopPropagation()}>
         <button
           onClick={onClose}
-          className="absolute -top-12 right-0 text-text-muted hover:text-text transition-colors p-2"
+          className="absolute -top-14 right-0 text-text-muted hover:text-text transition-colors p-3 min-w-[44px] min-h-[44px] flex items-center justify-center"
           aria-label="Close breathing exercise"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
@@ -178,7 +194,7 @@ export default function BreathingExercise({ onClose }: Props) {
               </div>
             </div>
 
-            <p className="text-accent-glow text-lg font-semibold mb-2 tracking-wide">
+            <p className="text-accent-glow text-lg font-semibold mb-2 tracking-wide" aria-live="assertive" aria-atomic="true">
               {phase === 'inhale' && 'Breathe In'}
               {phase === 'hold' && 'Hold'}
               {phase === 'exhale' && 'Breathe Out'}
@@ -194,7 +210,7 @@ export default function BreathingExercise({ onClose }: Props) {
 
             <button
               onClick={stop}
-              className="text-text-muted text-xs hover:text-text-dim transition-colors py-2 px-4"
+              className="text-text-muted text-xs hover:text-text-dim transition-colors py-3 px-6 min-h-[44px] min-w-[44px]"
             >
               Stop
             </button>

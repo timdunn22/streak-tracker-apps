@@ -38,7 +38,7 @@ export default function Toast({ message, type = 'success', onDone, duration = 25
 
   return (
     <div
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 px-4 py-2.5 rounded-xl border backdrop-blur-xl text-sm font-medium transition-all duration-300 pointer-events-none ${bgColor} ${
+      className={`fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 px-4 py-2.5 rounded-xl border backdrop-blur-xl text-sm font-medium transition-all duration-300 pointer-events-none ${bgColor} ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
       }`}
       role="status"

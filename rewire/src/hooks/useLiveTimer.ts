@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 interface LiveTime {
   days: number
@@ -10,11 +10,39 @@ interface LiveTime {
 export function useLiveTimer(startDate: string | null): LiveTime {
   const [now, setNow] = useState(Date.now())
 
+  const tick = useCallback(() => setNow(Date.now()), [])
+
   useEffect(() => {
     if (!startDate) return
-    const interval = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(interval)
-  }, [startDate])
+
+    // Only run timer when tab is visible to save battery
+    let interval: ReturnType<typeof setInterval> | null = null
+
+    const startInterval = () => {
+      tick() // Sync immediately when becoming visible
+      interval = setInterval(tick, 1000)
+    }
+
+    const stopInterval = () => {
+      if (interval) { clearInterval(interval); interval = null }
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopInterval()
+      } else {
+        startInterval()
+      }
+    }
+
+    if (!document.hidden) startInterval()
+    document.addEventListener('visibilitychange', handleVisibility)
+
+    return () => {
+      stopInterval()
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
+  }, [startDate, tick])
 
   if (!startDate) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
 

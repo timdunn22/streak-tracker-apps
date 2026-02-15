@@ -25,8 +25,9 @@ export function clearSeenMilestones() {
   try { localStorage.removeItem(SEEN_KEY) } catch { /* localStorage unavailable */ }
 }
 
-// Play a short ascending chime using Web Audio API
+// Play a short ascending chime using Web Audio API (skipped for reduced-motion preference)
 function playChime() {
+  if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   try {
     const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
     const notes = [523.25, 659.25, 783.99] // C5, E5, G5 — major chord

@@ -23,7 +23,7 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
           <p className="text-text-dim text-xs mb-2">Track how much you're saving</p>
           <button
             onClick={() => { haptic('tap'); setEditing(true) }}
-            className="text-accent-glow text-sm font-semibold"
+            className="text-accent-glow text-sm font-semibold py-2 px-4 min-h-[44px]"
           >
             Set daily spending
           </button>
@@ -94,7 +94,8 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
         </div>
         <button
           onClick={() => { haptic('tap'); setEditing(true) }}
-          className="text-text-muted text-[10px] hover:text-text-dim transition-colors"
+          className="text-text-muted text-[10px] hover:text-text-dim transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          aria-label="Edit daily spending amount"
         >
           Edit
         </button>

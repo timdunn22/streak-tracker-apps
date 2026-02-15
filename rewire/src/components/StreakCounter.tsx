@@ -55,7 +55,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
   if (!isActive) {
     return (
-      <div className="relative flex flex-col items-center justify-center min-h-[85vh] px-8 bg-mesh">
+      <div className="relative flex flex-col items-center justify-center min-h-[85vh] px-8 bg-mesh pt-[env(safe-area-inset-top)]">
         <FloatingParticles />
         <div className="animate-fade-in">
           <div className="w-20 h-20 rounded-3xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-8 glow-accent animate-breathe">
@@ -103,7 +103,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
   }
 
   return (
-    <div className="flex flex-col items-center pt-14 pb-6 px-6 bg-mesh min-h-[85vh]">
+    <div className="flex flex-col items-center pt-[max(3.5rem,calc(env(safe-area-inset-top)+1rem))] pb-6 px-6 bg-mesh min-h-[85vh]">
       <div className={`animate-fade-in mb-8 flex items-center gap-3`}>
         <span className={`text-xs font-semibold tracking-widest uppercase ${phase.color}`}>
           {phase.label}
@@ -245,7 +245,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         {!showResetConfirm ? (
           <button
             onClick={() => { haptic('tap'); setShowResetConfirm(true) }}
-            className="text-text-muted text-xs hover:text-danger/70 transition-colors py-2 px-4"
+            className="text-text-muted text-xs hover:text-danger/70 transition-colors py-3 px-6 min-h-[44px]"
           >
             I relapsed
           </button>
@@ -283,7 +283,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                 }}
                 className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2L9 9H2l6 5-2 7 6-4 6 4-2-7 6-5h-7z"/>
                 </svg>
                 Use Streak Freeze ({freezesAvailable} left)

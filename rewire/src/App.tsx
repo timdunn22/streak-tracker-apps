@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, Component, type ReactNode } from 'react'
 import { useStreak } from './hooks/useStreak'
 import { useMilestoneAlert } from './hooks/useMilestoneAlert'
 import { config } from './config'
@@ -10,6 +10,42 @@ import ShareCard from './components/ShareCard'
 import MilestoneModal from './components/MilestoneModal'
 import BreathingExercise from './components/BreathingExercise'
 import Toast from './components/Toast'
+
+// Error Boundary: catches render errors and shows a recovery UI instead of white-screening
+class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-bg px-8 text-center">
+          <p className="text-3xl mb-4">Something went wrong</p>
+          <p className="text-text-dim text-sm mb-6 max-w-xs leading-relaxed">
+            The app encountered an unexpected error. Your streak data is safe.
+          </p>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all mb-3"
+          >
+            Try Again
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-text-muted text-xs hover:text-text-dim transition-colors py-2 px-4"
+          >
+            Reload App
+          </button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 type Tab = 'home' | 'timeline' | 'stats' | 'share'
 const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
@@ -33,9 +69,11 @@ function App() {
     showToast('Backup exported successfully')
   }, [exportData, showToast])
 
-  const handleImport = useCallback((file: File) => {
-    importData(file)
-    showToast('Data imported successfully')
+  const handleImport = useCallback(async (file: File) => {
+    const success = await importData(file)
+    if (success) {
+      showToast('Data imported successfully')
+    }
   }, [importData, showToast])
 
   useMilestoneAlert(currentDays, setActiveMilestone)
@@ -195,7 +233,7 @@ function NavItem({ label, active, onClick, icon }: {
       onClick={onClick}
       aria-label={label}
       aria-current={active ? 'page' : undefined}
-      className={`flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 ${
+      className={`flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 min-w-[44px] min-h-[44px] ${
         active
           ? 'text-accent-glow'
           : 'text-text-muted hover:text-text-dim'
@@ -212,4 +250,12 @@ function NavItem({ label, active, onClick, icon }: {
   )
 }
 
-export default App
+function AppWithErrorBoundary() {
+  return (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  )
+}
+
+export default AppWithErrorBoundary

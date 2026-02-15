@@ -84,14 +84,14 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
         >
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
               </svg>
               <span className="text-text-dim text-sm font-medium">Daily Journal</span>
             </div>
             {hasEntryToday && (
               <span className="text-success text-[10px] font-semibold flex items-center gap-1">
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                   <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 Done today
@@ -108,7 +108,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
             <span className="text-text-dim text-sm font-medium">How are you feeling?</span>
             <button
               onClick={() => { setIsWriting(false); setText('') }}
-              className="text-text-muted text-xs hover:text-text-dim transition-colors"
+              className="text-text-muted text-xs hover:text-text-dim transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               Cancel
             </button>
@@ -192,10 +192,10 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
                 ) : (
                   <button
                     onClick={() => confirmDelete(entry.id)}
-                    className="text-text-muted hover:text-danger text-[10px] transition-all p-1.5 -mr-1.5 rounded-lg"
+                    className="text-text-muted hover:text-danger text-[10px] transition-all p-2.5 -mr-2.5 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
                     aria-label={`Delete journal entry from ${formatDate(entry.date)}`}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                     </svg>
                   </button>

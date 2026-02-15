@@ -77,7 +77,7 @@ function validateData(parsed: unknown): StreakData {
     journal: Array.isArray(p.journal) ? p.journal.filter((e: unknown) => {
       if (typeof e !== 'object' || e === null) return false
       const j = e as Record<string, unknown>
-      return typeof j.id === 'string' && typeof j.date === 'string' &&
+      return typeof j.id === 'string' && typeof j.date === 'string' && isValidDate(j.date) &&
         typeof j.mood === 'number' && j.mood >= 1 && j.mood <= 5 &&
         typeof j.text === 'string' && j.text.length <= 1000
     }).map((e: unknown) => {
@@ -149,11 +149,12 @@ export function useStreak() {
     clearSeenMilestones()
     setData(prev => {
       const daysCompleted = prev.startDate ? getDaysBetween(prev.startDate) : 0
+      const newStreaks = daysCompleted > 0 ? [...prev.streaks, daysCompleted].slice(-10000) : prev.streaks
       return {
         ...prev,
         startDate: new Date().toISOString(),
-        streaks: daysCompleted > 0 ? [...prev.streaks, daysCompleted] : prev.streaks,
-        totalCleanDays: prev.totalCleanDays + daysCompleted,
+        streaks: newStreaks,
+        totalCleanDays: Math.min(prev.totalCleanDays + daysCompleted, 1000000),
         freezesAvailable: 2,
         freezesUsed: 0,
         lastFreezeRecharge: null,
@@ -180,16 +181,22 @@ export function useStreak() {
   }, [])
 
   const addJournalEntry = useCallback((mood: number, text: string, triggers?: string[]) => {
+    const sanitizedTriggers = triggers
+      ? triggers
+          .filter((t): t is string => typeof t === 'string')
+          .slice(0, 20)
+          .map(t => t.slice(0, 100))
+      : undefined
     const entry: JournalEntry = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
       date: new Date().toISOString(),
       mood: Math.max(1, Math.min(5, Math.round(mood))),
       text: text.slice(0, 500),
-      triggers,
+      triggers: sanitizedTriggers,
     }
     setData(prev => ({
       ...prev,
-      journal: [...prev.journal, entry],
+      journal: prev.journal.length >= 1000 ? prev.journal : [...prev.journal, entry],
     }))
   }, [])
 
@@ -213,37 +220,59 @@ export function useStreak() {
     a.href = url
     a.download = `${config.id}-backup-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
-    URL.revokeObjectURL(url)
+    // Delay revoking so Safari has time to start the download
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
   }, [data])
 
-  const importData = useCallback((file: File) => {
+  const importData = useCallback((file: File): Promise<boolean> => {
     const MAX_IMPORT_SIZE = 1024 * 1024 // 1 MB
     if (file.size > MAX_IMPORT_SIZE) {
       alert('Backup file is too large (max 1 MB). Please select a valid backup.')
-      return
+      return Promise.resolve(false)
     }
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      try {
-        const parsed = JSON.parse(e.target?.result as string)
-        if (typeof parsed.app !== 'string' || parsed.app !== config.id) {
-          alert('This backup is for a different app. Import cancelled.')
-          return
+    // Validate file type (defense-in-depth beyond accept attribute)
+    if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+      alert('Please select a valid JSON backup file.')
+      return Promise.resolve(false)
+    }
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target?.result as string)
+          if (typeof parsed.app !== 'string' || parsed.app !== config.id) {
+            alert('This backup is for a different app. Import cancelled.')
+            resolve(false)
+            return
+          }
+          if (typeof parsed.version !== 'number' || parsed.version > 1) {
+            alert('This backup was created by a newer version. Please update the app first.')
+            resolve(false)
+            return
+          }
+          if (parsed.data) {
+            const confirmed = confirm(
+              'Import will replace all your current data (streak, journal, stats). This cannot be undone.\n\nContinue?'
+            )
+            if (!confirmed) { resolve(false); return }
+            const validated = validateData(parsed.data)
+            setData(validated)
+            clearSeenMilestones()
+            resolve(true)
+          } else {
+            resolve(false)
+          }
+        } catch {
+          alert('Invalid backup file. Please select a valid JSON backup.')
+          resolve(false)
         }
-        if (parsed.data) {
-          const confirmed = confirm(
-            'Import will replace all your current data (streak, journal, stats). This cannot be undone.\n\nContinue?'
-          )
-          if (!confirmed) return
-          const validated = validateData(parsed.data)
-          setData(validated)
-          clearSeenMilestones()
-        }
-      } catch {
-        alert('Invalid backup file. Please select a valid JSON backup.')
       }
-    }
-    reader.readAsText(file)
+      reader.onerror = () => {
+        alert('Failed to read file. Please try again.')
+        resolve(false)
+      }
+      reader.readAsText(file)
+    })
   }, [])
 
   return {
