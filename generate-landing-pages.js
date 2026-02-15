@@ -352,20 +352,27 @@ function generateHTML(app) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${app.name} — ${app.tagline} | Free ${app.name} App</title>
+  <title>Free ${app.name} App — ${app.tagline} | Private Streak Tracker</title>
   <meta name="description" content="${app.description}">
   <meta name="keywords" content="${app.keywords}">
   <link rel="canonical" href="https://${app.id}-landing.vercel.app">
-  <meta property="og:title" content="${app.name} — ${app.tagline}">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta property="og:title" content="Free ${app.name} App — ${app.tagline}">
   <meta property="og:description" content="${app.description}">
+  <meta property="og:image" content="https://${app.id}-landing.vercel.app/og-image.svg">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://${app.id}-landing.vercel.app">
+  <meta property="og:site_name" content="${app.name}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${app.name} — ${app.tagline}">
+  <meta name="twitter:title" content="Free ${app.name} App — ${app.tagline}">
   <meta name="twitter:description" content="${app.description}">
+  <meta name="twitter:image" content="https://${app.id}-landing.vercel.app/og-image.svg">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"${app.name}","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"${app.description}","url":"${app.appUrl}"}
   </script>
+  <!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your actual GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{--bg:#06060b;--accent:${app.accentColor};--accent-glow:${app.accentGlow};--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
@@ -647,11 +654,21 @@ function generateHTML(app) {
 }
 
 // Generate all landing pages
+const today = new Date().toISOString().split('T')[0]
 apps.forEach(app => {
   const dir = path.join(__dirname, `landing-${app.id}`)
   fs.mkdirSync(dir, { recursive: true })
   fs.writeFileSync(path.join(dir, 'index.html'), generateHTML(app))
-  console.log(`Generated: landing-${app.id}/index.html`)
+
+  // Generate robots.txt
+  fs.writeFileSync(path.join(dir, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nSitemap: https://${app.id}-landing.vercel.app/sitemap.xml\n`)
+
+  // Generate sitemap.xml
+  fs.writeFileSync(path.join(dir, 'sitemap.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://${app.id}-landing.vercel.app/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>\n</urlset>\n`)
+
+  console.log(`Generated: landing-${app.id}/ (index.html, robots.txt, sitemap.xml)`)
 })
 
 console.log('\nAll 9 landing pages generated!')
