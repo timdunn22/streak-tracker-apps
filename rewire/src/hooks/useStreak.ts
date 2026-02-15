@@ -51,25 +51,41 @@ function loadData(): StreakData {
     if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
       return defaultData
     }
-    return {
-      startDate: typeof parsed.startDate === 'string' ? parsed.startDate : null,
-      streaks: Array.isArray(parsed.streaks) ? parsed.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0) : [],
-      totalCleanDays: typeof parsed.totalCleanDays === 'number' && isFinite(parsed.totalCleanDays) ? Math.max(0, parsed.totalCleanDays) : 0,
-      freezesAvailable: typeof parsed.freezesAvailable === 'number' ? Math.min(Math.max(parsed.freezesAvailable, 0), 2) : 2,
-      freezesUsed: typeof parsed.freezesUsed === 'number' && isFinite(parsed.freezesUsed) ? Math.max(0, parsed.freezesUsed) : 0,
-      lastFreezeRecharge: typeof parsed.lastFreezeRecharge === 'string' ? parsed.lastFreezeRecharge : null,
-      dailyCost: typeof parsed.dailyCost === 'number' && isFinite(parsed.dailyCost) && parsed.dailyCost >= 0 ? parsed.dailyCost : null,
-      journal: Array.isArray(parsed.journal) ? parsed.journal.filter((e: unknown) =>
-        typeof e === 'object' && e !== null && 'id' in e && 'date' in e && 'mood' in e && 'text' in e
-      ) : [],
-    }
+    return validateData(parsed)
   } catch {
     return defaultData
   }
 }
 
+function validateData(parsed: unknown): StreakData {
+  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
+    return defaultData
+  }
+  const p = parsed as Record<string, unknown>
+  return {
+    startDate: typeof p.startDate === 'string' ? p.startDate : null,
+    streaks: Array.isArray(p.streaks) ? p.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0) : [],
+    totalCleanDays: typeof p.totalCleanDays === 'number' && isFinite(p.totalCleanDays) ? Math.max(0, p.totalCleanDays) : 0,
+    freezesAvailable: typeof p.freezesAvailable === 'number' ? Math.min(Math.max(p.freezesAvailable, 0), 2) : 2,
+    freezesUsed: typeof p.freezesUsed === 'number' && isFinite(p.freezesUsed) ? Math.max(0, p.freezesUsed) : 0,
+    lastFreezeRecharge: typeof p.lastFreezeRecharge === 'string' ? p.lastFreezeRecharge : null,
+    dailyCost: typeof p.dailyCost === 'number' && isFinite(p.dailyCost) && p.dailyCost >= 0 ? p.dailyCost : null,
+    journal: Array.isArray(p.journal) ? p.journal.filter((e: unknown) => {
+      if (typeof e !== 'object' || e === null) return false
+      const j = e as Record<string, unknown>
+      return typeof j.id === 'string' && typeof j.date === 'string' &&
+        typeof j.mood === 'number' && j.mood >= 1 && j.mood <= 5 &&
+        typeof j.text === 'string' && j.text.length <= 1000
+    }) : [],
+  }
+}
+
 function saveData(data: StreakData) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch {
+    // localStorage quota exceeded — silently fail to avoid crashing
+  }
 }
 
 export function getDaysBetween(start: string, end: Date = new Date()): number {
@@ -147,8 +163,8 @@ export function useStreak() {
     const entry: JournalEntry = {
       id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
       date: new Date().toISOString(),
-      mood,
-      text,
+      mood: Math.max(1, Math.min(5, Math.round(mood))),
+      text: text.slice(0, 500),
       triggers,
     }
     setData(prev => ({
@@ -190,17 +206,8 @@ export function useStreak() {
           return
         }
         if (parsed.data) {
-          const imported = parsed.data as StreakData
-          setData({
-            startDate: imported.startDate ?? null,
-            streaks: imported.streaks ?? [],
-            totalCleanDays: imported.totalCleanDays ?? 0,
-            freezesAvailable: imported.freezesAvailable ?? 2,
-            freezesUsed: imported.freezesUsed ?? 0,
-            lastFreezeRecharge: imported.lastFreezeRecharge ?? null,
-            dailyCost: imported.dailyCost ?? null,
-            journal: imported.journal ?? [],
-          })
+          const validated = validateData(parsed.data)
+          setData(validated)
         }
       } catch {
         alert('Invalid backup file. Please select a valid JSON backup.')
