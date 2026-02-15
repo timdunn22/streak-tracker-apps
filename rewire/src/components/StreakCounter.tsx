@@ -9,6 +9,8 @@ import WeeklyRecap from './WeeklyRecap'
 import DailyCheckIn from './DailyCheckIn'
 import FloatingParticles from './FloatingParticles'
 import MoneySaved from './MoneySaved'
+import Journal from './Journal'
+import type { JournalEntry } from '../hooks/useStreak'
 
 interface Props {
   days: number
@@ -16,6 +18,7 @@ interface Props {
   startDate: string | null
   longestStreak: number
   totalResets: number
+  totalCleanDays: number
   onStart: () => void
   onReset: () => void
   freezesAvailable: number
@@ -23,13 +26,17 @@ interface Props {
   dailyCost: number | null
   moneySaved: number | null
   onSetDailyCost: (cost: number) => void
+  onShowBreathing: () => void
+  journal: JournalEntry[]
+  onAddJournal: (mood: number, text: string, triggers?: string[]) => void
+  onDeleteJournal: (id: string) => void
 }
 
 function getDailyQuote(daysSinceStart: number): string {
   return config.quotes[daysSinceStart % config.quotes.length]
 }
 
-export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost }: Props) {
+export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, totalCleanDays, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost, onShowBreathing, journal, onAddJournal, onDeleteJournal }: Props) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const liveTime = useLiveTimer(startDate)
   const { canInstall, install } = useInstallPrompt()
@@ -180,6 +187,18 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </div>
       </div>
 
+      {/* Emergency breathing button */}
+      <button
+        onClick={() => { haptic('tap'); onShowBreathing() }}
+        className="mb-6 flex items-center gap-2 bg-bg-card border border-border hover:border-accent/20 text-text-dim text-xs font-medium py-2.5 px-5 rounded-full transition-all active:scale-[0.97] animate-fade-in"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+          <path d="M9 12h6"/><path d="M12 9v6"/>
+        </svg>
+        Feeling an urge? Breathe.
+      </button>
+
       <div className="mb-6 animate-fade-in-delay-1">
         <GrowthTree days={days} />
       </div>
@@ -211,6 +230,11 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
       <DailyCheckIn days={days} />
 
+      {/* Journal */}
+      <div className="w-full flex justify-center mb-6">
+        <Journal entries={journal} onAdd={onAddJournal} onDelete={onDeleteJournal} currentDays={days} />
+      </div>
+
       <WeeklyRecap currentDays={days} longestStreak={longestStreak} totalResets={totalResets} />
 
       {days < 365 && (
@@ -228,7 +252,27 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         ) : (
           <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down">
             <p className="text-text-secondary text-sm text-center leading-relaxed">
-              It's okay. Setbacks don't erase progress. Every day still counts.
+              It's okay. Setbacks don't erase progress.
+            </p>
+            {/* Compassionate stats - show total progress */}
+            <div className="flex gap-4 py-2">
+              <div className="text-center">
+                <p className="text-text text-lg font-bold">{totalCleanDays}</p>
+                <p className="text-text-muted text-[10px]">total clean days</p>
+              </div>
+              <div className="w-px bg-border" />
+              <div className="text-center">
+                <p className="text-text text-lg font-bold">{longestStreak}</p>
+                <p className="text-text-muted text-[10px]">personal best</p>
+              </div>
+            </div>
+            <p className="text-accent-glow text-xs text-center italic">
+              {days > longestStreak
+                ? "This was your longest streak ever. That's real growth."
+                : totalResets > 0
+                ? `You've been clean ${totalCleanDays} out of your total days. Every day still counts.`
+                : "Every day you stayed clean made your brain stronger."
+              }
             </p>
             {freezesAvailable > 0 && (
               <button

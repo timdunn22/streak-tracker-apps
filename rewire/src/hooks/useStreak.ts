@@ -2,6 +2,14 @@ import { useState, useEffect, useCallback } from 'react'
 import { clearSeenMilestones } from './useMilestoneAlert'
 import { config } from '../config'
 
+export interface JournalEntry {
+  id: string
+  date: string
+  mood: number // 1-5
+  text: string
+  triggers?: string[]
+}
+
 export interface StreakData {
   startDate: string | null
   streaks: number[] // array of past streak lengths in days
@@ -10,6 +18,7 @@ export interface StreakData {
   freezesUsed: number
   lastFreezeRecharge: string | null // ISO date of last recharge
   dailyCost: number | null // user's daily spending on the habit
+  journal: JournalEntry[]
 }
 
 const STORAGE_KEY = `${config.id}-streak-data`
@@ -23,6 +32,7 @@ const defaultData: StreakData = {
   freezesUsed: 0,
   lastFreezeRecharge: null,
   dailyCost: null,
+  journal: [],
 }
 
 function loadData(): StreakData {
@@ -49,6 +59,9 @@ function loadData(): StreakData {
       freezesUsed: typeof parsed.freezesUsed === 'number' && isFinite(parsed.freezesUsed) ? Math.max(0, parsed.freezesUsed) : 0,
       lastFreezeRecharge: typeof parsed.lastFreezeRecharge === 'string' ? parsed.lastFreezeRecharge : null,
       dailyCost: typeof parsed.dailyCost === 'number' && isFinite(parsed.dailyCost) && parsed.dailyCost >= 0 ? parsed.dailyCost : null,
+      journal: Array.isArray(parsed.journal) ? parsed.journal.filter((e: unknown) =>
+        typeof e === 'object' && e !== null && 'id' in e && 'date' in e && 'mood' in e && 'text' in e
+      ) : [],
     }
   } catch {
     return defaultData
@@ -130,6 +143,72 @@ export function useStreak() {
     setData(prev => ({ ...prev, dailyCost: cost }))
   }, [])
 
+  const addJournalEntry = useCallback((mood: number, text: string, triggers?: string[]) => {
+    const entry: JournalEntry = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      date: new Date().toISOString(),
+      mood,
+      text,
+      triggers,
+    }
+    setData(prev => ({
+      ...prev,
+      journal: [...prev.journal, entry],
+    }))
+  }, [])
+
+  const deleteJournalEntry = useCallback((id: string) => {
+    setData(prev => ({
+      ...prev,
+      journal: prev.journal.filter(e => e.id !== id),
+    }))
+  }, [])
+
+  const exportData = useCallback(() => {
+    const exportPayload = {
+      app: config.id,
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data,
+    }
+    const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${config.id}-backup-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [data])
+
+  const importData = useCallback((file: File) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const parsed = JSON.parse(e.target?.result as string)
+        if (parsed.app !== config.id) {
+          alert(`This backup is for ${parsed.app}, not ${config.id}. Import cancelled.`)
+          return
+        }
+        if (parsed.data) {
+          const imported = parsed.data as StreakData
+          setData({
+            startDate: imported.startDate ?? null,
+            streaks: imported.streaks ?? [],
+            totalCleanDays: imported.totalCleanDays ?? 0,
+            freezesAvailable: imported.freezesAvailable ?? 2,
+            freezesUsed: imported.freezesUsed ?? 0,
+            lastFreezeRecharge: imported.lastFreezeRecharge ?? null,
+            dailyCost: imported.dailyCost ?? null,
+            journal: imported.journal ?? [],
+          })
+        }
+      } catch {
+        alert('Invalid backup file. Please select a valid JSON backup.')
+      }
+    }
+    reader.readAsText(file)
+  }, [])
+
   return {
     data,
     currentDays,
@@ -146,5 +225,9 @@ export function useStreak() {
     dailyCost: data.dailyCost,
     setDailyCost,
     moneySaved: data.dailyCost ? Math.round(data.dailyCost * (data.totalCleanDays + currentDays) * 100) / 100 : null,
+    addJournalEntry,
+    deleteJournalEntry,
+    exportData,
+    importData,
   }
 }

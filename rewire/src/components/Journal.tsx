@@ -1,0 +1,164 @@
+import { useState, useRef } from 'react'
+import { config } from '../config'
+import { haptic } from '../hooks/useHaptic'
+import type { JournalEntry } from '../hooks/useStreak'
+
+interface Props {
+  entries: JournalEntry[]
+  onAdd: (mood: number, text: string, triggers?: string[]) => void
+  onDelete: (id: string) => void
+  currentDays: number
+}
+
+const MOODS = [
+  { value: 1, emoji: '😣', label: 'Struggling' },
+  { value: 2, emoji: '😔', label: 'Low' },
+  { value: 3, emoji: '😐', label: 'Okay' },
+  { value: 4, emoji: '😊', label: 'Good' },
+  { value: 5, emoji: '💪', label: 'Strong' },
+]
+
+export default function Journal({ entries, onAdd, onDelete, currentDays }: Props) {
+  const [isWriting, setIsWriting] = useState(false)
+  const [mood, setMood] = useState(3)
+  const [text, setText] = useState('')
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const prompts = config.journalPrompts || []
+  const todaysPrompt = prompts.length > 0 ? prompts[currentDays % prompts.length] : null
+
+  const hasEntryToday = entries.some(e => {
+    const entryDate = new Date(e.date).toDateString()
+    return entryDate === new Date().toDateString()
+  })
+
+  const submit = () => {
+    if (!text.trim()) return
+    haptic('success')
+    onAdd(mood, text.trim())
+    setText('')
+    setMood(3)
+    setIsWriting(false)
+  }
+
+  const recentEntries = [...entries].reverse().slice(0, 5)
+
+  const formatDate = (iso: string) => {
+    const d = new Date(iso)
+    const now = new Date()
+    const diff = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24))
+    if (diff === 0) return 'Today'
+    if (diff === 1) return 'Yesterday'
+    if (diff < 7) return `${diff} days ago`
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
+  return (
+    <div className="w-full max-w-sm">
+      {!isWriting ? (
+        <button
+          onClick={() => { haptic('tap'); setIsWriting(true) }}
+          className="w-full glass rounded-2xl p-4 text-left transition-all hover:border-accent/20 active:scale-[0.99] animate-fade-in-delay-2"
+        >
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+              </svg>
+              <span className="text-text-dim text-sm font-medium">Daily Journal</span>
+            </div>
+            {hasEntryToday && (
+              <span className="text-success text-[10px] font-semibold flex items-center gap-1">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                Done today
+              </span>
+            )}
+          </div>
+          {todaysPrompt && (
+            <p className="text-text-muted text-xs italic">"{todaysPrompt}"</p>
+          )}
+        </button>
+      ) : (
+        <div className="glass rounded-2xl p-4 animate-slide-down">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-text-dim text-sm font-medium">How are you feeling?</span>
+            <button
+              onClick={() => { setIsWriting(false); setText('') }}
+              className="text-text-muted text-xs hover:text-text-dim transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+
+          <div className="flex justify-between mb-4">
+            {MOODS.map(m => (
+              <button
+                key={m.value}
+                onClick={() => { haptic('tap'); setMood(m.value) }}
+                className={`flex flex-col items-center gap-1 px-2 py-1.5 rounded-xl transition-all ${
+                  mood === m.value
+                    ? 'bg-accent/10 border border-accent/20 scale-110'
+                    : 'opacity-50 hover:opacity-75'
+                }`}
+              >
+                <span className="text-xl">{m.emoji}</span>
+                <span className="text-[9px] text-text-muted">{m.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {todaysPrompt && (
+            <p className="text-accent-glow text-[11px] italic mb-2">Prompt: {todaysPrompt}</p>
+          )}
+
+          <textarea
+            ref={textareaRef}
+            value={text}
+            onChange={e => setText(e.target.value)}
+            placeholder="Write about your day, triggers, wins..."
+            className="w-full bg-bg-card border border-border rounded-xl p-3 text-text text-sm placeholder:text-text-muted resize-none h-24 focus:outline-none focus:border-accent/30 transition-colors"
+            maxLength={500}
+          />
+
+          <div className="flex items-center justify-between mt-3">
+            <span className="text-text-muted text-[10px]">{text.length}/500</span>
+            <button
+              onClick={submit}
+              disabled={!text.trim()}
+              className="bg-accent hover:bg-accent-glow disabled:opacity-30 text-white font-semibold text-sm py-2 px-6 rounded-xl transition-all active:scale-[0.97]"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      )}
+
+      {recentEntries.length > 0 && !isWriting && (
+        <div className="mt-3 space-y-2 animate-fade-in-delay-3">
+          {recentEntries.map(entry => (
+            <div key={entry.id} className="glass rounded-xl p-3 group">
+              <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">{MOODS.find(m => m.value === entry.mood)?.emoji || '😐'}</span>
+                  <span className="text-text-muted text-[10px]">{formatDate(entry.date)}</span>
+                </div>
+                <button
+                  onClick={() => { haptic('tap'); onDelete(entry.id) }}
+                  className="opacity-0 group-hover:opacity-100 text-text-muted hover:text-danger text-[10px] transition-all"
+                  aria-label="Delete entry"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+              <p className="text-text-secondary text-xs leading-relaxed">{entry.text}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

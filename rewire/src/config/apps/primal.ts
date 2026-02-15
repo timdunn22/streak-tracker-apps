@@ -65,4 +65,23 @@ export const primal: AppConfig = {
     { maxWeek: 12, message: "Three months of optimization. You're operating at a new level." },
     { maxWeek: Infinity, message: "This is your lifestyle now. Primal optimization is who you are." },
   ],
+  recoveryTimeline: [
+    { day: 3, title: 'Sleep Quality Improving', description: 'Consistent sleep schedule is resetting your circadian rhythm. Growth hormone peaks during deep sleep.', icon: '😴' },
+    { day: 7, title: 'Testosterone Spike', description: 'Studies show T levels peak around day 7 of semen retention. Combined with exercise, this effect amplifies.', icon: '📈' },
+    { day: 14, title: 'Cortisol Patterns Improving', description: 'Stress management and cold exposure are normalizing your cortisol curve. More energy, less anxiety.', icon: '📉' },
+    { day: 30, title: 'Noticeable Strength Gains', description: 'Consistent training combined with optimized hormones produces visible results. Muscle recovery is faster.', icon: '💪' },
+    { day: 45, title: 'Body Composition Changing', description: 'Fat loss and muscle gain are visible. Your metabolism is running more efficiently with balanced hormones.', icon: '🔄' },
+    { day: 60, title: 'Hormonal Profile Optimized', description: 'Testosterone, cortisol, and growth hormone are in their optimal ranges. You feel and perform differently.', icon: '⚡' },
+    { day: 90, title: 'Full Optimization Achieved', description: 'Your body is operating at a new baseline. Strength, energy, confidence, and drive are all elevated.', icon: '👑' },
+  ],
+  journalPrompts: [
+    'What exercises did you do today and how did they feel?',
+    'How many hours of quality sleep did you get?',
+    'Did you get morning sunlight and cold exposure today?',
+    'What whole foods did you eat and avoid today?',
+    'How is your energy and drive compared to before?',
+    'What strength or fitness milestone did you hit?',
+    'How is your mental clarity and confidence?',
+    'What habit still needs improvement?',
+  ],
 }

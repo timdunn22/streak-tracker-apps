@@ -8,15 +8,17 @@ import Timeline from './components/Timeline'
 import Stats from './components/Stats'
 import ShareCard from './components/ShareCard'
 import MilestoneModal from './components/MilestoneModal'
+import BreathingExercise from './components/BreathingExercise'
 
 type Tab = 'home' | 'timeline' | 'stats' | 'share'
 const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
 
 function App() {
-  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved } = useStreak()
+  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved, addJournalEntry, deleteJournalEntry, exportData, importData } = useStreak()
   const [tab, setTab] = useState<Tab>('home')
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none')
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null)
+  const [showBreathing, setShowBreathing] = useState(false)
   const prevTabRef = useRef<Tab>('home')
 
   useMilestoneAlert(currentDays, setActiveMilestone)
@@ -67,6 +69,7 @@ function App() {
               startDate={startDate}
               longestStreak={longestStreak}
               totalResets={totalResets}
+              totalCleanDays={totalCleanDays}
               onStart={startStreak}
               onReset={resetStreak}
               freezesAvailable={freezesAvailable}
@@ -74,6 +77,10 @@ function App() {
               dailyCost={dailyCost}
               moneySaved={moneySaved}
               onSetDailyCost={setDailyCost}
+              onShowBreathing={() => setShowBreathing(true)}
+              journal={data.journal}
+              onAddJournal={addJournalEntry}
+              onDeleteJournal={deleteJournalEntry}
             />
           )}
           {tab === 'timeline' && <Timeline currentDays={currentDays} />}
@@ -87,6 +94,9 @@ function App() {
               startDate={startDate}
               moneySaved={moneySaved}
               dailyCost={dailyCost}
+              journal={data.journal}
+              onExport={exportData}
+              onImport={importData}
             />
           )}
           {tab === 'share' && <ShareCard days={currentDays} longestStreak={longestStreak} />}
@@ -146,6 +156,8 @@ function App() {
       </nav>
       {/* Milestone celebration modal */}
       <MilestoneModal milestone={activeMilestone} onClose={() => setActiveMilestone(null)} />
+      {/* Breathing exercise modal */}
+      {showBreathing && <BreathingExercise onClose={() => setShowBreathing(false)} />}
     </div>
   )
 }

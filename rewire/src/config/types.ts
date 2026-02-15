@@ -11,6 +11,13 @@ export interface Milestone {
   message: string
 }
 
+export interface RecoveryEvent {
+  day: number
+  title: string
+  description: string
+  icon: string
+}
+
 export interface AppConfig {
   id: string
   name: string
@@ -31,4 +38,8 @@ export interface AppConfig {
   defaultDailyCost?: number
   /** Label for the cost (e.g. "spent on vaping") */
   costLabel?: string
+  /** Body recovery timeline showing what's healing and when */
+  recoveryTimeline?: RecoveryEvent[]
+  /** Journal prompts specific to this app's habit */
+  journalPrompts?: string[]
 }

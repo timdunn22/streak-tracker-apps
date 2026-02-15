@@ -65,4 +65,23 @@ export const fasttrack: AppConfig = {
     { maxWeek: 12, message: "Three months of fasting. Your metabolic flexibility is elite." },
     { maxWeek: Infinity, message: "Fasting is second nature now. You've mastered your metabolism." },
   ],
+  recoveryTimeline: [
+    { day: 1, title: 'Insulin Drops', description: 'Within 12 hours of fasting, insulin levels drop significantly. Your body begins switching from glucose to stored fat.', icon: '📉' },
+    { day: 3, title: 'Fat-Burning Mode', description: 'Your body is accessing fat stores more efficiently. Ketone production is beginning. Hunger hormones start adapting.', icon: '🔥' },
+    { day: 7, title: 'Hunger Hormones Regulate', description: 'Ghrelin (hunger hormone) patterns are resetting. You feel hungry at your eating window, not all day.', icon: '🧪' },
+    { day: 14, title: 'Fat-Adapted', description: 'Your metabolism can seamlessly switch between glucose and fat. Fasting feels natural, not forced.', icon: '⚡' },
+    { day: 30, title: 'Autophagy Patterns', description: 'Regular fasting triggers cellular cleanup. Damaged proteins and organelles are recycled. Your cells are younger.', icon: '🔄' },
+    { day: 60, title: 'Metabolic Flexibility', description: 'Your body is metabolically flexible. Energy is stable. Insulin sensitivity is excellent. Body composition has changed.', icon: '💪' },
+    { day: 90, title: 'Metabolic Transformation', description: 'Your relationship with food and hunger has fundamentally changed. Your metabolism is optimized for longevity.', icon: '👑' },
+  ],
+  journalPrompts: [
+    'How long did you fast today and how did it feel?',
+    'What was your first meal and how satisfying was it?',
+    'How was your mental clarity during the fast?',
+    'Did you feel hungry? When was it worst?',
+    'How is your energy during fasting compared to week 1?',
+    'What physical changes have you noticed?',
+    'What did you do during your fasting window instead of eating?',
+    'How has fasting changed your relationship with food?',
+  ],
 }

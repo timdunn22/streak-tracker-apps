@@ -1,5 +1,8 @@
+import { useRef } from 'react'
+import { haptic } from '../hooks/useHaptic'
 import Badges from './Badges'
 import AnimatedNumber from './AnimatedNumber'
+import type { JournalEntry } from '../hooks/useStreak'
 
 interface Props {
   currentDays: number
@@ -10,7 +13,12 @@ interface Props {
   startDate: string | null
   moneySaved: number | null
   dailyCost: number | null
+  journal: JournalEntry[]
+  onExport: () => void
+  onImport: (file: File) => void
 }
+
+const MOODS = ['', '😣', '😔', '😐', '😊', '💪']
 
 function StreakCalendar({ currentDays, startDate }: { currentDays: number; startDate: string | null }) {
   const today = new Date()
@@ -63,11 +71,60 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
   )
 }
 
-export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks, startDate, moneySaved, dailyCost }: Props) {
+function MoodChart({ journal }: { journal: JournalEntry[] }) {
+  const last14 = journal.slice(-14)
+  if (last14.length < 2) return null
+
+  const avgMood = last14.reduce((sum, e) => sum + e.mood, 0) / last14.length
+
+  return (
+    <div className="glass rounded-2xl p-4 mb-6">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-semibold text-text">Mood Trend</h3>
+        <span className="text-text-muted text-[10px]">Last {last14.length} entries</span>
+      </div>
+      <div className="flex items-end gap-1 h-16 mb-2">
+        {last14.map((entry, i) => (
+          <div
+            key={entry.id}
+            className="flex-1 rounded-t-sm transition-all"
+            style={{
+              height: `${(entry.mood / 5) * 100}%`,
+              backgroundColor: entry.mood >= 4
+                ? 'var(--color-success)'
+                : entry.mood >= 3
+                ? 'var(--color-accent)'
+                : 'var(--color-accent-dim)',
+              opacity: 0.3 + (i / last14.length) * 0.7,
+            }}
+            title={`${MOODS[entry.mood]} ${new Date(entry.date).toLocaleDateString()}`}
+          />
+        ))}
+      </div>
+      <div className="flex justify-between items-center">
+        <span className="text-text-muted text-[10px]">Average: {MOODS[Math.round(avgMood)]} {avgMood.toFixed(1)}/5</span>
+        {last14.length >= 7 && (
+          <span className={`text-[10px] font-semibold ${
+            last14.slice(-7).reduce((s, e) => s + e.mood, 0) / 7 >
+            last14.slice(0, 7).reduce((s, e) => s + e.mood, 0) / Math.min(7, last14.slice(0, 7).length)
+              ? 'text-success' : 'text-text-muted'
+          }`}>
+            {last14.slice(-7).reduce((s, e) => s + e.mood, 0) / 7 >
+            last14.slice(0, 7).reduce((s, e) => s + e.mood, 0) / Math.min(7, last14.slice(0, 7).length)
+              ? 'Trending up' : 'Trending steady'}
+          </span>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks, startDate, moneySaved, dailyCost, journal, onExport, onImport }: Props) {
   const isPersonalBest = currentDays > 0 && currentDays >= longestStreak
   const avgStreak = streaks.length > 0
     ? Math.round(streaks.reduce((a, b) => a + b, 0) / streaks.length)
     : 0
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   return (
     <div className="px-6 pt-8 pb-8">
@@ -111,6 +168,13 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <p className="text-text-muted text-[11px] mt-1">Resets</p>
         </div>
       </div>
+
+      {/* Mood Chart */}
+      {journal.length >= 2 && (
+        <div className="animate-fade-in-delay-2">
+          <MoodChart journal={journal} />
+        </div>
+      )}
 
       {/* Improvement indicator */}
       {streaks.length > 0 && (
@@ -191,6 +255,47 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <p className="text-text-muted text-xs mt-1">Keep this one going!</p>
         </div>
       )}
+
+      {/* Data Export/Import */}
+      <div className="mt-8 pt-6 border-t border-border animate-fade-in-delay-3">
+        <h3 className="text-sm font-semibold text-text mb-3">Your Data</h3>
+        <p className="text-text-muted text-xs mb-4">Export a backup or restore from a previous one. Your data never leaves your device.</p>
+        <div className="flex gap-3">
+          <button
+            onClick={() => { haptic('tap'); onExport() }}
+            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Export Backup
+          </button>
+          <button
+            onClick={() => { haptic('tap'); fileInputRef.current?.click() }}
+            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Import Backup
+          </button>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          className="hidden"
+          onChange={e => {
+            const file = e.target.files?.[0]
+            if (file) onImport(file)
+            e.target.value = ''
+          }}
+        />
+      </div>
     </div>
   )
 }

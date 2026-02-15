@@ -65,4 +65,23 @@ export const iceplunge: AppConfig = {
     { maxWeek: 12, message: "Three months ice-forged. Your baseline dopamine is permanently elevated." },
     { maxWeek: Infinity, message: "The cold is second nature. Your resilience is extraordinary." },
   ],
+  recoveryTimeline: [
+    { day: 1, title: 'Norepinephrine Surge', description: 'Cold exposure triggers a 200-300% increase in norepinephrine. You feel alert, focused, and energized.', icon: '⚡' },
+    { day: 3, title: 'Cold Shock Adapting', description: 'Your cold shock response is beginning to diminish. The gasp reflex weakens. You can breathe more calmly.', icon: '🌊' },
+    { day: 7, title: 'Brown Fat Activating', description: 'Your body is producing more brown adipose tissue. This metabolically active fat burns calories to generate heat.', icon: '🔥' },
+    { day: 14, title: 'Thermoregulation Improving', description: 'Your body maintains core temperature more efficiently. You feel less cold in everyday situations.', icon: '🌡️' },
+    { day: 30, title: 'Dopamine Baseline Elevated', description: 'Consistent cold exposure has raised your baseline dopamine level. Mood, motivation, and focus are sustainably higher.', icon: '🧠' },
+    { day: 60, title: 'Inflammation Markers Lower', description: 'Chronic inflammation is reduced. Recovery from exercise is faster. Joint stiffness and muscle soreness decrease.', icon: '🛡️' },
+    { day: 90, title: 'Full Cold Adaptation', description: 'Your cardiovascular system, immune function, and mental resilience have been transformed by consistent cold exposure.', icon: '👑' },
+  ],
+  journalPrompts: [
+    'How long was your cold exposure today?',
+    'What was the water temperature?',
+    'How did you feel in the first 30 seconds vs the last 30?',
+    'Rate your mental resistance before getting in (1-10).',
+    'How was your mood and energy after the plunge?',
+    'Did you practice breath control during the cold?',
+    'What was hardest — the anticipation or the cold itself?',
+    'How has cold exposure affected other areas of your life?',
+  ],
 }
