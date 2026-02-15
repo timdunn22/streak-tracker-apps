@@ -3,32 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free NoFap Tracker App — Rewire | Private Porn Addiction Recovery Counter</title>
-  <meta name="description" content="Track your NoFap streak with Rewire — 100% free, private, no account needed. Live timer, recovery phases, milestones, and progress sharing. Works offline.">
+  <title>Free NoFap Tracker App — Rewire | Private Recovery</title>
+  <meta name="description" content="Track your NoFap streak with Rewire — 100% free, private, no account. Live timer, recovery phases, milestones. Works offline. Start free today.">
   <meta name="keywords" content="nofap tracker, porn addiction counter, streak tracker, quit porn app, nofap app, dopamine detox tracker, porn recovery, nofap streak counter, rewire brain, porn free tracker, nofap day counter, quit porn tracker free">
   <link rel="canonical" href="https://rewire-landing.vercel.app">
-  <meta property="og:title" content="Free NoFap Tracker App — Rewire | Private Recovery Counter">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta property="og:title" content="Free NoFap Tracker App — Rewire | Private Recovery">
   <meta property="og:description" content="Track your streak, see your brain heal, celebrate milestones. 100% private, no account needed.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rewire-landing.vercel.app">
   <meta property="og:image" content="https://rewire-landing.vercel.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Rewire">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Free NoFap Tracker App — Rewire | Private Recovery Counter">
+  <meta name="twitter:title" content="Free NoFap Tracker App — Rewire | Private Recovery">
   <meta name="twitter:description" content="Track your streak, see your brain heal, celebrate milestones. 100% private, no account needed.">
   <meta name="twitter:image" content="https://rewire-landing.vercel.app/og-image.svg">
-  <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HDGV4Y1W5J"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-HDGV4Y1W5J',{anonymize_ip:true});</script>
+  <meta name="twitter:image:alt" content="Rewire NoFap streak tracker app screenshot">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Rewire","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting porn and rewiring your brain. No account, no data collection, works offline.","url":"https://rewire-psi.vercel.app"}
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Rewire","applicationCategory":"HealthApplication","applicationSubCategory":"Addiction Recovery","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting porn and rewiring your brain. No account, no data collection, works offline.","url":"https://rewire-psi.vercel.app","author":{"@type":"Organization","name":"Rewire"},"featureList":["Live streak timer","Recovery phases","Milestone celebrations","Streak freeze","Badge collection","Streak calendar","Share card generator","Works offline"]}
   </script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--bg:#06060b;--accent:#7c6bf5;--accent-glow:#b4a8ff;--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
+    :root{--bg:#06060b;--accent:#7c6bf5;--accent-glow:#b4a8ff;--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#8c8ca6;--text-muted:#6b6b80;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
     html{scroll-behavior:smooth}
     body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+
+    /* Skip nav */
+    .skip-nav{position:absolute;top:-40px;left:0;background:var(--accent);color:#fff;padding:.5rem 1rem;z-index:200;font-size:.85rem;transition:top .2s}
+    .skip-nav:focus{top:0}
 
     /* Sticky header */
     .sticky-header{position:fixed;top:0;left:0;right:0;z-index:90;padding:.625rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,11,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .3s ease}
@@ -42,14 +48,16 @@
     .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,107,245,0.1);border:1px solid rgba(124,107,245,0.2);border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:#b4a8ff;font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
     h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
     h1 .gradient{background:linear-gradient(135deg,#b4a8ff,var(--success));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:1.5rem;line-height:1.6}
-    .emotional{font-size:.9rem;color:var(--text-sec);font-style:italic;max-width:400px;margin-bottom:2.5rem;line-height:1.6}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.6}
     .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px rgba(124,107,245,0.2),0 0 60px rgba(124,107,245,0.08)}
     .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
     .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
     .trust-row{display:flex;gap:1.5rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
     .trust-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--text-dim)}
     .trust-item svg{width:14px;height:14px;stroke:var(--accent-glow);fill:none;stroke-width:2}
+
+    /* Emotional callout */
+    .emotional-callout{max-width:500px;margin:2rem auto 0;padding:1.25rem 1.5rem;border-left:3px solid var(--accent);background:color-mix(in srgb, var(--accent) 5%, transparent);border-radius:0 .75rem .75rem 0;font-size:.9rem;color:var(--text-sec);font-style:italic;line-height:1.6}
 
     /* Phone mockup */
     .phone-wrap{margin:2.5rem auto 0;perspective:800px}
@@ -93,7 +101,7 @@
     .phases{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}
     .phase{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;background:var(--card);border:1px solid var(--border)}
     .phase-day{font-size:.75rem;font-weight:700;min-width:70px;letter-spacing:.04em;text-transform:uppercase}
-    .phase-label{font-weight:600;font-size:.95rem}
+    h3.phase-label{font-weight:600;font-size:.95rem;text-align:left}
     .phase-desc{font-size:.82rem;color:var(--text-dim)}
 
     /* Privacy */
@@ -106,11 +114,11 @@
     /* FAQ */
     .faq{max-width:650px;margin:0 auto}
     .faq-item{border-bottom:1px solid var(--border);overflow:hidden}
-    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600}
-    .faq-q svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;transition:transform .2s}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600;background:none;border:none;color:var(--text);width:100%;text-align:left}
+    .faq-q svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;transition:transform .2s;flex-shrink:0}
     .faq-item.open .faq-q svg{transform:rotate(180deg)}
     .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:.9rem;color:var(--text-dim);line-height:1.7}
-    .faq-item.open .faq-a{max-height:200px;padding-bottom:1.25rem}
+    .faq-item.open .faq-a{max-height:500px;padding-bottom:1.25rem}
 
     /* Final CTA */
     .final{text-align:center;padding:6rem 1.5rem;background-image:radial-gradient(ellipse at 50% 50%,rgba(124,107,245,0.08) 0%,transparent 60%)}
@@ -124,10 +132,19 @@
     .bottom-cta-text{font-size:.78rem;color:var(--text-dim);display:none}
     @media(min-width:500px){.bottom-cta-text{display:block}}
 
+    /* Divider */
+    .divider{border:none;height:1px;background:var(--border);max-width:900px;margin:0 auto}
+
+    /* Cross-links */
+    .cross-links{max-width:900px;margin:0 auto;padding:2rem 1.5rem 1rem;border-top:1px solid var(--border)}
+    .cross-links p{text-align:center;font-size:.85rem;font-weight:600;color:var(--text-dim);margin-bottom:1rem}
+    .cross-links-list{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem .75rem}
+    .cross-links-list a{font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s}
+    .cross-links-list a:hover{color:var(--text-dim)}
+
     /* Footer */
     footer{text-align:center;padding:2rem 1.5rem 5rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
-
-    .div{height:1px;background:var(--border);max-width:900px;margin:0 auto}
+    .health-disclaimer{font-size:.7rem;color:var(--text-muted);margin-top:.75rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5}
 
     @media(max-width:600px){
       .grid,.privacy{grid-template-columns:1fr}
@@ -138,33 +155,43 @@
       .steps{flex-direction:column;align-items:center}
       .step{min-width:unset;max-width:280px}
     }
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
+      .reveal{opacity:1;transform:none}
+    }
   </style>
 </head>
 <body>
 
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+
   <!-- Sticky Header (shows on scroll) -->
-  <div class="sticky-header" id="stickyHeader">
+  <nav class="sticky-header" id="stickyHeader" aria-label="Site navigation">
     <span class="logo">Rewire</span>
-    <a href="https://rewire-psi.vercel.app" class="hdr-cta">Open App</a>
-  </div>
+    <a href="https://rewire-psi.vercel.app" class="hdr-cta">Start Free</a>
+  </nav>
+
+  <main id="main-content">
 
   <!-- Hero -->
   <header class="hero" id="hero">
-    <div class="badge">100% Free &amp; Private</div>
-    <h1>Track Your Streak.<br><span class="gradient">Rewire Your Brain.</span></h1>
+    <div class="badge" aria-hidden="true">100% Free &amp; Private</div>
+    <h1>Track Your NoFap Streak.<br><span class="gradient">Rewire Your Brain.</span></h1>
     <p class="hero-sub">The free NoFap streak tracker that keeps your data on your device. No account, no ads, no judgment. Just you and your progress.</p>
-    <p class="emotional">You're here because something inside you wants to change. That matters more than you know.</p>
-    <a href="https://rewire-psi.vercel.app" class="cta" id="heroCta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <a href="https://rewire-psi.vercel.app" class="cta" id="heroCta">Start My Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <span class="cta-sub">No signup required. Works on any device.</span>
 
     <div class="trust-row">
-      <span class="trust-item"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> 100% Private</span>
-      <span class="trust-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 3 4-6"/></svg> No Account Needed</span>
-      <span class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Works Offline</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> 100% Private</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 3 4-6"/></svg> No Account Needed</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Works Offline</span>
     </div>
 
+    <div class="emotional-callout">You're here because something inside you wants to change. That matters more than you know.</div>
+
     <!-- Phone Mockup -->
-    <div class="phone-wrap">
+    <div class="phone-wrap" aria-hidden="true">
       <div class="phone">
         <div class="phone-notch"></div>
         <div class="phone-ring">
@@ -187,7 +214,7 @@
     </div>
   </header>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- How it works -->
   <section class="reveal">
@@ -195,161 +222,182 @@
     <p class="sub">No account. No app store. No friction.</p>
     <div class="steps">
       <div class="step">
-        <div class="step-num">1</div>
+        <div class="step-num" aria-hidden="true">1</div>
         <h3>Open the Link</h3>
         <p>Tap the button. Rewire opens instantly in your browser.</p>
       </div>
       <div class="step">
-        <div class="step-num">2</div>
+        <div class="step-num" aria-hidden="true">2</div>
         <h3>Tap "Start"</h3>
         <p>One tap to begin. Your streak starts counting immediately.</p>
       </div>
       <div class="step">
-        <div class="step-num">3</div>
+        <div class="step-num" aria-hidden="true">3</div>
         <h3>Watch Progress</h3>
         <p>Track milestones, see your tree grow, and celebrate every day.</p>
       </div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- Features -->
   <section class="reveal">
-    <h2>Everything You Need to Stay Clean</h2>
+    <h2>Tools That Actually Help You Stay Clean</h2>
     <p class="sub">Built by someone on the same journey. Every feature exists because it actually helps.</p>
     <div class="grid">
-      <div class="card"><div class="icon">&#9201;</div><h3>Live Ticking Timer</h3><p>Watch every second count. Days, hours, minutes, seconds — always visible, always moving forward.</p></div>
-      <div class="card"><div class="icon">&#127793;</div><h3>Growing Tree Visual</h3><p>A seed that grows into a golden tree as you heal. A living visual metaphor for your recovery.</p></div>
-      <div class="card"><div class="icon">&#127942;</div><h3>12 Milestones</h3><p>Celebrations at Day 1, 3, 7, 14, 21, 30, 45, 60, 90, 120, 180, and 365 with sound and haptic feedback.</p></div>
-      <div class="card"><div class="icon">&#129504;</div><h3>Recovery Phases</h3><p>Know where you are: Withdrawal, Adjusting, Recovering, Resetting, Strengthening, Rewiring, Rewired.</p></div>
-      <div class="card"><div class="icon">&#128202;</div><h3>Streak History &amp; Stats</h3><p>Track your longest streak, total clean days, average streak, and see your progress over time.</p></div>
-      <div class="card"><div class="icon">&#128247;</div><h3>Shareable Progress Card</h3><p>Generate a beautiful progress image for accountability partners or social media. No personal info shown.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#9201;</div><h3>Live Ticking Timer</h3><p>Watch every second count. Days, hours, minutes, seconds — always visible, always moving forward.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#127793;</div><h3>Growing Tree Visual</h3><p>A seed that grows into a golden tree as you heal. A living visual metaphor for your recovery.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#127942;</div><h3>12 Milestones</h3><p>Celebrations at Day 1, 3, 7, 14, 21, 30, 45, 60, 90, 120, 180, and 365 with sound and haptic feedback.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#129504;</div><h3>Recovery Phases</h3><p>Know where you are: Withdrawal, Adjusting, Recovering, Resetting, Strengthening, Rewiring, Rewired.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#128202;</div><h3>Streak History &amp; Stats</h3><p>Track your longest streak, total clean days, average streak, and see your progress over time.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#128247;</div><h3>Shareable Progress Card</h3><p>Generate a beautiful progress image for accountability partners or social media. No personal info shown.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#10052;</div><h3>Streak Freeze</h3><p>Life happens. Get 2 automatic streak freezes that protect your progress on tough days.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#127941;</div><h3>Badge Collection</h3><p>Earn badges for milestones, consistency, and special achievements. Collect them all on your recovery journey.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#128197;</div><h3>Streak Calendar</h3><p>Visual calendar showing your daily check-ins. See your consistency at a glance with color-coded days.</p></div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- Recovery Phases -->
   <section class="reveal">
     <h2>Science-Backed Recovery Phases</h2>
     <p class="sub">Your brain goes through real neurological changes during recovery. Rewire shows you exactly where you are.</p>
     <div class="phases">
-      <div class="phase"><span class="phase-day" style="color:#f87171">Day 0-3</span><div><div class="phase-label">Withdrawal</div><div class="phase-desc">Peak cravings. Your brain is demanding the dopamine it's used to.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 3-7</span><div><div class="phase-label">Adjusting</div><div class="phase-desc">Cravings ease. Brain fog is common as dopamine receptors start resensitizing.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 7-14</span><div><div class="phase-label">Recovering</div><div class="phase-desc">Energy increases. Sleep improves. You start feeling more present.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#b4a8ff">Day 14-30</span><div><div class="phase-label">Resetting</div><div class="phase-desc">Neural pathways are actively reshaping. Confidence builds. Flatlining may occur.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#b4a8ff">Day 30-60</span><div><div class="phase-label">Strengthening</div><div class="phase-desc">New habits solidify. Willpower feels natural, not forced.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#34d399">Day 60-90</span><div><div class="phase-label">Rewiring</div><div class="phase-desc">Deep prefrontal cortex changes. Urges become rare and weak.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#34d399">Day 90+</span><div><div class="phase-label">Rewired</div><div class="phase-desc">Your brain has fundamentally changed. This is your new normal.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#f87171">Day 0-3</span><div><h3 class="phase-label">Withdrawal</h3><div class="phase-desc">Peak cravings. Your brain is demanding the dopamine it's used to.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 3-7</span><div><h3 class="phase-label">Adjusting</h3><div class="phase-desc">Cravings ease. Brain fog is common as dopamine receptors start resensitizing.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 7-14</span><div><h3 class="phase-label">Recovering</h3><div class="phase-desc">Energy increases. Sleep improves. You start feeling more present.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#b4a8ff">Day 14-30</span><div><h3 class="phase-label">Resetting</h3><div class="phase-desc">Neural pathways are actively reshaping. Confidence builds. Flatlining may occur.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#b4a8ff">Day 30-60</span><div><h3 class="phase-label">Strengthening</h3><div class="phase-desc">New habits solidify. Willpower feels natural, not forced.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 60-90</span><div><h3 class="phase-label">Rewiring</h3><div class="phase-desc">Deep prefrontal cortex changes. Urges become rare and weak.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 90+</span><div><h3 class="phase-label">Rewired</h3><div class="phase-desc">Your brain has fundamentally changed. This is your new normal.</div></div></div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- Privacy -->
   <section class="reveal">
     <h2>Your Privacy is Non-Negotiable</h2>
     <p class="sub">This is the most personal journey you'll ever take. Your data should be yours alone.</p>
     <div class="privacy">
-      <div class="priv-item"><div class="pi">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open it and start.</p></div>
-      <div class="priv-item"><div class="pi">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser's local storage. Nothing is sent to any server.</p></div>
-      <div class="priv-item"><div class="pi">&#128683;</div><h3>Minimal Analytics</h3><p>Cookieless, anonymous page view counts only. Your streak data is never collected.</p></div>
-      <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install it as an app. Works without internet once loaded.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open it and start.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser's local storage. Nothing is sent to any server.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128683;</div><h3>Minimal Analytics</h3><p>Cookieless, anonymous page view counts only. Your streak data is never collected.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128268;</div><h3>Works Offline</h3><p>Install it as an app. Works without internet once loaded.</p></div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- FAQ -->
   <section class="reveal">
     <h2>Frequently Asked Questions</h2>
     <p class="sub">Everything you need to know about Rewire.</p>
     <div class="faq">
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Is Rewire really free?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Is Rewire really free?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">Yes, completely free. No premium tier, no paywall, no "free trial." Every feature is available to everyone.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">How do I install it on my phone?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">How do I install it on my phone?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">Open rewire-psi.vercel.app in your phone's browser. On iOS, tap Share then "Add to Home Screen." On Android, tap the three dots menu and "Add to Home Screen" or "Install App." It works like a native app after that.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Can anyone see my data?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Can anyone see my NoFap streak data?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">No. Your streak data is stored only in your browser's local storage on your device. No data is transmitted to any server. We have no database, no user accounts, and no way to see your information.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">What happens if I clear my browser data?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">What happens if I clear my browser data?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">Your streak data will be lost since it's stored locally. To protect against this, install Rewire as a PWA (add to home screen) — this gives it its own storage space separate from your browser.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">What is the 90-day reboot?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">What is the 90-day NoFap reboot?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">Research suggests it takes roughly 90 days for the brain to significantly rewire neural pathways associated with compulsive behavior. This is why Rewire tracks your progress toward 90 days as the primary goal, though recovery continues beyond that.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">I relapsed. Is my progress lost?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">I relapsed. Is my progress lost?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">No. Rewire has a compassionate reset feature that saves your previous streak to your history and calculates your total clean days. Every day counts, even across multiple streaks. Setbacks are part of recovery.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Does it work on desktop?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Does it work on desktop?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="faq-a">Yes. Rewire works on any device with a modern web browser — phone, tablet, or desktop computer.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">What is a streak freeze?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Streak freezes protect your streak on difficult days. You get 2 automatic freezes that are applied if you miss a daily check-in. They help you maintain momentum without losing your progress to a single bad day.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">How is Rewire different from other NoFap apps?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Rewire is completely free with no hidden paywalls, requires no account or personal information, works offline as a PWA, and keeps all your data on your device. Most alternatives require accounts, charge subscriptions, or collect your data.</div>
       </div>
     </div>
   </section>
 
   <!-- Final CTA -->
-  <div class="final reveal">
-    <h2>Start Your Recovery Today</h2>
-    <p>Every journey begins with a single day. Make today Day 1.</p>
-    <a href="https://rewire-psi.vercel.app" class="cta">Start Tracking Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+  <section class="final reveal">
+    <h2>Your Brain Can Heal. Start Today.</h2>
+    <p>Every journey begins with a single day. The fact that you're here means you're ready.</p>
+    <a href="https://rewire-psi.vercel.app" class="cta">Start My Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <span class="cta-sub">No signup. No download. Just open and start.</span>
-  </div>
+  </section>
+
+  </main>
 
   <!-- Sticky Bottom CTA -->
   <div class="bottom-cta" id="bottomCta">
     <span class="bottom-cta-text">100% free &amp; private</span>
-    <a href="https://rewire-psi.vercel.app">Start Tracking Free</a>
+    <a href="https://rewire-psi.vercel.app">Start Free</a>
   </div>
 
-  <div style="max-width:900px;margin:0 auto;padding:2rem 1.5rem 1rem;border-top:1px solid var(--border)">
-    <p style="text-align:center;font-size:.85rem;font-weight:600;color:var(--text-dim);margin-bottom:1rem">More Free Streak Trackers</p>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem .75rem">
-      <a href="https://vapefree-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Quit Vaping</a>
-      <a href="https://sober-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Quit Alcohol</a>
-      <a href="https://greenday-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Quit Weed</a>
-      <a href="https://clearlungs-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Quit Smoking</a>
-      <a href="https://sugarfree-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Quit Sugar</a>
-      <a href="https://decaf-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Quit Caffeine</a>
-      <a href="https://fasttrack-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Fasting Tracker</a>
-      <a href="https://primal-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Testosterone</a>
-      <a href="https://iceplunge-landing.vercel.app" style="font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--text-dim)'" onmouseout="this.style.color='var(--text-muted)'">Cold Plunge</a>
+  <div class="cross-links">
+    <p>More Free Streak Trackers</p>
+    <div class="cross-links-list">
+      <a href="https://vapefree-landing.vercel.app">Quit Vaping Tracker</a>
+      <a href="https://sober-landing.vercel.app">Quit Drinking Tracker</a>
+      <a href="https://greenday-landing.vercel.app">Quit Weed Tracker</a>
+      <a href="https://clearlungs-landing.vercel.app">Quit Smoking Tracker</a>
+      <a href="https://sugarfree-landing.vercel.app">Quit Sugar Tracker</a>
+      <a href="https://decaf-landing.vercel.app">Quit Caffeine Tracker</a>
+      <a href="https://fasttrack-landing.vercel.app">Intermittent Fasting Tracker</a>
+      <a href="https://primal-landing.vercel.app">Testosterone Streak Tracker</a>
+      <a href="https://iceplunge-landing.vercel.app">Cold Plunge Tracker</a>
     </div>
   </div>
 
-  <footer><p>Rewire is a free, open tool for anyone working to break free from porn addiction.</p><p style="margin-top:.5rem">Your data never leaves your device.</p></footer>
+  <footer>
+    <p>Rewire is a free, open tool for anyone working to break free from porn addiction. Your recovery is private, personal, and possible.</p>
+    <p style="margin-top:.5rem">Your data never leaves your device.</p>
+    <p class="health-disclaimer">Rewire is a self-help tool and is not a substitute for professional medical or psychological advice. If you are struggling, please consult a qualified health professional.</p>
+  </footer>
 
   <!-- FAQ Schema -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Rewire really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No premium tier, no paywall, no free trial. Every feature is available to everyone."}},{"@type":"Question","name":"How do I install Rewire on my phone?","acceptedAnswer":{"@type":"Answer","text":"Open rewire-psi.vercel.app in your phone's browser. On iOS, tap Share then Add to Home Screen. On Android, tap the three dots menu and Add to Home Screen or Install App."}},{"@type":"Question","name":"Can anyone see my data?","acceptedAnswer":{"@type":"Answer","text":"No. Your streak data is stored only in your browser's local storage on your device. No data is transmitted to any server."}},{"@type":"Question","name":"What happens if I clear my browser data?","acceptedAnswer":{"@type":"Answer","text":"Your streak data will be lost since it's stored locally. To protect against this, install Rewire as a PWA (add to home screen) — this gives it its own storage space separate from your browser."}},{"@type":"Question","name":"What is the 90-day reboot?","acceptedAnswer":{"@type":"Answer","text":"Research suggests it takes roughly 90 days for the brain to significantly rewire neural pathways associated with compulsive behavior. This is why Rewire tracks your progress toward 90 days as the primary goal, though recovery continues beyond that."}},{"@type":"Question","name":"I relapsed. Is my progress lost?","acceptedAnswer":{"@type":"Answer","text":"No. Rewire has a compassionate reset feature that saves your previous streak to your history and calculates your total clean days. Every day counts, even across multiple streaks. Setbacks are part of recovery."}},{"@type":"Question","name":"Does it work on desktop?","acceptedAnswer":{"@type":"Answer","text":"Yes. Rewire works on any device with a modern web browser — phone, tablet, or desktop computer."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Rewire really free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No premium tier, no paywall, no free trial. Every feature is available to everyone."}},{"@type":"Question","name":"How do I install Rewire on my phone?","acceptedAnswer":{"@type":"Answer","text":"Open rewire-psi.vercel.app in your phone's browser. On iOS, tap Share then Add to Home Screen. On Android, tap the three dots menu and Add to Home Screen or Install App."}},{"@type":"Question","name":"Can anyone see my NoFap streak data?","acceptedAnswer":{"@type":"Answer","text":"No. Your streak data is stored only in your browser's local storage on your device. No data is transmitted to any server."}},{"@type":"Question","name":"What happens if I clear my browser data?","acceptedAnswer":{"@type":"Answer","text":"Your streak data will be lost since it's stored locally. To protect against this, install Rewire as a PWA (add to home screen) — this gives it its own storage space separate from your browser."}},{"@type":"Question","name":"What is the 90-day NoFap reboot?","acceptedAnswer":{"@type":"Answer","text":"Research suggests it takes roughly 90 days for the brain to significantly rewire neural pathways associated with compulsive behavior. This is why Rewire tracks your progress toward 90 days as the primary goal, though recovery continues beyond that."}},{"@type":"Question","name":"I relapsed. Is my progress lost?","acceptedAnswer":{"@type":"Answer","text":"No. Rewire has a compassionate reset feature that saves your previous streak to your history and calculates your total clean days. Every day counts, even across multiple streaks. Setbacks are part of recovery."}},{"@type":"Question","name":"Does it work on desktop?","acceptedAnswer":{"@type":"Answer","text":"Yes. Rewire works on any device with a modern web browser — phone, tablet, or desktop computer."}},{"@type":"Question","name":"What is a streak freeze?","acceptedAnswer":{"@type":"Answer","text":"Streak freezes protect your streak on difficult days. You get 2 automatic freezes that are applied if you miss a daily check-in."}},{"@type":"Question","name":"How is Rewire different from other NoFap apps?","acceptedAnswer":{"@type":"Answer","text":"Rewire is completely free with no hidden paywalls, requires no account or personal information, works offline as a PWA, and keeps all your data on your device."}}]}
   </script>
 
   <script>
     // Sticky header + bottom CTA: show after scrolling past hero CTA
-    const heroCta = document.getElementById('heroCta');
-    const stickyHeader = document.getElementById('stickyHeader');
-    const bottomCta = document.getElementById('bottomCta');
-    const observer = new IntersectionObserver(([e]) => {
-      stickyHeader.classList.toggle('show', !e.isIntersecting);
-      bottomCta.classList.toggle('show', !e.isIntersecting);
+    var heroCta = document.getElementById('heroCta');
+    var stickyHeader = document.getElementById('stickyHeader');
+    var bottomCta = document.getElementById('bottomCta');
+    var observer = new IntersectionObserver(function(entries) {
+      stickyHeader.classList.toggle('show', !entries[0].isIntersecting);
+      bottomCta.classList.toggle('show', !entries[0].isIntersecting);
     }, { threshold: 0 });
     observer.observe(heroCta);
 
     // Scroll reveal animations
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
+    var reveals = document.querySelectorAll('.reveal');
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
     }, { threshold: 0.1 });
-    reveals.forEach(el => revealObs.observe(el));
+    reveals.forEach(function(el) { revealObs.observe(el); });
   </script>
+
+  <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HDGV4Y1W5J"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-HDGV4Y1W5J');</script>
 </body>
 </html>

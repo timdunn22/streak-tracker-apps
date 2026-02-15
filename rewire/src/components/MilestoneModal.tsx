@@ -40,7 +40,8 @@ function Confetti({ show }: { show: boolean }) {
             animationDelay: p.delay,
             animationDuration: p.duration,
             borderRadius: p.borderRadius,
-          }}
+            '--x-drift': p.xDrift,
+          } as React.CSSProperties}
         />
       ))}
     </div>
@@ -108,12 +109,30 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
           <h2 className="text-2xl font-bold text-shimmer mb-3">{data.label}</h2>
           <p className="text-text-secondary text-sm leading-relaxed mb-6">{data.message}</p>
 
-          <button
-            onClick={() => { haptic('tap'); onClose() }}
-            className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all duration-200 active:scale-[0.97]"
-          >
-            Continue
-          </button>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={() => { haptic('tap'); onClose() }}
+              className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all duration-200 active:scale-[0.97]"
+            >
+              Continue
+            </button>
+            <button
+              onClick={async () => {
+                haptic('tap')
+                const text = `Day ${milestone} — ${data.label}! Tracking with ${config.name}`
+                if (navigator.share) {
+                  try { await navigator.share({ title: `${config.name} Milestone`, text, url: window.location.origin }) } catch {}
+                } else if (navigator.clipboard) {
+                  navigator.clipboard.writeText(text)
+                }
+                onClose()
+              }}
+              className="bg-bg-card border border-border hover:border-accent/30 text-text-dim font-semibold py-3 px-6 rounded-2xl transition-all duration-200 active:scale-[0.97]"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="inline mr-1"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              Share
+            </button>
+          </div>
         </div>
       </div>
     </div>

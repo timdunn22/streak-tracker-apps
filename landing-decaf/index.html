@@ -3,53 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Decaf App — Find your natural energy. | Private Streak Tracker</title>
-  <meta name="description" content="Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.">
+  <title>Free Quit Caffeine App — Decaf | Streak Tracker</title>
+  <meta name="description" content="Track your caffeine-free streak with Decaf — 100% free, private, no account needed. Recovery phases, milestones. Start your decaf journey today.">
   <meta name="keywords" content="quit caffeine app, caffeine free tracker, quit coffee app, caffeine detox tracker, days without coffee app, quit caffeine free app, caffeine withdrawal tracker, decaf challenge app, stop caffeine app">
   <link rel="canonical" href="https://decaf-landing.vercel.app">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-  <meta property="og:title" content="Free Decaf App — Find your natural energy.">
-  <meta property="og:description" content="Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <meta property="og:title" content="Free Quit Caffeine App — Decaf | Streak Tracker">
+  <meta property="og:description" content="Track your caffeine-free streak with Decaf — 100% free, private, no account needed. Recovery phases, milestones. Start your decaf journey today.">
   <meta property="og:image" content="https://decaf-landing.vercel.app/og-image.svg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://decaf-landing.vercel.app">
   <meta property="og:site_name" content="Decaf">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Free Decaf App — Find your natural energy.">
-  <meta name="twitter:description" content="Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.">
+  <meta name="twitter:title" content="Free Quit Caffeine App — Decaf | Streak Tracker">
+  <meta name="twitter:description" content="Track your caffeine-free streak with Decaf — 100% free, private, no account needed. Recovery phases, milestones. Start your decaf journey today.">
   <meta name="twitter:image" content="https://decaf-landing.vercel.app/og-image.svg">
+  <meta name="twitter:image:alt" content="Decaf - Free days caffeine-free streak tracker app">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Decaf","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.","url":"https://decaf-app-black.vercel.app"}
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Decaf","applicationCategory":"HealthApplication","applicationSubCategory":"Habit Tracker","operatingSystem":"Any","browserRequirements":"Requires a modern web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.","url":"https://decaf-app-black.vercel.app","author":{"@type":"Person","name":"Tim Dunn"},"featureList":"Live streak timer, Recovery phases, Milestones, Streak freeze, Badge collection, Share progress card, Offline support, Money saved calculator"}
   </script>
-  <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45YF5NLPM"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-W45YF5NLPM',{anonymize_ip:true});</script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--bg:#06060b;--accent:#d97706;--accent-glow:#fbbf24;--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
+    :root{--bg:#06060b;--accent:#d97706;--accent-glow:#fbbf24;--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#8c8ca6;--text-muted:#6b6b80;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
     html{scroll-behavior:smooth}
     body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
 
+    /* Skip nav */
+    .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:.75rem 1.5rem;border-radius:0 0 .75rem .75rem;z-index:200;font-size:.9rem;font-weight:600;text-decoration:none}
+    .skip-link:focus{top:0}
+
     /* Sticky header */
-    .sticky-header{position:fixed;top:0;left:0;right:0;z-index:90;padding:.625rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,11,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .3s ease}
-    .sticky-header.show{transform:translateY(0)}
-    .sticky-header .logo{font-weight:700;font-size:1rem;color:var(--text)}
-    .sticky-header .hdr-cta{background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;padding:.5rem 1.25rem;border-radius:.75rem;text-decoration:none;transition:all .2s}
-    .sticky-header .hdr-cta:hover{background:var(--accent-glow)}
+    nav.sticky-header{position:fixed;top:0;left:0;right:0;z-index:90;padding:.625rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,11,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .3s ease}
+    nav.sticky-header.show{transform:translateY(0)}
+    nav.sticky-header .logo{font-weight:700;font-size:1rem;color:var(--text)}
+    nav.sticky-header .hdr-cta{background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;padding:.5rem 1.25rem;border-radius:.75rem;text-decoration:none;transition:all .2s}
+    nav.sticky-header .hdr-cta:hover{background:var(--accent-glow)}
 
     /* Hero */
     .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem 6rem;position:relative;background-image:radial-gradient(ellipse at 20% 0%,#d977061f 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
     .badge{display:inline-flex;align-items:center;gap:.5rem;background:#d977061a;border:1px solid #d9770633;border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:#fbbf24;font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
     h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
     h1 .gradient{background:linear-gradient(135deg,#fbbf24,#d97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:1.5rem;line-height:1.6}
-    .emotional{font-size:.9rem;color:var(--text-sec);font-style:italic;max-width:400px;margin-bottom:2.5rem;line-height:1.6}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2rem;line-height:1.6}
     .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px #d9770633,0 0 60px #d9770614}
     .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
     .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
     .trust-row{display:flex;gap:1.5rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
     .trust-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--text-dim)}
     .trust-item svg{width:14px;height:14px;stroke:var(--accent-glow);fill:none;stroke-width:2}
+    .emotional{font-size:1rem;color:var(--text-sec);max-width:440px;margin-top:2.5rem;line-height:1.6;padding:1rem 1.5rem;border-left:3px solid #d9770644;border-radius:0 .5rem .5rem 0;background:#d9770608}
 
     /* Phone mockup */
     .phone-wrap{margin:2.5rem auto 0;perspective:800px}
@@ -68,6 +74,7 @@
     /* Scroll animations */
     .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
     /* Sections */
     section{padding:5rem 1.5rem;max-width:900px;margin:0 auto}
@@ -93,7 +100,7 @@
     .phases{display:flex;flex-direction:column;gap:1rem;max-width:600px;margin:0 auto}
     .phase{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:1rem;background:var(--card);border:1px solid var(--border)}
     .phase-day{font-size:.75rem;font-weight:700;min-width:70px;letter-spacing:.04em;text-transform:uppercase}
-    .phase-label{font-weight:600;font-size:.95rem}
+    h3.phase-label{font-weight:600;font-size:.95rem;margin-bottom:0}
     .phase-desc{font-size:.82rem;color:var(--text-dim)}
 
     /* Privacy */
@@ -106,11 +113,11 @@
     /* FAQ */
     .faq{max-width:650px;margin:0 auto}
     .faq-item{border-bottom:1px solid var(--border);overflow:hidden}
-    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600}
-    .faq-q svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;transition:transform .2s}
+    .faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;cursor:pointer;font-size:1rem;font-weight:600;background:none;border:none;color:var(--text);width:100%;text-align:left;font-family:inherit}
+    .faq-q svg{width:18px;height:18px;stroke:var(--text-dim);fill:none;transition:transform .2s;flex-shrink:0}
     .faq-item.open .faq-q svg{transform:rotate(180deg)}
     .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;font-size:.9rem;color:var(--text-dim);line-height:1.7}
-    .faq-item.open .faq-a{max-height:200px;padding-bottom:1.25rem}
+    .faq-item.open .faq-a{max-height:500px;padding-bottom:1.25rem}
 
     /* Final CTA */
     .final{text-align:center;padding:6rem 1.5rem;background-image:radial-gradient(ellipse at 50% 50%,#d9770614 0%,transparent 60%)}
@@ -124,10 +131,18 @@
     .bottom-cta-text{font-size:.78rem;color:var(--text-dim);display:none}
     @media(min-width:500px){.bottom-cta-text{display:block}}
 
+    /* Cross links */
+    .cross-links{max-width:900px;margin:0 auto;padding:2rem 1.5rem 1rem;border-top:1px solid var(--border)}
+    .cross-links p{text-align:center;font-size:.85rem;font-weight:600;color:var(--text-dim);margin-bottom:1rem}
+    .cross-links-list{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem .75rem}
+    .cross-links-list a{font-size:.82rem;color:var(--text-muted);text-decoration:none;transition:color .2s;padding:.5rem .75rem;display:inline-block}
+    .cross-links-list a:hover{color:var(--text-dim)}
+
     /* Footer */
     footer{text-align:center;padding:2rem 1.5rem 5rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
+    footer .disclaimer{margin-top:.75rem;font-size:.72rem;color:var(--text-muted);opacity:.7}
 
-    .div{height:1px;background:var(--border);max-width:900px;margin:0 auto}
+    hr.divider{height:1px;background:var(--border);max-width:900px;margin:0 auto;border:none}
 
     @media(max-width:600px){
       .grid,.privacy{grid-template-columns:1fr}
@@ -142,29 +157,32 @@
 </head>
 <body>
 
+  <a href="#main" class="skip-link">Skip to main content</a>
+
   <!-- Sticky Header (shows on scroll) -->
-  <div class="sticky-header" id="stickyHeader">
+  <nav class="sticky-header" id="stickyHeader" aria-label="Main navigation">
     <span class="logo">Decaf</span>
-    <a href="https://decaf-app-black.vercel.app" class="hdr-cta">Open App</a>
-  </div>
+    <a href="https://decaf-app-black.vercel.app" class="hdr-cta">Start Free</a>
+  </nav>
 
   <!-- Hero -->
   <header class="hero" id="hero">
     <div class="badge">100% Free &amp; Private</div>
     <h1>Quit Caffeine.<br><span class="gradient">Find Natural Energy.</span></h1>
     <p class="hero-sub">The free caffeine-free streak tracker. No account, no data collection. Watch your natural energy return.</p>
-    <p class="emotional">What if the energy you've been chasing was already inside you?</p>
-    <a href="https://decaf-app-black.vercel.app" class="cta" id="heroCta">Start Your Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <a href="https://decaf-app-black.vercel.app" class="cta" id="heroCta" aria-label="Start tracking your streak for free">Start My Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <span class="cta-sub">No signup. No download. Just open and start.</span>
 
     <div class="trust-row">
-      <span class="trust-item"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> 100% Private</span>
-      <span class="trust-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 3 4-6"/></svg> No Account Needed</span>
-      <span class="trust-item"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Works Offline</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> 100% Private</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 3 4-6"/></svg> No Account Needed</span>
+      <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Works Offline</span>
     </div>
 
+    <p class="emotional">What if the energy you've been chasing was already inside you?</p>
+
     <!-- Phone Mockup -->
-    <div class="phone-wrap">
+    <div class="phone-wrap" aria-hidden="true">
       <div class="phone">
         <div class="phone-notch"></div>
         <div class="phone-ring">
@@ -187,7 +205,9 @@
     </div>
   </header>
 
-  <div class="div"></div>
+  <main id="main">
+
+  <hr class="divider">
 
   <!-- How it works -->
   <section class="reveal">
@@ -195,119 +215,156 @@
     <p class="sub">No account. No app store. No friction.</p>
     <div class="steps">
       <div class="step">
-        <div class="step-num">1</div>
+        <div class="step-num" aria-hidden="true">1</div>
         <h3>Open the Link</h3>
         <p>Tap the button. Decaf opens instantly in your browser.</p>
       </div>
       <div class="step">
-        <div class="step-num">2</div>
+        <div class="step-num" aria-hidden="true">2</div>
         <h3>Tap "Start"</h3>
         <p>One tap to begin. Your streak starts counting immediately.</p>
       </div>
       <div class="step">
-        <div class="step-num">3</div>
-        <h3>Watch Progress</h3>
+        <div class="step-num" aria-hidden="true">3</div>
+        <h3>Feel Progress</h3>
         <p>Track milestones, see your tree grow, and celebrate every day.</p>
       </div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- Features -->
   <section class="reveal">
-    <h2>Everything You Need</h2>
+    <h2>Everything You Need to Find Natural Energy</h2>
     <p class="sub">Built for people who want to change. Every feature exists because it actually helps.</p>
     <div class="grid">
-      <div class="card"><div class="icon">&#9201;</div><h3>Live Timer</h3><p>Every caffeine-free second counted. Watch your natural energy timeline grow.</p></div>
-      <div class="card"><div class="icon">&#127793;</div><h3>Growing Tree</h3><p>Your energy grows naturally — visualized as a tree that grows with your streak.</p></div>
-      <div class="card"><div class="icon">&#127942;</div><h3>12 Milestones</h3><p>Celebrate when headaches end, sleep improves, natural energy returns, and more.</p></div>
-      <div class="card"><div class="icon">&#129504;</div><h3>Recovery Phases</h3><p>Withdrawal, Detoxing, Stabilizing, Resetting, Balancing, Natural Energy, Caffeine-Free.</p></div>
-      <div class="card"><div class="icon">&#128202;</div><h3>Streak Stats</h3><p>Track your longest caffeine-free streak and total days without stimulants.</p></div>
-      <div class="card"><div class="icon">&#128247;</div><h3>Share Card</h3><p>Share your caffeine-free progress for accountability.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#9201;</div><h3>Live Timer</h3><p>Every caffeine-free second counted. Watch your natural energy timeline grow.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#127793;</div><h3>Growing Tree</h3><p>Your energy grows naturally — visualized as a tree that grows with your streak.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#127942;</div><h3>12 Milestones</h3><p>Celebrate when headaches end, sleep improves, natural energy returns, and more.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#129504;</div><h3>Recovery Phases</h3><p>Withdrawal, Detoxing, Stabilizing, Resetting, Balancing, Natural Energy, Caffeine-Free.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#128202;</div><h3>Streak Stats</h3><p>Track your longest caffeine-free streak and total days without stimulants.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#128247;</div><h3>Share Card</h3><p>Share your caffeine-free progress for accountability.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#10052;</div><h3>Streak Freeze</h3><p>Life happens. 2 streak freezes protect your progress so one slip doesn't erase everything.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#127941;</div><h3>Badge Collection</h3><p>Earn badges for milestones and consistency as your natural energy returns.</p></div>
+      <div class="card"><div class="icon" aria-hidden="true">&#128176;</div><h3>Money Saved</h3><p>See how much you save by not buying coffee and energy drinks. It adds up fast.</p></div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- Recovery Phases -->
   <section class="reveal">
     <h2>Science-Backed Recovery Phases</h2>
     <p class="sub">Your body goes through real changes. Decaf shows you exactly where you are.</p>
     <div class="phases">
-      <div class="phase"><span class="phase-day" style="color:#f87171">Day 0-3</span><div><div class="phase-label">Withdrawal</div><div class="phase-desc">Headaches, fatigue, brain fog. Adenosine receptors are overwhelmed.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 3-7</span><div><div class="phase-label">Detoxing</div><div class="phase-desc">Headaches fading. Sleep quality starting to improve.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 7-14</span><div><div class="phase-label">Stabilizing</div><div class="phase-desc">Adenosine receptors resetting. Natural tiredness cues returning.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 14-30</span><div><div class="phase-label">Resetting</div><div class="phase-desc">Sleep architecture normalizing. Afternoon crashes disappearing.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 30-60</span><div><div class="phase-label">Balancing</div><div class="phase-desc">Cortisol rhythm normalizing. Steady energy throughout the day.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#34d399">Day 60-90</span><div><div class="phase-label">Natural Energy</div><div class="phase-desc">Adrenals recovered. Natural wakefulness stronger than caffeine ever was.</div></div></div>
-      <div class="phase"><span class="phase-day" style="color:#34d399">Day 90+</span><div><div class="phase-label">Caffeine-Free</div><div class="phase-desc">Running on your own energy. No stimulants needed.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#f87171">Day 0-3</span><div><h3 class="phase-label">Withdrawal</h3><div class="phase-desc">Headaches, fatigue, brain fog. Adenosine receptors are overwhelmed.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 3-7</span><div><h3 class="phase-label">Detoxing</h3><div class="phase-desc">Headaches fading. Sleep quality starting to improve.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 7-14</span><div><h3 class="phase-label">Stabilizing</h3><div class="phase-desc">Adenosine receptors resetting. Natural tiredness cues returning.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 14-30</span><div><h3 class="phase-label">Resetting</h3><div class="phase-desc">Sleep architecture normalizing. Afternoon crashes disappearing.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#fbbf24">Day 30-60</span><div><h3 class="phase-label">Balancing</h3><div class="phase-desc">Cortisol rhythm normalizing. Steady energy throughout the day.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 60-90</span><div><h3 class="phase-label">Natural Energy</h3><div class="phase-desc">Adrenals recovered. Natural wakefulness stronger than caffeine ever was.</div></div></div>
+      <div class="phase"><span class="phase-day" style="color:#34d399">Day 90+</span><div><h3 class="phase-label">Caffeine-Free</h3><div class="phase-desc">Running on your own energy. No stimulants needed.</div></div></div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- Privacy -->
   <section class="reveal">
     <h2>Your Privacy is Non-Negotiable</h2>
     <p class="sub">Your journey is personal. Your data should be yours alone.</p>
     <div class="privacy">
-      <div class="priv-item"><div class="pi">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open and start.</p></div>
-      <div class="priv-item"><div class="pi">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser. Nothing sent to any server.</p></div>
-      <div class="priv-item"><div class="pi">&#128683;</div><h3>Minimal Analytics</h3><p>Cookieless, anonymous page view counts only. No personal data collected.</p></div>
-      <div class="priv-item"><div class="pi">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128274;</div><h3>No Account</h3><p>No email, no password, no signup. Just open and start.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128241;</div><h3>On-Device Only</h3><p>All data stays in your browser. Nothing sent to any server.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128683;</div><h3>Minimal Analytics</h3><p>Cookieless, anonymous page view counts only. No personal data collected.</p></div>
+      <div class="priv-item"><div class="pi" aria-hidden="true">&#128268;</div><h3>Works Offline</h3><p>Install as an app. Works without internet once loaded.</p></div>
     </div>
   </section>
 
-  <div class="div"></div>
+  <hr class="divider">
 
   <!-- FAQ -->
   <section class="reveal">
     <h2>Frequently Asked Questions</h2>
     <div class="faq">
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Is Decaf really free?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Yes. Completely free. No subscription, no ads, no premium features.</div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Is Decaf really free?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">Yes. Completely free. No subscription, no ads, no premium features.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">How long do withdrawal headaches last?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Typically 2-9 days, with peak intensity around day 1-2. Stay hydrated — it helps significantly.</div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">How long do withdrawal headaches last?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">Typically 2-9 days, with peak intensity around day 1-2. Stay hydrated — it helps significantly.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Will I have energy without caffeine?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Yes. After 2-4 weeks, most people report more stable, consistent energy than they had with caffeine. The spikes and crashes disappear.</div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Will I have energy without caffeine?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">Yes. After 2-4 weeks, most people report more stable, consistent energy than they had with caffeine. The spikes and crashes disappear.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">Does this include tea?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">That's your choice. Some people quit all caffeine (coffee, tea, energy drinks), others just reduce. Decaf tracks whatever protocol you follow.</div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Does this include tea?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">That's your choice. Some people quit all caffeine (coffee, tea, energy drinks), others just reduce. Decaf tracks whatever protocol you follow.</div>
       </div>
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">I had a coffee. Is my progress lost?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Reset your streak if you want to start fresh — previous days are always saved. Or keep going if it was a one-time slip.</div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">I had a coffee. Is my progress lost?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">Reset your streak if you want to start fresh — previous days are always saved. You also have streak freezes for minor slips.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Does Decaf work on desktop?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">Yes. Decaf works on any device with a modern web browser — phone, tablet, or desktop. Install it for offline access.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="var i=this.parentElement;i.classList.toggle('open');this.setAttribute('aria-expanded',i.classList.contains('open'))">Is Decaf on the App Store or Google Play?<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a" role="region">Decaf is a web app — no app store needed. Install it on your home screen for an app-like experience with offline support.</div>
       </div>
     </div>
   </section>
 
   <!-- Final CTA -->
-  <div class="final reveal">
-    <h2>Start Today</h2>
-    <p>Every journey begins with a single day. Make today Day 1.</p>
-    <a href="https://decaf-app-black.vercel.app" class="cta">Start Your Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+  <section class="final reveal">
+    <h2>Natural Energy Returns in 2 Weeks</h2>
+    <p>Your adrenals start recovering within days. Consistent energy is ahead.</p>
+    <a href="https://decaf-app-black.vercel.app" class="cta" aria-label="Start tracking your streak for free">Start My Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <span class="cta-sub">No signup. No download. Just open and start.</span>
-  </div>
+  </section>
+
+  </main>
 
   <!-- Sticky Bottom CTA -->
   <div class="bottom-cta" id="bottomCta">
     <span class="bottom-cta-text">100% free &amp; private</span>
-    <a href="https://decaf-app-black.vercel.app">Start Your Streak</a>
+    <a href="https://decaf-app-black.vercel.app">Start Free</a>
   </div>
 
-  <footer><p>Decaf is a free, open tool for anyone ready to change.</p><p style="margin-top:.5rem">Your data never leaves your device.</p></footer>
+  <!-- Cross Links -->
+  <div class="cross-links">
+    <p>More Free Streak Trackers</p>
+    <div class="cross-links-list">
+      <a href="https://rewire-landing.vercel.app">NoFap Streak Tracker</a>
+      <a href="https://vapefree-landing.vercel.app">Quit Vaping Tracker</a>
+      <a href="https://fasttrack-landing.vercel.app">Fasting Streak Tracker</a>
+      <a href="https://greenday-landing.vercel.app">Quit Weed Tracker</a>
+      <a href="https://sugarfree-landing.vercel.app">Quit Sugar Tracker</a>
+      <a href="https://primal-landing.vercel.app">Testosterone Tracker</a>
+      <a href="https://iceplunge-landing.vercel.app">Cold Plunge Tracker</a>
+      <a href="https://sober-landing.vercel.app">Sobriety Tracker</a>
+      <a href="https://clearlungs-landing.vercel.app">Quit Smoking Tracker</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Built for anyone ready to run on their own energy. No stimulants needed.</p>
+    <p style="margin-top:.5rem">Your data never leaves your device.</p>
+    <p class="disclaimer">This app is a self-help tool and is not a substitute for professional medical or psychological treatment.</p>
+  </footer>
 
   <!-- FAQ Schema -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Decaf really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Completely free. No subscription, no ads, no premium features."}},{"@type":"Question","name":"How long do withdrawal headaches last?","acceptedAnswer":{"@type":"Answer","text":"Typically 2-9 days, with peak intensity around day 1-2. Stay hydrated — it helps significantly."}},{"@type":"Question","name":"Will I have energy without caffeine?","acceptedAnswer":{"@type":"Answer","text":"Yes. After 2-4 weeks, most people report more stable, consistent energy than they had with caffeine. The spikes and crashes disappear."}},{"@type":"Question","name":"Does this include tea?","acceptedAnswer":{"@type":"Answer","text":"That's your choice. Some people quit all caffeine (coffee, tea, energy drinks), others just reduce. Decaf tracks whatever protocol you follow."}},{"@type":"Question","name":"I had a coffee. Is my progress lost?","acceptedAnswer":{"@type":"Answer","text":"Reset your streak if you want to start fresh — previous days are always saved. Or keep going if it was a one-time slip."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Decaf really free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Completely free. No subscription, no ads, no premium features."}},{"@type":"Question","name":"How long do withdrawal headaches last?","acceptedAnswer":{"@type":"Answer","text":"Typically 2-9 days, with peak intensity around day 1-2. Stay hydrated — it helps significantly."}},{"@type":"Question","name":"Will I have energy without caffeine?","acceptedAnswer":{"@type":"Answer","text":"Yes. After 2-4 weeks, most people report more stable, consistent energy than they had with caffeine. The spikes and crashes disappear."}},{"@type":"Question","name":"Does this include tea?","acceptedAnswer":{"@type":"Answer","text":"That's your choice. Some people quit all caffeine (coffee, tea, energy drinks), others just reduce. Decaf tracks whatever protocol you follow."}},{"@type":"Question","name":"I had a coffee. Is my progress lost?","acceptedAnswer":{"@type":"Answer","text":"Reset your streak if you want to start fresh — previous days are always saved. You also have streak freezes for minor slips."}},{"@type":"Question","name":"Does Decaf work on desktop?","acceptedAnswer":{"@type":"Answer","text":"Yes. Decaf works on any device with a modern web browser — phone, tablet, or desktop. Install it for offline access."}},{"@type":"Question","name":"Is Decaf on the App Store or Google Play?","acceptedAnswer":{"@type":"Answer","text":"Decaf is a web app — no app store needed. Install it on your home screen for an app-like experience with offline support."}}]}
   </script>
+
+  <!-- Google Analytics 4 (Consent Mode v2 — default denied, cookieless) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W45YF5NLPM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','G-W45YF5NLPM');</script>
 
   <script>
     // Sticky header: show after scrolling past hero CTA

@@ -15,8 +15,8 @@
   --color-danger-dim: #7f1d1d;
   --color-text: #f4f4f8;
   --color-text-secondary: #c0c0d0;
-  --color-text-dim: #7a7a95;
-  --color-text-muted: #44445a;
+  --color-text-dim: #8c8ca6;
+  --color-text-muted: #6b6b80;
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-accent: rgba(124, 107, 245, 0.2);
   --color-glow-purple: rgba(124, 107, 245, 0.12);
@@ -145,8 +145,8 @@ body {
 
 /* Confetti keyframes */
 @keyframes confetti-fall {
-  0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-  100% { transform: translateY(350px) rotate(720deg) scale(0.3); opacity: 0; }
+  0% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); opacity: 1; }
+  100% { transform: translateY(350px) translateX(var(--x-drift, 0px)) rotate(720deg) scale(0.3); opacity: 0; }
 }
 
 @keyframes confetti-burst {
@@ -232,4 +232,14 @@ body {
 
 .animate-fade-out {
   animation: fade-out 0.3s ease-out forwards;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -129,9 +129,13 @@ export default function ShareCard({ days, longestStreak }: Props) {
       }
     })
 
-    ctx.fillStyle = '#44445a'
+    ctx.fillStyle = '#6b6b80'
     ctx.font = '500 22px -apple-system, BlinkMacSystemFont, sans-serif'
-    ctx.fillText(config.name, cx, h - 80)
+    ctx.fillText(config.name, cx, h - 100)
+
+    ctx.fillStyle = '#8c8ca6'
+    ctx.font = '400 18px -apple-system, BlinkMacSystemFont, sans-serif'
+    ctx.fillText(window.location.origin.replace('https://', ''), cx, h - 65)
 
     try {
       const blob = await new Promise<Blob | null>((resolve) =>
@@ -141,7 +145,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
 
       if (navigator.share && navigator.canShare) {
         const file = new File([blob], `${config.id}-streak.png`, { type: 'image/png' })
-        const shareData = { files: [file], title: `Day ${days} — ${config.name}` }
+        const shareData = { files: [file], title: `Day ${days} — ${config.name}`, url: window.location.origin }
         if (navigator.canShare(shareData)) {
           await navigator.share(shareData)
           setStatus('idle')
@@ -214,7 +218,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
         disabled={status === 'saving'}
         className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-2"
       >
-        {status === 'saving' ? 'Generating...' : status === 'saved' ? 'Saved!' : 'Download Share Card'}
+        {status === 'saving' ? 'Generating...' : status === 'saved' ? 'Saved!' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
       </button>
 
       <p className="text-text-muted text-[11px] text-center mt-3 animate-fade-in-delay-3">
