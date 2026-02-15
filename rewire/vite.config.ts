@@ -15,6 +15,7 @@ const appConfigs: Record<string, {
   appUrl: string
   landingUrl: string
   accentColor: string
+  gaId: string
 }> = {
   rewire: {
     name: 'Rewire — Rewire Your Brain', shortName: 'Rewire',
@@ -25,6 +26,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://rewire-psi.vercel.app',
     landingUrl: 'https://rewire-landing.vercel.app',
     accentColor: '#7c6bf5',
+    gaId: 'G-EFHPDZXPF7',
   },
   vapefree: {
     name: 'VapeFree — Quit Vaping', shortName: 'VapeFree',
@@ -35,6 +37,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://vapefree-app.vercel.app',
     landingUrl: 'https://vapefree-landing.vercel.app',
     accentColor: '#06b6d4',
+    gaId: 'G-EVEKQFSFRE',
   },
   fasttrack: {
     name: 'FastTrack — Intermittent Fasting', shortName: 'FastTrack',
@@ -45,6 +48,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://fasttrack-app-three.vercel.app',
     landingUrl: 'https://fasttrack-landing.vercel.app',
     accentColor: '#f59e0b',
+    gaId: 'G-1FJFH2DVV4',
   },
   greenday: {
     name: 'GreenDay — Quit Weed', shortName: 'GreenDay',
@@ -55,6 +59,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://greenday-app.vercel.app',
     landingUrl: 'https://greenday-landing.vercel.app',
     accentColor: '#22c55e',
+    gaId: 'G-PW6J0RX1TW',
   },
   sugarfree: {
     name: 'SugarFree — Quit Sugar', shortName: 'SugarFree',
@@ -65,6 +70,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://sugarfree-app.vercel.app',
     landingUrl: 'https://sugarfree-landing.vercel.app',
     accentColor: '#ec4899',
+    gaId: 'G-RZSYQSYFRH',
   },
   decaf: {
     name: 'Decaf — Quit Caffeine', shortName: 'Decaf',
@@ -75,6 +81,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://decaf-app-black.vercel.app',
     landingUrl: 'https://decaf-landing.vercel.app',
     accentColor: '#d97706',
+    gaId: 'G-53PR298JY2',
   },
   primal: {
     name: 'Primal — Testosterone Optimizer', shortName: 'Primal',
@@ -85,6 +92,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://primal-app.vercel.app',
     landingUrl: 'https://primal-landing.vercel.app',
     accentColor: '#ef4444',
+    gaId: 'G-1ZVFEG1R1J',
   },
   iceplunge: {
     name: 'IcePlunge — Cold Exposure Tracker', shortName: 'IcePlunge',
@@ -95,6 +103,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://iceplunge-app.vercel.app',
     landingUrl: 'https://iceplunge-landing.vercel.app',
     accentColor: '#3b82f6',
+    gaId: 'G-W9Y4MT0338',
   },
   sober: {
     name: 'Sober — Quit Drinking', shortName: 'Sober',
@@ -105,6 +114,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://sober-app-theta.vercel.app',
     landingUrl: 'https://sober-landing.vercel.app',
     accentColor: '#6366f1',
+    gaId: 'G-9RLR6LGJBP',
   },
   clearlungs: {
     name: 'ClearLungs — Quit Smoking', shortName: 'ClearLungs',
@@ -115,6 +125,7 @@ const appConfigs: Record<string, {
     appUrl: 'https://clearlungs-app.vercel.app',
     landingUrl: 'https://clearlungs-landing.vercel.app',
     accentColor: '#10b981',
+    gaId: 'G-1DWE0D6FY0',
   },
 }
 
@@ -150,7 +161,9 @@ function seoPlugin(): Plugin {
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="${cfg.title}" />
     <meta name="twitter:description" content="${cfg.metaDescription}" />
-    <script type="application/ld+json">${structuredData}</script>`
+    <script type="application/ld+json">${structuredData}</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${cfg.gaId}');</script>`
 
       return html
         .replace(/<title>.*<\/title>/, `<title>${cfg.title}</title>${metaTags}`)

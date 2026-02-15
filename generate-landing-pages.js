@@ -5,6 +5,7 @@ const apps = [
   {
     id: 'vapefree',
     name: 'VapeFree',
+    gaId: 'G-1ZEY1KJ7T0',
     appUrl: 'https://vapefree-app.vercel.app',
     tagline: 'Ditch the vape. Reclaim your lungs.',
     description: 'Free private streak tracker for quitting vaping. No account, no data collection. Track your nicotine-free journey with live timer, milestones, and recovery phases.',
@@ -43,6 +44,7 @@ const apps = [
   {
     id: 'fasttrack',
     name: 'FastTrack',
+    gaId: 'G-GVJCMLL1BJ',
     appUrl: 'https://fasttrack-app-three.vercel.app',
     tagline: 'Master your fasting. Transform your body.',
     description: 'Free private intermittent fasting streak tracker. No account, no data collection. Track your fasting consistency with live timer, milestones, and metabolic phases.',
@@ -81,6 +83,7 @@ const apps = [
   {
     id: 'greenday',
     name: 'GreenDay',
+    gaId: 'G-GNE2NHKLDP',
     appUrl: 'https://greenday-app.vercel.app',
     tagline: 'Clear your mind. Live sharper.',
     description: 'Free private streak tracker for quitting weed. No account, no data collection. Track your cannabis-free journey with recovery phases and milestones.',
@@ -119,6 +122,7 @@ const apps = [
   {
     id: 'sugarfree',
     name: 'SugarFree',
+    gaId: 'G-TNKZJ1SCGG',
     appUrl: 'https://sugarfree-app.vercel.app',
     tagline: 'Break the sugar cycle. Feel alive.',
     description: 'Free private streak tracker for quitting sugar. No account needed. Track your sugar-free journey with milestones and recovery phases.',
@@ -157,6 +161,7 @@ const apps = [
   {
     id: 'decaf',
     name: 'Decaf',
+    gaId: 'G-W45YF5NLPM',
     appUrl: 'https://decaf-app-black.vercel.app',
     tagline: 'Find your natural energy.',
     description: 'Free private streak tracker for quitting caffeine. No account needed. Track your caffeine-free journey with recovery phases.',
@@ -195,6 +200,7 @@ const apps = [
   {
     id: 'primal',
     name: 'Primal',
+    gaId: 'G-K8EMFTR3CY',
     appUrl: 'https://primal-app.vercel.app',
     tagline: 'Optimize your testosterone. Naturally.',
     description: 'Free private testosterone optimization streak tracker. Track your daily habits for naturally boosting T levels. No account needed.',
@@ -233,6 +239,7 @@ const apps = [
   {
     id: 'iceplunge',
     name: 'IcePlunge',
+    gaId: 'G-P1N9N8ZQEG',
     appUrl: 'https://iceplunge-app.vercel.app',
     tagline: 'Embrace the cold. Build resilience.',
     description: 'Free private cold plunge streak tracker. Track your daily cold exposure habit. No account, no data collection.',
@@ -271,6 +278,7 @@ const apps = [
   {
     id: 'sober',
     name: 'Sober',
+    gaId: 'G-ZMKQ3025HR',
     appUrl: 'https://sober-app-theta.vercel.app',
     tagline: 'Choose clarity. Every single day.',
     description: 'Free private sobriety tracker for quitting alcohol. No account, no data collection. Track your sober journey with milestones and health recovery phases.',
@@ -309,6 +317,7 @@ const apps = [
   {
     id: 'clearlungs',
     name: 'ClearLungs',
+    gaId: 'G-SHBHYQDX5C',
     appUrl: 'https://clearlungs-app.vercel.app',
     tagline: 'Quit smoking. Breathe free.',
     description: 'Free private streak tracker for quitting smoking. No account, no data collection. Track your smoke-free journey with health recovery milestones.',
@@ -370,9 +379,9 @@ function generateHTML(app) {
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"${app.name}","applicationCategory":"HealthApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"${app.description}","url":"${app.appUrl}"}
   </script>
-  <!-- Google Analytics 4 — Replace G-XXXXXXXXXX with your actual GA4 Measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${app.gaId}"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${app.gaId}');</script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     :root{--bg:#06060b;--accent:${app.accentColor};--accent-glow:${app.accentGlow};--success:#34d399;--text:#f4f4f8;--text-sec:#c0c0d0;--text-dim:#7a7a95;--text-muted:#44445a;--border:rgba(255,255,255,0.06);--card:rgba(255,255,255,0.04)}
