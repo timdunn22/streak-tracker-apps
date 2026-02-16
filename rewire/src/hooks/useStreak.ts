@@ -59,9 +59,9 @@ function loadData(): StreakData {
 
 function isValidDate(s: string): boolean {
   if (s.length > 50) return false // prevent excessively long date strings
-  // Require ISO-8601-like format to reject ambiguous strings (e.g. "constructor",
-  // "Tuesday", etc.) that some engines parse to valid Date objects
-  if (!/^\d{4}-\d{2}-\d{2}/.test(s)) return false
+  // Require strict ISO-8601-like format, fully anchored to prevent ReDoS and
+  // reject ambiguous strings (e.g. "constructor", "Tuesday", trailing payloads)
+  if (!/^\d{4}-\d{2}-\d{2}(T[\d:.Z+-]*)?$/.test(s)) return false
   const d = new Date(s)
   if (isNaN(d.getTime())) return false
   // Reject dates before 2020 (app didn't exist) or more than 1 day in the future
@@ -71,11 +71,24 @@ function isValidDate(s: string): boolean {
   return true
 }
 
+function safeObj(o: unknown): Record<string, unknown> {
+  // Prevent prototype pollution: strip __proto__ and constructor keys from parsed JSON,
+  // and copy own properties to a null-prototype object so inherited properties can't
+  // be injected via crafted localStorage data
+  if (typeof o !== 'object' || o === null || Array.isArray(o)) return Object.create(null)
+  const clean: Record<string, unknown> = Object.create(null)
+  for (const key of Object.keys(o as Record<string, unknown>)) {
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') continue
+    clean[key] = (o as Record<string, unknown>)[key]
+  }
+  return clean
+}
+
 function validateData(parsed: unknown): StreakData {
   if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
     return defaultData
   }
-  const p = parsed as Record<string, unknown>
+  const p = safeObj(parsed)
   return {
     startDate: typeof p.startDate === 'string' && isValidDate(p.startDate) ? p.startDate : null,
     streaks: Array.isArray(p.streaks) ? p.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0 && n <= 36500).slice(0, 10000) : [],
@@ -86,12 +99,12 @@ function validateData(parsed: unknown): StreakData {
     dailyCost: typeof p.dailyCost === 'number' && isFinite(p.dailyCost) && p.dailyCost >= 0 && p.dailyCost <= 10000 ? p.dailyCost : null,
     journal: Array.isArray(p.journal) ? p.journal.filter((e: unknown) => {
       if (typeof e !== 'object' || e === null) return false
-      const j = e as Record<string, unknown>
+      const j = safeObj(e)
       return typeof j.id === 'string' && typeof j.date === 'string' && isValidDate(j.date) &&
         typeof j.mood === 'number' && j.mood >= 1 && j.mood <= 5 &&
         typeof j.text === 'string' && j.text.length <= 1000
     }).map((e: unknown) => {
-      const j = e as Record<string, unknown>
+      const j = safeObj(e)
       const entry: JournalEntry = {
         id: (j.id as string).slice(0, 50),
         date: (j.date as string).slice(0, 30),
@@ -230,22 +243,29 @@ export function useStreak() {
   }, [])
 
   const exportData = useCallback(() => {
-    const exportPayload = {
-      app: config.id,
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      data,
+    let url: string | null = null
+    try {
+      const exportPayload = {
+        app: config.id,
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        data,
+      }
+      const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' })
+      url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${config.id.replace(/[^a-z0-9-]/g, '')}-backup-${new Date().toISOString().slice(0, 10)}.json`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      // Delay revoking so Safari has time to start the download
+      const revokeUrl = url
+      setTimeout(() => URL.revokeObjectURL(revokeUrl), 5000)
+    } catch {
+      // Ensure ObjectURL is always revoked even if download fails
+      if (url) URL.revokeObjectURL(url)
     }
-    const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${config.id.replace(/[^a-z0-9-]/g, '')}-backup-${new Date().toISOString().slice(0, 10)}.json`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    // Delay revoking so Safari has time to start the download
-    setTimeout(() => URL.revokeObjectURL(url), 5000)
   }, [data])
 
   const importData = useCallback((file: File): Promise<boolean> => {
@@ -263,7 +283,7 @@ export function useStreak() {
       const reader = new FileReader()
       reader.onload = (e) => {
         try {
-          const parsed = JSON.parse(e.target?.result as string)
+          const parsed = safeObj(JSON.parse(e.target?.result as string))
           if (typeof parsed.app !== 'string' || parsed.app !== config.id) {
             alert('This backup is for a different app. Import cancelled.')
             resolve(false)
@@ -314,7 +334,11 @@ export function useStreak() {
     useFreeze,
     dailyCost: data.dailyCost,
     setDailyCost,
-    moneySaved: data.dailyCost ? Math.round(data.dailyCost * (data.totalCleanDays + currentDays) * 100) / 100 : null,
+    // Use integer-cent arithmetic to avoid floating-point precision errors
+    // (e.g. 7.5 * 31 = 232.50000000000003 in IEEE 754)
+    moneySaved: data.dailyCost
+      ? Math.round(Math.round(data.dailyCost * 100) * (data.totalCleanDays + currentDays)) / 100
+      : null,
     addJournalEntry,
     deleteJournalEntry,
     exportData,

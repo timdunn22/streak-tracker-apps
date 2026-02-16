@@ -3,6 +3,7 @@ import { useStreak } from './hooks/useStreak'
 import { useMilestoneAlert } from './hooks/useMilestoneAlert'
 import { useSwipeNavigation } from './hooks/useSwipeNavigation'
 import { useOnlineStatus } from './hooks/useOnlineStatus'
+import { useUpdatePrompt } from './hooks/useUpdatePrompt'
 import { config } from './config'
 import { haptic } from './hooks/useHaptic'
 import StreakCounter from './components/StreakCounter'
@@ -84,6 +85,15 @@ function App() {
   }, [importData, showToast])
 
   const isOnline = useOnlineStatus()
+  const { hasUpdate, applyUpdate } = useUpdatePrompt()
+  const [srAnnouncement, setSrAnnouncement] = useState('')
+
+  // Screen reader announcement helper
+  const announce = useCallback((message: string) => {
+    setSrAnnouncement(message)
+    // Clear after a delay so the same message can be re-announced
+    setTimeout(() => setSrAnnouncement(''), 1000)
+  }, [])
 
   useMilestoneAlert(currentDays, setActiveMilestone)
 
@@ -139,10 +149,82 @@ function App() {
     }
   }, [])
 
+  // Keyboard navigation: arrow keys to switch tabs when nav is focused
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only respond when focus is within the nav bar
+      const nav = document.querySelector('nav[aria-label="App navigation"]')
+      if (!nav || !nav.contains(document.activeElement)) return
+
+      const currentIdx = TAB_ORDER.indexOf(tab)
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        if (currentIdx < TAB_ORDER.length - 1) {
+          switchTab(TAB_ORDER[currentIdx + 1])
+          // Focus the next button after React re-renders
+          setTimeout(() => {
+            const buttons = nav.querySelectorAll<HTMLButtonElement>('button')
+            buttons[currentIdx + 1]?.focus()
+          }, 50)
+        }
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault()
+        if (currentIdx > 0) {
+          switchTab(TAB_ORDER[currentIdx - 1])
+          setTimeout(() => {
+            const buttons = nav.querySelectorAll<HTMLButtonElement>('button')
+            buttons[currentIdx - 1]?.focus()
+          }, 50)
+        }
+      } else if (e.key === 'Home') {
+        e.preventDefault()
+        switchTab(TAB_ORDER[0])
+        setTimeout(() => {
+          const buttons = nav.querySelectorAll<HTMLButtonElement>('button')
+          buttons[0]?.focus()
+        }, 50)
+      } else if (e.key === 'End') {
+        e.preventDefault()
+        switchTab(TAB_ORDER[TAB_ORDER.length - 1])
+        setTimeout(() => {
+          const buttons = nav.querySelectorAll<HTMLButtonElement>('button')
+          buttons[TAB_ORDER.length - 1]?.focus()
+        }, 50)
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [tab, switchTab])
+
   return (
     <div className="flex flex-col min-h-full bg-bg">
+      {/* Screen reader live announcements */}
+      <div className="sr-only" role="status" aria-live="assertive" aria-atomic="true">
+        {srAnnouncement}
+      </div>
+
       {/* Toast notifications */}
       {toast && <Toast message={toast.message} type={toast.type} onDone={() => setToast(null)} />}
+
+      {/* PWA update notification */}
+      {hasUpdate && (
+        <div className="fixed top-0 left-0 right-0 z-[200] bg-accent/15 border-b border-accent/25 backdrop-blur-xl" role="alert">
+          <div className="flex items-center justify-center gap-3 py-2.5 px-4 pt-[max(0.625rem,env(safe-area-inset-top))]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent-glow)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span className="text-accent-glow text-xs font-medium">A new version is available.</span>
+            <button
+              onClick={applyUpdate}
+              className="text-white text-xs font-semibold bg-accent hover:bg-accent-glow px-3 py-1 rounded-lg transition-all active:scale-[0.97]"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Offline indicator */}
       {!isOnline && (
@@ -176,17 +258,18 @@ function App() {
               longestStreak={longestStreak}
               totalResets={totalResets}
               totalCleanDays={totalCleanDays}
-              onStart={startStreak}
-              onReset={resetStreak}
+              onStart={() => { startStreak(); announce('Streak started. Your journey begins now.') }}
+              onReset={() => { resetStreak(); announce('Streak reset. A new journey begins.') }}
               freezesAvailable={freezesAvailable}
-              onUseFreeze={useFreeze}
+              onUseFreeze={() => { const result = useFreeze(); if (result) announce('Streak freeze used. Your streak is protected.'); return result }}
               dailyCost={dailyCost}
               moneySaved={moneySaved}
               onSetDailyCost={setDailyCost}
               onShowBreathing={() => setShowBreathing(true)}
               journal={data.journal}
-              onAddJournal={addJournalEntry}
+              onAddJournal={(mood, text, triggers) => { addJournalEntry(mood, text, triggers); announce('Journal entry saved.') }}
               onDeleteJournal={deleteJournalEntry}
+              showToast={showToast}
             />
           )}
           {tab === 'timeline' && <Timeline currentDays={currentDays} />}
@@ -211,7 +294,7 @@ function App() {
 
       {/* Bottom Navigation — always visible so users can access stats/timeline after reset */}
       <nav className="fixed bottom-0 left-0 right-0 bg-bg/80 backdrop-blur-xl border-t border-border z-50" aria-label="App navigation">
-        <div className="flex justify-around items-center max-w-lg mx-auto py-2 px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <div className="flex justify-around items-center max-w-lg mx-auto py-2 px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]" role="tablist">
           <NavItem
             label="Streak"
             active={tab === 'home'}
@@ -277,8 +360,10 @@ function NavItem({ label, active, onClick, icon }: {
   return (
     <button
       onClick={onClick}
+      role="tab"
       aria-label={label}
-      aria-current={active ? 'page' : undefined}
+      aria-selected={active}
+      tabIndex={active ? 0 : -1}
       className={`relative flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 min-w-[44px] min-h-[44px] ${
         active
           ? 'text-accent-glow'

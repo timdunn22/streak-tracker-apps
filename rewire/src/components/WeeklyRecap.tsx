@@ -70,7 +70,7 @@ export default function WeeklyRecap({ currentDays, longestStreak, totalResets }:
           <p className="text-text-muted text-[10px]">weeks</p>
         </div>
         <div className="flex-1 bg-bg-card rounded-xl p-2.5 text-center">
-          <p className="text-lg font-bold text-text tabular-nums">{Math.min(100, Math.round((currentDays / config.goalDays) * 100))}%</p>
+          <p className="text-lg font-bold text-text tabular-nums">{config.goalDays > 0 ? Math.min(100, Math.round((currentDays / config.goalDays) * 100)) : 0}%</p>
           <p className="text-text-muted text-[10px]">to goal</p>
         </div>
       </div>

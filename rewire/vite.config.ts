@@ -153,7 +153,7 @@ function seoPlugin(): Plugin {
         featureList: 'Live streak timer, Recovery phases, Milestones, Streak freeze, Badge collection, Journal, Share progress card, Offline support',
         screenshot: `${cfg.landingUrl}/og-image.svg`,
         datePublished: '2025-01-01',
-        dateModified: '2025-06-01',
+        dateModified: '2026-02-15',
       })
 
       const metaTags = `
@@ -184,7 +184,7 @@ function seoPlugin(): Plugin {
     <script type="application/ld+json">${structuredData}</script>
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
+    <script async fetchpriority="low" src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','${cfg.gaId}',{anonymize_ip:true});</script>`
 
       return html
@@ -231,6 +231,11 @@ function seoPlugin(): Plugin {
 }
 
 export default defineConfig({
+  // Disable source maps in production to prevent exposing source code,
+  // config values, and internal architecture to end users
+  build: {
+    sourcemap: false,
+  },
   plugins: [
     react(),
     tailwindcss(),

@@ -1,8 +1,36 @@
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { haptic } from '../hooks/useHaptic'
 import Badges from './Badges'
 import AnimatedNumber from './AnimatedNumber'
 import type { JournalEntry } from '../hooks/useStreak'
+
+// Level system: XP based on total clean days, with increasing thresholds
+const LEVELS = [
+  { level: 1, xpRequired: 0, title: 'Newcomer' },
+  { level: 2, xpRequired: 3, title: 'Apprentice' },
+  { level: 3, xpRequired: 7, title: 'Challenger' },
+  { level: 4, xpRequired: 14, title: 'Warrior' },
+  { level: 5, xpRequired: 30, title: 'Guardian' },
+  { level: 6, xpRequired: 60, title: 'Sentinel' },
+  { level: 7, xpRequired: 90, title: 'Champion' },
+  { level: 8, xpRequired: 150, title: 'Master' },
+  { level: 9, xpRequired: 270, title: 'Legend' },
+  { level: 10, xpRequired: 365, title: 'Immortal' },
+]
+
+function getLevel(totalCleanDays: number) {
+  let current = LEVELS[0]
+  for (const lvl of LEVELS) {
+    if (totalCleanDays >= lvl.xpRequired) current = lvl
+    else break
+  }
+  const nextIdx = LEVELS.indexOf(current) + 1
+  const next = nextIdx < LEVELS.length ? LEVELS[nextIdx] : null
+  const xpInLevel = totalCleanDays - current.xpRequired
+  const xpForNext = next ? next.xpRequired - current.xpRequired : 1
+  const progress = next ? Math.min(xpInLevel / xpForNext, 1) : 1
+  return { ...current, next, progress, xpInLevel, xpForNext }
+}
 
 interface Props {
   currentDays: number
@@ -130,6 +158,132 @@ function MoodChart({ journal }: { journal: JournalEntry[] }) {
   )
 }
 
+function StreakSparkline({ streaks, currentDays }: { streaks: number[]; currentDays: number }) {
+  // Include current streak in the sparkline
+  const allStreaks = [...streaks, currentDays]
+  const last10 = allStreaks.slice(-10)
+  if (last10.length < 2) return null
+
+  const max = Math.max(...last10, 1)
+  const width = 200
+  const height = 40
+  const padding = 2
+
+  const points = last10.map((val, i) => ({
+    x: padding + (i / (last10.length - 1)) * (width - padding * 2),
+    y: height - padding - (val / max) * (height - padding * 2),
+  }))
+
+  // Build SVG polyline path
+  const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ')
+  // Area fill path
+  const areaPath = `${linePath} L${points[points.length - 1].x},${height - padding} L${points[0].x},${height - padding} Z`
+
+  // Determine trend
+  const firstHalf = last10.slice(0, Math.ceil(last10.length / 2))
+  const secondHalf = last10.slice(Math.ceil(last10.length / 2))
+  const firstAvg = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length
+  const secondAvg = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length
+  const trending = secondAvg > firstAvg ? 'up' : secondAvg < firstAvg ? 'down' : 'steady'
+
+  return (
+    <div className="glass rounded-2xl p-4 mb-6">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-sm font-semibold text-text">Streak Trend</h3>
+        <span className={`text-[10px] font-semibold flex items-center gap-1 ${
+          trending === 'up' ? 'text-success' : trending === 'down' ? 'text-danger' : 'text-text-muted'
+        }`}>
+          {trending === 'up' && (
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="18 15 12 9 6 15"/>
+            </svg>
+          )}
+          {trending === 'down' && (
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          )}
+          {trending === 'up' ? 'Improving' : trending === 'down' ? 'Declining' : 'Steady'}
+        </span>
+      </div>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full h-10"
+        role="img"
+        aria-label={`Streak trend sparkline showing last ${last10.length} streaks. Trend: ${trending}`}
+      >
+        {/* Area fill */}
+        <path d={areaPath} fill="var(--color-accent)" opacity="0.1" />
+        {/* Line */}
+        <path d={linePath} fill="none" stroke="var(--color-accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Dots */}
+        {points.map((p, i) => (
+          <circle
+            key={i}
+            cx={p.x}
+            cy={p.y}
+            r={i === points.length - 1 ? 3.5 : 2}
+            fill={i === points.length - 1 ? 'var(--color-accent-glow)' : 'var(--color-accent)'}
+            opacity={i === points.length - 1 ? 1 : 0.6}
+          />
+        ))}
+      </svg>
+      <div className="flex justify-between mt-1">
+        <span className="text-text-muted text-[9px]">{last10[0]}d</span>
+        <span className="text-accent-glow text-[9px] font-semibold">{last10[last10.length - 1]}d (current)</span>
+      </div>
+    </div>
+  )
+}
+
+function LevelCard({ totalCleanDays }: { totalCleanDays: number }) {
+  const levelData = useMemo(() => getLevel(totalCleanDays), [totalCleanDays])
+
+  return (
+    <div className="glass-accent rounded-2xl p-4 mb-6 animate-fade-in-delay-1">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <div
+            className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm text-white"
+            style={{
+              background: 'linear-gradient(135deg, var(--color-accent), var(--color-accent-glow))',
+              boxShadow: '0 0 12px color-mix(in srgb, var(--color-accent) 25%, transparent)',
+            }}
+            aria-hidden="true"
+          >
+            {levelData.level}
+          </div>
+          <div>
+            <p className="text-text text-sm font-semibold">{levelData.title}</p>
+            <p className="text-text-muted text-[10px]">Level {levelData.level}</p>
+          </div>
+        </div>
+        {levelData.next && (
+          <div className="text-right">
+            <p className="text-accent-glow text-[10px] font-semibold">{levelData.next.title}</p>
+            <p className="text-text-muted text-[10px]">{levelData.xpForNext - levelData.xpInLevel}d to next</p>
+          </div>
+        )}
+      </div>
+      {levelData.next ? (
+        <div className="w-full h-2 bg-border rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(levelData.progress * 100)} aria-valuemin={0} aria-valuemax={100} aria-label={`Level progress: ${Math.round(levelData.progress * 100)}% toward ${levelData.next.title}`}>
+          <div
+            className="h-full rounded-full transition-all duration-700"
+            style={{
+              width: `${levelData.progress * 100}%`,
+              background: 'linear-gradient(90deg, var(--color-accent), var(--color-accent-glow))',
+            }}
+          />
+        </div>
+      ) : (
+        <div className="bg-success/10 border border-success/20 rounded-xl px-3 py-1.5 text-center mt-1">
+          <p className="text-success text-[10px] font-semibold">Maximum level reached!</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Stats({ currentDays, longestStreak, totalCleanDays, totalResets, streaks, startDate, moneySaved, dailyCost, journal, onExport, onImport }: Props) {
   const isPersonalBest = currentDays > 0 && currentDays >= longestStreak
   const avgStreak = streaks.length > 0
@@ -179,6 +333,18 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <p className="text-text-muted text-[11px] mt-1">Resets</p>
         </div>
       </div>
+
+      {/* Level System */}
+      <div className="animate-fade-in-delay-2">
+        <LevelCard totalCleanDays={totalCleanDays} />
+      </div>
+
+      {/* Streak Trend Sparkline */}
+      {(streaks.length >= 1 || currentDays > 0) && (
+        <div className="animate-fade-in-delay-2">
+          <StreakSparkline streaks={streaks} currentDays={currentDays} />
+        </div>
+      )}
 
       {/* Mood Chart */}
       {journal.length >= 2 ? (

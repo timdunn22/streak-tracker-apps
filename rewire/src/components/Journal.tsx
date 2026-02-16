@@ -8,6 +8,7 @@ interface Props {
   onAdd: (mood: number, text: string, triggers?: string[]) => void
   onDelete: (id: string) => void
   currentDays: number
+  showToast?: (message: string, type?: 'success' | 'error' | 'info') => void
 }
 
 const MOODS = [
@@ -18,11 +19,14 @@ const MOODS = [
   { value: 5, emoji: '💪', label: 'Strong' },
 ]
 
-export default function Journal({ entries, onAdd, onDelete, currentDays }: Props) {
+export default function Journal({ entries, onAdd, onDelete, currentDays, showToast }: Props) {
   const [isWriting, setIsWriting] = useState(false)
   const [mood, setMood] = useState(3)
   const [text, setText] = useState('')
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null)
+  // Undo delete: hold onto deleted entry and a timer ref
+  const [deletedEntry, setDeletedEntry] = useState<JournalEntry | null>(null)
+  const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const confirmDelete = useCallback((id: string) => {
@@ -33,10 +37,33 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
   const executeDelete = useCallback(() => {
     if (pendingDeleteId) {
       haptic('heavy')
+      // Save the entry before deleting so user can undo
+      const entry = entries.find(e => e.id === pendingDeleteId)
+      if (entry) {
+        setDeletedEntry(entry)
+        // Clear any previous undo timer
+        if (undoTimerRef.current) clearTimeout(undoTimerRef.current)
+        // Auto-clear undo after 5 seconds
+        undoTimerRef.current = setTimeout(() => {
+          setDeletedEntry(null)
+          undoTimerRef.current = null
+        }, 5000)
+      }
       onDelete(pendingDeleteId)
       setPendingDeleteId(null)
+      if (showToast) showToast('Entry deleted. Tap undo in 5s to restore.', 'info')
     }
-  }, [pendingDeleteId, onDelete])
+  }, [pendingDeleteId, onDelete, entries, showToast])
+
+  const undoDelete = useCallback(() => {
+    if (deletedEntry) {
+      haptic('success')
+      onAdd(deletedEntry.mood, deletedEntry.text, deletedEntry.triggers)
+      setDeletedEntry(null)
+      if (undoTimerRef.current) { clearTimeout(undoTimerRef.current); undoTimerRef.current = null }
+      if (showToast) showToast('Entry restored.', 'success')
+    }
+  }, [deletedEntry, onAdd, showToast])
 
   const prompts = config.journalPrompts || []
   const todaysPrompt = prompts.length > 0 ? prompts[currentDays % prompts.length] : null
@@ -215,6 +242,22 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
               <p className="text-text-secondary text-xs leading-relaxed">{entry.text}</p>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Undo delete banner */}
+      {deletedEntry && !isWriting && (
+        <div className="mt-3 animate-slide-down">
+          <div className="glass-accent rounded-xl p-3 flex items-center justify-between">
+            <span className="text-text-dim text-xs">Entry deleted</span>
+            <button
+              onClick={undoDelete}
+              className="text-accent-glow text-xs font-semibold py-1.5 px-4 rounded-lg bg-accent/10 border border-accent/20 transition-all active:scale-[0.97] min-h-[36px]"
+              aria-label="Undo delete journal entry"
+            >
+              Undo
+            </button>
+          </div>
         </div>
       )}
     </div>

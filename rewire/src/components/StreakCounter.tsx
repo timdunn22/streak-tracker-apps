@@ -32,13 +32,14 @@ interface Props {
   journal: JournalEntry[]
   onAddJournal: (mood: number, text: string, triggers?: string[]) => void
   onDeleteJournal: (id: string) => void
+  showToast: (message: string, type?: 'success' | 'error' | 'info') => void
 }
 
 function getDailyQuote(daysSinceStart: number): string {
   return config.quotes[daysSinceStart % config.quotes.length]
 }
 
-export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, totalCleanDays, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost, onShowBreathing, journal, onAddJournal, onDeleteJournal }: Props) {
+export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, totalCleanDays, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost, onShowBreathing, journal, onAddJournal, onDeleteJournal, showToast }: Props) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const liveTime = useLiveTimer(startDate)
@@ -68,7 +69,8 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
     return { label: last.label, color: last.color }
   }
 
-  const progress = Math.min(days / config.goalDays, 1)
+  // Guard against division by zero if goalDays is ever misconfigured
+  const progress = config.goalDays > 0 ? Math.min(days / config.goalDays, 1) : 0
   const circumference = 2 * Math.PI * 88
   const phase = getPhase()
 
@@ -258,7 +260,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </div>
         <div className="w-px h-10 bg-border" aria-hidden="true" />
         <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{Math.min(100, Math.round((days / config.goalDays) * 100))}%</p>
+          <p className="text-xl font-bold text-text tabular-nums">{config.goalDays > 0 ? Math.min(100, Math.round((days / config.goalDays) * 100)) : 0}%</p>
           <p className="text-text-muted text-[11px] mt-0.5">to goal</p>
         </div>
       </div>
@@ -275,7 +277,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
       {/* Journal */}
       <div className="w-full flex justify-center mb-6">
-        <Journal entries={journal} onAdd={onAddJournal} onDelete={onDeleteJournal} currentDays={days} />
+        <Journal entries={journal} onAdd={onAddJournal} onDelete={onDeleteJournal} currentDays={days} showToast={showToast} />
       </div>
 
       <WeeklyRecap currentDays={days} longestStreak={longestStreak} totalResets={totalResets} />
@@ -364,7 +366,8 @@ function NextMilestone({ days }: { days: number }) {
   const daysLeft = next.day - days
   const prevMilestone = milestoneList.filter(m => m.day <= days).pop()
   const prevDay = prevMilestone ? prevMilestone.day : 0
-  const segmentProgress = (days - prevDay) / (next.day - prevDay)
+  const segmentRange = next.day - prevDay
+  const segmentProgress = segmentRange > 0 ? (days - prevDay) / segmentRange : 0
 
   return (
     <div className="glass-accent rounded-2xl p-4 w-full max-w-sm animate-fade-in-delay-2">

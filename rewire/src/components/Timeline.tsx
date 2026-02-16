@@ -84,21 +84,25 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
             <p className="text-text-secondary text-xs leading-relaxed mt-0.5">{events[activeIdx].description}</p>
           </div>
         </div>
-        {currentEventIdx > 0 && currentEventIdx < events.length && (
+        {currentEventIdx > 0 && currentEventIdx < events.length && (() => {
+          const range = events[currentEventIdx].day - events[activeIdx].day
+          const pct = range > 0 ? Math.min(100, ((currentDays - events[activeIdx].day) / range) * 100) : 0
+          return (
           <div className="mt-3 pt-3 border-t border-border">
             <div className="flex justify-between items-center">
               <span className="text-text-muted text-[10px]">Next: {events[currentEventIdx].title}</span>
               <span className="text-accent-glow text-[10px] font-semibold">{events[currentEventIdx].day - currentDays}d away</span>
             </div>
-            <div className="w-full h-1 bg-border rounded-full mt-1.5 overflow-hidden" role="progressbar" aria-valuenow={Math.round(Math.min(100, ((currentDays - events[activeIdx].day) / (events[currentEventIdx].day - events[activeIdx].day)) * 100))} aria-valuemin={0} aria-valuemax={100} aria-label={`Progress to ${events[currentEventIdx].title}`}>
+            <div className="w-full h-1 bg-border rounded-full mt-1.5 overflow-hidden" role="progressbar" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} aria-label={`Progress to ${events[currentEventIdx].title}`}>
               <div
                 className="h-full bg-accent rounded-full transition-all duration-500"
                 style={{
-                  width: `${Math.min(100, ((currentDays - events[activeIdx].day) / (events[currentEventIdx].day - events[activeIdx].day)) * 100)}%`,
+                  width: `${pct}%`,
                 }}
               />
             </div>
-          </div>
+          </div>)
+        })()
         )}
       </div>
 
@@ -108,10 +112,10 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
         <div
           className="absolute left-[18px] top-2 w-[2px] bg-accent rounded-full transition-all duration-500"
           style={{
-            height: `${Math.min(
+            height: `${events.length > 0 ? Math.min(
               (events.filter(e => currentDays >= e.day).length / events.length) * 100,
               100
-            )}%`,
+            ) : 0}%`,
           }}
         />
 
@@ -218,10 +222,10 @@ function MilestoneTimeline({ currentDays, milestones }: { currentDays: number; m
         <div
           className="absolute left-[18px] top-2 w-[2px] bg-accent rounded-full transition-all duration-500"
           style={{
-            height: `${Math.min(
+            height: `${milestones.length > 0 ? Math.min(
               (milestones.filter(m => currentDays >= m.day).length / milestones.length) * 100,
               100
-            )}%`,
+            ) : 0}%`,
           }}
         />
 
