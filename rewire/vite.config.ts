@@ -144,6 +144,7 @@ function seoPlugin(): Plugin {
         applicationCategory: 'HealthApplication',
         applicationSubCategory: 'Habit Tracker',
         operatingSystem: 'Any',
+        inLanguage: 'en',
         browserRequirements: 'Requires a modern web browser with JavaScript',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         description: cfg.metaDescription,
@@ -177,6 +178,7 @@ function seoPlugin(): Plugin {
     <meta name="twitter:image:alt" content="${cfg.shortName} streak tracker app" />
     <script type="application/ld+json">${structuredData}</script>
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <script async src="https://www.googletagmanager.com/gtag/js?id=${cfg.gaId}"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'analytics_storage':'denied','ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied'});gtag('js',new Date());gtag('config','${cfg.gaId}',{anonymize_ip:true});</script>`
 
@@ -213,6 +215,7 @@ function seoPlugin(): Plugin {
             { key: 'X-XSS-Protection', value: '0' },
             { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
             { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+            { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
             { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" },
           ],
         }],

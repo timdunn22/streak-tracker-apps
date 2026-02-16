@@ -9,7 +9,11 @@ function getToday(): string {
 }
 
 function hasCheckedInToday(): boolean {
-  return localStorage.getItem(CHECKIN_KEY) === getToday()
+  try {
+    return localStorage.getItem(CHECKIN_KEY) === getToday()
+  } catch {
+    return false
+  }
 }
 
 const encouragements = [

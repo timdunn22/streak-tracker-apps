@@ -6,18 +6,21 @@ const SEEN_KEY = `${config.id}-seen-milestones`
 
 function getSeenMilestones(): number[] {
   try {
-    const parsed = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')
+    const raw = localStorage.getItem(SEEN_KEY)
+    if (!raw || raw.length > 1024) return [] // cap raw size to prevent DoS from crafted localStorage
+    const parsed = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
-    return parsed.filter((n: unknown) => typeof n === 'number' && isFinite(n))
+    return parsed.filter((n: unknown) => typeof n === 'number' && isFinite(n)).slice(0, 50)
   } catch {
     return []
   }
 }
 
 function markSeen(day: number) {
+  if (!isFinite(day) || day < 0 || day > 36500) return
   const seen = getSeenMilestones()
   if (!seen.includes(day)) {
-    try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, day])) } catch { /* quota exceeded */ }
+    try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, day].slice(-50))) } catch { /* quota exceeded */ }
   }
 }
 

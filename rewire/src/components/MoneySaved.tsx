@@ -39,11 +39,11 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
           How much did you spend per day {config.costLabel || 'on this habit'}?
         </p>
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-text text-lg font-bold">$</span>
+          <span className="text-text text-lg font-bold" aria-hidden="true">$</span>
           <input
             type="number"
             inputMode="decimal"
-            min="0"
+            min="0.01"
             step="0.01"
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}
@@ -55,9 +55,11 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
             className="flex-1 bg-bg-card border border-border rounded-xl px-3 py-2.5 text-text text-lg font-semibold text-center outline-none focus:border-accent transition-colors"
             autoFocus
             aria-label="Daily spending amount in dollars"
+            aria-describedby="cost-hint"
           />
-          <span className="text-text-muted text-sm">/day</span>
+          <span className="text-text-muted text-sm" aria-hidden="true">/day</span>
         </div>
+        <p id="cost-hint" className="text-text-muted text-[10px] text-center mb-3">Enter a value greater than 0. Press Enter or tap Save.</p>
         <button
           onClick={() => {
             const val = parseFloat(inputVal) || config.defaultDailyCost || 0

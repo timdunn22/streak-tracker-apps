@@ -24,7 +24,9 @@ export default function Timeline({ currentDays }: Props) {
           <button
             onClick={() => setView('recovery')}
             role="tab"
+            id="tab-recovery"
             aria-selected={view === 'recovery'}
+            aria-controls="tabpanel-recovery"
             className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
               view === 'recovery'
                 ? 'bg-accent/10 border border-accent/20 text-accent-glow'
@@ -36,7 +38,9 @@ export default function Timeline({ currentDays }: Props) {
           <button
             onClick={() => setView('milestones')}
             role="tab"
+            id="tab-milestones"
             aria-selected={view === 'milestones'}
+            aria-controls="tabpanel-milestones"
             className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
               view === 'milestones'
                 ? 'bg-accent/10 border border-accent/20 text-accent-glow'
@@ -49,11 +53,15 @@ export default function Timeline({ currentDays }: Props) {
       )}
 
       {view === 'recovery' && recovery.length > 0 && (
-        <RecoveryTimeline currentDays={currentDays} events={recovery} />
+        <div role="tabpanel" id="tabpanel-recovery" aria-labelledby="tab-recovery">
+          <RecoveryTimeline currentDays={currentDays} events={recovery} />
+        </div>
       )}
 
       {view === 'milestones' && (
-        <MilestoneTimeline currentDays={currentDays} milestones={milestones} />
+        <div role="tabpanel" id="tabpanel-milestones" aria-labelledby="tab-milestones">
+          <MilestoneTimeline currentDays={currentDays} milestones={milestones} />
+        </div>
       )}
     </div>
   )
@@ -82,7 +90,7 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
               <span className="text-text-muted text-[10px]">Next: {events[currentEventIdx].title}</span>
               <span className="text-accent-glow text-[10px] font-semibold">{events[currentEventIdx].day - currentDays}d away</span>
             </div>
-            <div className="w-full h-1 bg-border rounded-full mt-1.5 overflow-hidden">
+            <div className="w-full h-1 bg-border rounded-full mt-1.5 overflow-hidden" role="progressbar" aria-valuenow={Math.round(Math.min(100, ((currentDays - events[activeIdx].day) / (events[currentEventIdx].day - events[activeIdx].day)) * 100))} aria-valuemin={0} aria-valuemax={100} aria-label={`Progress to ${events[currentEventIdx].title}`}>
               <div
                 className="h-full bg-accent rounded-full transition-all duration-500"
                 style={{
@@ -138,7 +146,7 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
                   }}
                 >
                   {unlocked && (
-                    <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                    <svg width="8" height="8" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                       <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
@@ -192,7 +200,7 @@ function MilestoneTimeline({ currentDays, milestones }: { currentDays: number; m
             </p>
             <p className="text-text-muted text-[11px] mt-0.5">unlocked</p>
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1" aria-hidden="true">
             {milestones.map(m => (
               <div
                 key={m.day}
@@ -242,7 +250,7 @@ function MilestoneTimeline({ currentDays, milestones }: { currentDays: number; m
                   }}
                 >
                   {unlocked && (
-                    <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
+                    <svg width="8" height="8" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                       <path d="M2 6L5 9L10 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}

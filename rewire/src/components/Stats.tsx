@@ -151,7 +151,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
         <p className="text-text-dim text-sm">current streak</p>
         {isPersonalBest && currentDays > 0 && (
           <span className="inline-flex items-center gap-1 mt-3 text-xs bg-success/10 border border-success/20 text-success px-3 py-1 rounded-full">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
               <path d="M6 1L7.5 4.5L11 5L8.5 7.5L9 11L6 9.5L3 11L3.5 7.5L1 5L4.5 4.5L6 1Z" fill="currentColor" />
             </svg>
             Personal Best

@@ -190,7 +190,7 @@ export default function BreathingExercise({ onClose }: Props) {
                 }}
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-bold text-text tabular-nums">{secondsLeft}</span>
+                <span className="text-4xl font-bold text-text tabular-nums" aria-live="off" aria-atomic="true" aria-label={`${secondsLeft} seconds remaining`}>{secondsLeft}</span>
               </div>
             </div>
 

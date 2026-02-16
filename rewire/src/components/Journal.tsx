@@ -176,14 +176,14 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setPendingDeleteId(null)}
-                      className="text-text-muted text-[10px] py-1 px-2 rounded-lg hover:text-text-dim transition-colors"
+                      className="text-text-muted text-[10px] py-2 px-3 rounded-lg hover:text-text-dim transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                       aria-label="Cancel delete"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={executeDelete}
-                      className="text-danger text-[10px] font-semibold py-1 px-2 rounded-lg bg-danger/10 transition-colors"
+                      className="text-danger text-[10px] font-semibold py-2 px-3 rounded-lg bg-danger/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                       aria-label="Confirm delete entry"
                     >
                       Delete

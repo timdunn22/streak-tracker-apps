@@ -58,6 +58,7 @@ function loadData(): StreakData {
 }
 
 function isValidDate(s: string): boolean {
+  if (s.length > 50) return false // prevent excessively long date strings
   return !isNaN(new Date(s).getTime())
 }
 
@@ -188,7 +189,9 @@ export function useStreak() {
           .map(t => t.slice(0, 100))
       : undefined
     const entry: JournalEntry = {
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      id: typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : Date.now().toString(36) + Math.random().toString(36).slice(2, 9),
       date: new Date().toISOString(),
       mood: Math.max(1, Math.min(5, Math.round(mood))),
       text: text.slice(0, 500),
@@ -201,6 +204,7 @@ export function useStreak() {
   }, [])
 
   const deleteJournalEntry = useCallback((id: string) => {
+    if (typeof id !== 'string' || id.length > 50) return
     setData(prev => ({
       ...prev,
       journal: prev.journal.filter(e => e.id !== id),
@@ -218,8 +222,10 @@ export function useStreak() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${config.id}-backup-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `${config.id.replace(/[^a-z0-9-]/g, '')}-backup-${new Date().toISOString().slice(0, 10)}.json`
+    document.body.appendChild(a)
     a.click()
+    document.body.removeChild(a)
     // Delay revoking so Safari has time to start the download
     setTimeout(() => URL.revokeObjectURL(url), 5000)
   }, [data])

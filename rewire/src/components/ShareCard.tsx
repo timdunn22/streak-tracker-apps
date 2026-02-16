@@ -156,8 +156,10 @@ export default function ShareCard({ days, longestStreak }: Props) {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `${config.id}-day-${days}.png`
+      a.download = `${config.id.replace(/[^a-z0-9-]/g, '')}-day-${days}.png`
+      document.body.appendChild(a)
       a.click()
+      document.body.removeChild(a)
       URL.revokeObjectURL(url)
       setStatus('saved')
       setTimeout(() => setStatus('idle'), 2000)
@@ -182,7 +184,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
       <div className="glass rounded-2xl overflow-hidden mb-5 animate-fade-in-delay-1">
         <div className="bg-mesh p-8 text-center">
           <div className="relative w-32 h-32 mx-auto mb-4">
-            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
               <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="3" />
               <circle
                 cx="50" cy="50" r="44"
@@ -223,6 +225,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
         onClick={generateAndShare}
         disabled={status === 'saving'}
         className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-2"
+        aria-live="polite"
       >
         {status === 'saving' ? 'Generating...' : status === 'saved' ? 'Saved!' : status === 'error' ? 'Something went wrong' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
       </button>

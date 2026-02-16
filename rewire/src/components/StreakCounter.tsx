@@ -176,12 +176,12 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
           </defs>
         </svg>
 
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center" aria-live="polite" aria-atomic="true">
           <AnimatedNumber value={days} className="text-7xl font-bold text-text tracking-tighter animate-count tabular-nums" />
           <span className="text-text-dim text-sm mt-1 font-medium">
             {days === 1 ? config.unitLabelSingular : config.unitLabel}
           </span>
-          <span className="text-text-muted text-xs mt-1 tabular-nums">
+          <span className="text-text-muted text-xs mt-1 tabular-nums" aria-label={`${String(liveTime.hours).padStart(2, '0')} hours ${String(liveTime.minutes).padStart(2, '0')} minutes ${String(liveTime.seconds).padStart(2, '0')} seconds`}>
             {String(liveTime.hours).padStart(2, '0')}:{String(liveTime.minutes).padStart(2, '0')}:{String(liveTime.seconds).padStart(2, '0')}
           </span>
         </div>
@@ -208,12 +208,12 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
           <p className="text-xl font-bold text-text tabular-nums">{Math.floor(days / 7)}</p>
           <p className="text-text-muted text-[11px] mt-0.5">weeks</p>
         </div>
-        <div className="w-px h-10 bg-border" />
+        <div className="w-px h-10 bg-border" aria-hidden="true" />
         <div className="text-center">
           <p className="text-xl font-bold text-text tabular-nums">{Math.floor(days / 30)}</p>
           <p className="text-text-muted text-[11px] mt-0.5">months</p>
         </div>
-        <div className="w-px h-10 bg-border" />
+        <div className="w-px h-10 bg-border" aria-hidden="true" />
         <div className="text-center">
           <p className="text-xl font-bold text-text tabular-nums">{Math.min(100, Math.round((days / config.goalDays) * 100))}%</p>
           <p className="text-text-muted text-[11px] mt-0.5">to goal</p>
@@ -250,7 +250,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             I relapsed
           </button>
         ) : (
-          <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down">
+          <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down" role="alertdialog" aria-label="Reset streak confirmation">
             <p className="text-text-secondary text-sm text-center leading-relaxed">
               It's okay. Setbacks don't erase progress.
             </p>
@@ -260,7 +260,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                 <p className="text-text text-lg font-bold">{totalCleanDays}</p>
                 <p className="text-text-muted text-[10px]">total clean days</p>
               </div>
-              <div className="w-px bg-border" />
+              <div className="w-px bg-border" aria-hidden="true" />
               <div className="text-center">
                 <p className="text-text text-lg font-bold">{longestStreak}</p>
                 <p className="text-text-muted text-[10px]">personal best</p>
@@ -329,7 +329,7 @@ function NextMilestone({ days }: { days: number }) {
         <span className="text-text-dim text-xs font-medium">Next: {next.label}</span>
         <span className="text-accent-glow text-xs font-semibold">{daysLeft}d left</span>
       </div>
-      <div className="w-full h-1.5 bg-border rounded-full overflow-hidden">
+      <div className="w-full h-1.5 bg-border rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(segmentProgress * 100)} aria-valuemin={0} aria-valuemax={100} aria-label={`Progress to ${next.label}: ${Math.round(segmentProgress * 100)}%`}>
         <div
           className="h-full bg-accent rounded-full transition-all duration-500"
           style={{ width: `${segmentProgress * 100}%` }}
