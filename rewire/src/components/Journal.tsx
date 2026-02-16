@@ -36,7 +36,8 @@ function JournalEntryText({ text }: { text: string }) {
       </p>
       <button
         onClick={() => setExpanded(!expanded)}
-        className="text-accent-glow text-[10px] font-medium mt-1 min-h-[28px]"
+        className="text-accent-glow text-[10px] font-medium mt-1 min-h-[36px] py-1"
+        aria-expanded={expanded}
       >
         {expanded ? 'Show less' : 'Read more'}
       </button>
@@ -211,7 +212,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
             <button
               onClick={submit}
               disabled={!text.trim()}
-              className="bg-accent hover:bg-accent-glow disabled:opacity-30 disabled:active:scale-100 text-white font-semibold text-sm py-2 px-6 rounded-xl transition-all duration-200 ease-out active:scale-[0.97]"
+              className="bg-accent hover:bg-accent-glow disabled:opacity-30 disabled:active:scale-100 text-white font-semibold text-sm py-2 px-6 rounded-xl transition-all duration-200 ease-out active:scale-[0.97] min-h-[44px]"
             >
               Save Entry
             </button>

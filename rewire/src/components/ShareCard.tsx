@@ -200,13 +200,13 @@ export default function ShareCard({ days, longestStreak }: Props) {
   }
 
   return (
-    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
+    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8" role="region" aria-label="Share progress">
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Share Progress</h2>
         <p className="text-text-dim text-xs">Generate a card to share on TikTok, Instagram, or X.</p>
       </div>
 
-      <div className="glass rounded-2xl overflow-hidden mb-5 animate-fade-in-delay-1">
+      <div className="glass rounded-2xl overflow-hidden mb-6 animate-fade-in-delay-1">
         <div className="bg-mesh p-8 text-center">
           <div className="relative w-32 h-32 mx-auto mb-4">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100" aria-hidden="true">
@@ -249,7 +249,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
       <button
         onClick={() => { haptic('tap'); handleGenerate() }}
         disabled={status === 'saving'}
-        className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-2 relative overflow-hidden"
+        className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-2 relative overflow-hidden min-h-[44px]"
         aria-live="polite"
       >
         {status === 'saving' && (

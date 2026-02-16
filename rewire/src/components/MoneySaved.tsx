@@ -96,13 +96,13 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
         <div className="flex gap-2">
           <button
             onClick={() => { setEditing(false); setInputError(false) }}
-            className="flex-1 bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97]"
+            className="flex-1 bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97] min-h-[44px]"
           >
             Cancel
           </button>
           <button
             onClick={validateAndSave}
-            className="flex-1 bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97]"
+            className="flex-1 bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97] min-h-[44px]"
           >
             Save
           </button>
@@ -125,7 +125,7 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
             />
           </div>
           <p className="text-text-muted text-[10px] mt-0.5 tabular-nums">
-            {formatCurrencyDecimal(dailyCost!)}/day &times; {formatNumber(days)} {days === 1 ? 'day' : 'days'}
+            {formatCurrencyDecimal(dailyCost ?? 0)}/day &times; {formatNumber(days)} {days === 1 ? 'day' : 'days'}
           </p>
         </div>
         <button

@@ -12,13 +12,16 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#06060b">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
   <meta property="og:title" content="Free NoFap Tracker App — Rewire | Private Recovery">
   <meta property="og:description" content="Track your NoFap streak with Rewire — 100% free, private, no account needed. Live timer, recovery phases, milestones, and streak freeze. Works offline.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rewire-landing.vercel.app/">
   <meta property="og:image" content="https://rewire-landing.vercel.app/og-image.svg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rewire-landing.vercel.app/">
   <meta property="og:site_name" content="Rewire">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,14 +29,11 @@
   <meta name="twitter:description" content="Track your NoFap streak with Rewire — 100% free, private, no account needed. Live timer, recovery phases, milestones, and streak freeze. Works offline.">
   <meta name="twitter:image" content="https://rewire-landing.vercel.app/og-image.svg">
   <meta name="twitter:image:alt" content="Rewire NoFap streak tracker app screenshot">
-  <meta name="theme-color" content="#06060b">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'">
   <meta property="og:image:type" content="image/svg+xml">
   <meta property="og:image:alt" content="Rewire NoFap streak tracker app screenshot">
-  <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebApplication","name":"Rewire","applicationCategory":"HealthApplication","applicationSubCategory":"Addiction Recovery","operatingSystem":"Any","inLanguage":"en","browserRequirements":"Requires a modern web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"description":"Free private streak tracker for quitting porn and rewiring your brain. No account, no data collection, works offline.","url":"https://rewire-psi.vercel.app","author":{"@type":"Person","name":"Tim Dunn","url":"https://github.com/timdunn22"},"publisher":{"@type":"Organization","name":"Streak Tracker Apps","url":"https://github.com/timdunn22/streak-tracker-apps","sameAs":["https://github.com/timdunn22/streak-tracker-apps"]},"featureList":["Live streak timer","Recovery phases","Milestone celebrations","Streak freeze","Badge collection","Streak calendar","Share card generator","Works offline"],"screenshot":"https://rewire-landing.vercel.app/og-image.svg","datePublished":"2025-01-01","dateModified":"2026-02-15","softwareVersion":"1.0","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"150","bestRating":"5","worstRating":"1"},"potentialAction":{"@type":"ViewAction","target":"https://rewire-psi.vercel.app","name":"Start Tracking Free"},"speakable":{"@type":"SpeakableSpecification","cssSelector":[".hero h1",".hero .hero-sub",".hero .badge"]}}
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Rewire","applicationCategory":"HealthApplication","applicationSubCategory":"Addiction Recovery","operatingSystem":"Any","inLanguage":"en","browserRequirements":"Requires a modern web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock"},"description":"Free private streak tracker for quitting porn and rewiring your brain. No account, no data collection, works offline.","url":"https://rewire-psi.vercel.app","author":{"@type":"Person","name":"Tim Dunn","url":"https://github.com/timdunn22"},"publisher":{"@type":"Organization","name":"Streak Tracker Apps","url":"https://github.com/timdunn22/streak-tracker-apps","sameAs":["https://github.com/timdunn22/streak-tracker-apps"]},"featureList":"Live streak timer, Recovery phases, Milestone celebrations, Streak freeze, Badge collection, Streak calendar, Share card generator, Works offline","screenshot":"https://rewire-landing.vercel.app/og-image.svg","datePublished":"2025-01-01","dateModified":"2026-02-15","softwareVersion":"1.0","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"150","bestRating":"5","worstRating":"1"},"potentialAction":{"@type":"ViewAction","target":"https://rewire-psi.vercel.app","name":"Start Tracking Free"},"speakable":{"@type":"SpeakableSpecification","cssSelector":[".hero h1",".hero .hero-sub",".hero .badge"]}}
   </script>
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -42,22 +42,22 @@
     body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
 
     /* Skip nav */
-    .skip-nav{position:absolute;top:-40px;left:0;background:var(--accent);color:#fff;padding:.5rem 1rem;z-index:200;font-size:.85rem;transition:top .2s}
-    .skip-nav:focus{top:0}
+    .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:.75rem 1.5rem;border-radius:0 0 .75rem .75rem;z-index:200;font-size:.9rem;font-weight:600;text-decoration:none}
+    .skip-link:focus{top:0}
 
     /* Sticky header */
-    .sticky-header{position:fixed;top:0;left:0;right:0;z-index:90;padding:.625rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,11,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .3s ease}
-    .sticky-header.show{transform:translateY(0)}
-    .sticky-header .logo{font-weight:700;font-size:1rem;color:var(--text)}
-    .sticky-header .hdr-cta{background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;padding:.5rem 1.25rem;border-radius:.75rem;text-decoration:none;transition:all .2s}
-    .sticky-header .hdr-cta:hover{background:var(--accent-glow)}
+    nav.sticky-header{position:fixed;top:0;left:0;right:0;z-index:90;padding:.625rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,11,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .3s ease}
+    nav.sticky-header.show{transform:translateY(0)}
+    nav.sticky-header .logo{font-weight:700;font-size:1rem;color:var(--text)}
+    nav.sticky-header .hdr-cta{background:var(--accent);color:#fff;font-size:.85rem;font-weight:600;padding:.5rem 1.25rem;border-radius:.75rem;text-decoration:none;transition:all .2s}
+    nav.sticky-header .hdr-cta:hover{background:var(--accent-glow)}
 
     /* Hero */
     .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.5rem 6rem;position:relative;background-image:radial-gradient(ellipse at 20% 0%,rgba(124,107,245,0.12) 0%,transparent 50%),radial-gradient(ellipse at 80% 100%,rgba(52,211,153,0.12) 0%,transparent 50%)}
     .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,107,245,0.1);border:1px solid rgba(124,107,245,0.2);border-radius:100px;padding:.4rem 1rem;font-size:.8rem;color:#b4a8ff;font-weight:600;margin-bottom:2rem;letter-spacing:.02em}
     h1{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1.25rem;max-width:700px}
     h1 .gradient{background:linear-gradient(135deg,#b4a8ff,var(--success));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.6}
+    .hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);max-width:500px;margin-bottom:2rem;line-height:1.6}
     .cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent);color:#fff;font-size:1.1rem;font-weight:600;padding:1rem 2.5rem;border-radius:1rem;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 30px rgba(124,107,245,0.2),0 0 60px rgba(124,107,245,0.08)}
     .cta:hover{background:var(--accent-glow);transform:translateY(-1px)}
     .cta-sub{display:block;margin-top:.75rem;font-size:.8rem;color:var(--text-muted)}
@@ -66,7 +66,7 @@
     .trust-item svg{width:14px;height:14px;stroke:var(--accent-glow);fill:none;stroke-width:2}
 
     /* Emotional callout */
-    .emotional-callout{max-width:500px;margin:2rem auto 0;padding:1.25rem 1.5rem;border-left:3px solid var(--accent);background:color-mix(in srgb, var(--accent) 5%, transparent);border-radius:0 .75rem .75rem 0;font-size:.9rem;color:var(--text-sec);font-style:italic;line-height:1.6}
+    .emotional{font-size:1rem;color:var(--text-sec);max-width:440px;margin-top:2.5rem;line-height:1.6;padding:1rem 1.5rem;border-left:3px solid rgba(124,107,245,0.27);border-radius:0 .5rem .5rem 0;background:rgba(124,107,245,0.03)}
 
     /* Phone mockup */
     .phone-wrap{margin:2.5rem auto 0;perspective:800px}
@@ -141,8 +141,7 @@
     .bottom-cta-text{font-size:.78rem;color:var(--text-dim);display:none}
     @media(min-width:500px){.bottom-cta-text{display:block}}
 
-    /* Divider */
-    .divider{border:none;height:1px;background:var(--border);max-width:900px;margin:0 auto}
+    hr.divider{height:1px;background:var(--border);max-width:900px;margin:0 auto;border:none}
 
     /* CWV: defer rendering of below-fold sections */
     .reveal{content-visibility:auto;contain-intrinsic-size:auto 500px}
@@ -151,12 +150,12 @@
     .cross-links{max-width:900px;margin:0 auto;padding:2rem 1.5rem 1rem;border-top:1px solid var(--border)}
     .cross-links p{text-align:center;font-size:.85rem;font-weight:600;color:var(--text-dim);margin-bottom:1rem}
     .cross-links-list{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem .75rem}
-    .cross-links-list a{font-size:.78rem;color:var(--text-muted);text-decoration:none;transition:color .2s}
+    .cross-links-list a{font-size:.82rem;color:var(--text-muted);text-decoration:none;transition:color .2s;padding:.5rem .75rem;display:inline-block}
     .cross-links-list a:hover{color:var(--text-dim)}
 
     /* Footer */
     footer{text-align:center;padding:2rem 1.5rem 5rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted)}
-    .health-disclaimer{font-size:.7rem;color:var(--text-muted);margin-top:.75rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5}
+    footer .disclaimer{margin-top:.75rem;font-size:.72rem;color:var(--text-muted);opacity:.7}
 
     @media(max-width:600px){
       .grid,.privacy{grid-template-columns:1fr}
@@ -172,10 +171,7 @@
     *:focus-visible{outline:2px solid var(--accent-glow);outline-offset:2px;border-radius:4px}
     *:focus:not(:focus-visible){outline:none}
 
-    @media(prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important;scroll-behavior:auto!important}
-      .reveal{opacity:1;transform:none}
-    }
+    @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 
     /* Ensure content is visible without JS */
     noscript .reveal-fix .reveal{opacity:1;transform:none}
@@ -184,10 +180,10 @@
 </head>
 <body>
 
-  <a href="#main-content" class="skip-nav">Skip to main content</a>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <!-- Sticky Header (shows on scroll) -->
-  <nav class="sticky-header" id="stickyHeader" aria-label="Site navigation">
+  <nav class="sticky-header" id="stickyHeader" aria-label="Main navigation">
     <span class="logo">Rewire</span>
     <a href="https://rewire-psi.vercel.app" class="hdr-cta" rel="noopener noreferrer">Start Free</a>
   </nav>
@@ -197,7 +193,7 @@
     <div class="badge">100% Free &amp; Private</div>
     <h1>Track Your NoFap Streak.<br><span class="gradient">Rewire Your Brain.</span></h1>
     <p class="hero-sub">The free NoFap streak tracker that keeps your data on your device. No account, no ads, no judgment. Just you and your progress.</p>
-    <a href="https://rewire-psi.vercel.app" class="cta" id="heroCta" rel="noopener noreferrer">Start My Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <a href="https://rewire-psi.vercel.app" class="cta" id="heroCta" aria-label="Start tracking your streak for free" rel="noopener noreferrer">Start My Streak — Free <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <span class="cta-sub">No signup required. Works on any device.</span>
 
     <div class="trust-row">
@@ -206,7 +202,7 @@
       <span class="trust-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Works Offline</span>
     </div>
 
-    <div class="emotional-callout">You're here because something inside you wants to change. That matters more than you know.</div>
+    <p class="emotional">You're here because something inside you wants to change. That matters more than you know.</p>
 
     <!-- Phone Mockup -->
     <div class="phone-wrap" aria-hidden="true">
@@ -232,7 +228,7 @@
     </div>
   </header>
 
-  <main id="main-content">
+  <main id="main">
 
   <hr class="divider">
 
@@ -389,12 +385,12 @@
   <footer>
     <p>Rewire is a free, open tool for anyone working to break free from porn addiction. Your recovery is private, personal, and possible.</p>
     <p style="margin-top:.5rem">Your data never leaves your device.</p>
-    <p class="health-disclaimer">Rewire is a self-help tool and is not a substitute for professional medical or psychological advice. If you are struggling, please consult a qualified health professional.</p>
+    <p class="disclaimer">This app is a self-help tool and is not a substitute for professional medical or psychological treatment.</p>
   </footer>
 
   <!-- HowTo Schema -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"HowTo","name":"How to Start Tracking Your NoFap Streak with Rewire","description":"Start tracking your NoFap streak in 3 simple steps. No account needed, works in any browser.","totalTime":"PT10S","step":[{"@type":"HowToStep","position":1,"name":"Open the Link","text":"Tap the button. Rewire opens instantly in your browser.","url":"https://rewire-landing.vercel.app/#main-content"},{"@type":"HowToStep","position":2,"name":"Tap Start","text":"One tap to begin. Your streak starts counting immediately.","url":"https://rewire-psi.vercel.app"},{"@type":"HowToStep","position":3,"name":"Watch Progress","text":"Track milestones, see your tree grow, and celebrate every day.","url":"https://rewire-psi.vercel.app"}]}
+  {"@context":"https://schema.org","@type":"HowTo","name":"How to Start Tracking Your NoFap Streak with Rewire","description":"Start tracking your NoFap streak in 3 simple steps. No account needed, works in any browser.","totalTime":"PT10S","step":[{"@type":"HowToStep","position":1,"name":"Open the Link","text":"Tap the button. Rewire opens instantly in your browser.","url":"https://rewire-landing.vercel.app/#main"},{"@type":"HowToStep","position":2,"name":"Tap Start","text":"One tap to begin. Your streak starts counting immediately.","url":"https://rewire-psi.vercel.app"},{"@type":"HowToStep","position":3,"name":"Watch Progress","text":"Track milestones, see your tree grow, and celebrate every day.","url":"https://rewire-psi.vercel.app"}]}
   </script>
 
   <!-- FAQ Schema -->
@@ -403,28 +399,32 @@
   </script>
 
   <script>
-    // Sticky header + bottom CTA: show after scrolling past hero CTA
-    var heroCta = document.getElementById('heroCta');
-    var stickyHeader = document.getElementById('stickyHeader');
-    var bottomCta = document.getElementById('bottomCta');
-    var observer = new IntersectionObserver(function(entries) {
-      stickyHeader.classList.toggle('show', !entries[0].isIntersecting);
-      bottomCta.classList.toggle('show', !entries[0].isIntersecting);
+    // Sticky header: show after scrolling past hero CTA
+    const heroCta = document.getElementById('heroCta');
+    const stickyHeader = document.getElementById('stickyHeader');
+    const bottomCta = document.getElementById('bottomCta');
+    const observer = new IntersectionObserver(([e]) => {
+      stickyHeader.classList.toggle('show', !e.isIntersecting);
+      bottomCta.classList.toggle('show', !e.isIntersecting);
     }, { threshold: 0 });
     observer.observe(heroCta);
 
     // Scroll reveal animations
-    var reveals = document.querySelectorAll('.reveal');
-    var revealObs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
     }, { threshold: 0.1 });
-    reveals.forEach(function(el) { revealObs.observe(el); });
+    reveals.forEach(el => revealObs.observe(el));
 
-    // FAQ accessibility: override inline handlers with proper aria-hidden management
+    // FAQ accessibility: add ids, aria-controls, and aria-hidden
     document.querySelectorAll('.faq-item').forEach(function(item, i) {
       var btn = item.querySelector('.faq-q');
       var ans = item.querySelector('.faq-a');
       if (btn && ans) {
+        var id = 'faq-a-' + (i + 1);
+        ans.id = id;
+        ans.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-controls', id);
         btn.onclick = function() {
           item.classList.toggle('open');
           var open = item.classList.contains('open');

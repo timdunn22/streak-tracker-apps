@@ -181,7 +181,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
         <button
           onClick={() => guardAction(() => { haptic('success'); onStart() })}
-          className="w-full max-w-[280px] bg-accent hover:bg-accent-glow text-white font-semibold text-base py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-3"
+          className="w-full max-w-[280px] bg-accent hover:bg-accent-glow text-white font-semibold text-base py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-3 min-h-[44px]"
         >
           Start My Journey
         </button>
@@ -189,7 +189,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         {canInstall && (
           <button
             onClick={() => { haptic('tap'); install() }}
-            className="mt-4 w-full max-w-[280px] bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] animate-fade-in-delay-3 flex items-center justify-center gap-2"
+            className="mt-4 w-full max-w-[280px] bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] animate-fade-in-delay-3 flex items-center justify-center gap-2 min-h-[44px]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -205,7 +205,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
   return (
     <div className="flex flex-col items-center pt-[max(3.5rem,calc(env(safe-area-inset-top)+1rem))] pb-6 px-6 bg-mesh min-h-[85vh]">
-      <div className={`animate-fade-in mb-8 flex items-center gap-3`}>
+      <div className={`animate-fade-in mb-6 flex items-center gap-3`}>
         <span className={`text-xs font-semibold tracking-widest uppercase ${phase.color}`}>
           {phase.label}
         </span>
@@ -220,7 +220,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         )}
       </div>
 
-      <div className="relative w-64 h-64 mb-8 animate-fade-in">
+      <div className="relative w-64 h-64 mb-6 animate-fade-in">
         {/* Breathing glow ring behind the SVG */}
         {days > 0 && (
           <div
@@ -355,7 +355,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         <GrowthTree days={days} />
       </div>
 
-      <div className="flex gap-4 sm:gap-6 mb-8 animate-fade-in-delay-1 flex-wrap justify-center">
+      <div className="flex gap-4 sm:gap-6 mb-6 animate-fade-in-delay-1 flex-wrap justify-center">
         {days >= 365 ? (
           <>
             <div className="text-center min-w-0">
@@ -385,7 +385,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </div>
       </div>
 
-      <div className="glass rounded-2xl p-5 w-full max-w-sm mb-8 animate-fade-in-delay-2">
+      <div className="glass rounded-2xl p-5 w-full max-w-sm mb-6 animate-fade-in-delay-2">
         <p className="text-text-secondary text-[13px] leading-relaxed text-center italic">
           "{getDailyQuote(days)}"
         </p>
@@ -409,11 +409,13 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
           <button
             onClick={() => { haptic('tap'); setShowResetConfirm(true) }}
             className="text-text-muted text-xs hover:text-danger/70 transition-colors duration-200 py-3 px-6 min-h-[44px]"
+            aria-expanded="false"
+            aria-controls="reset-dialog"
           >
             I had a setback
           </button>
         ) : (
-          <div ref={resetDialogRef} className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down" role="alertdialog" aria-label="Reset streak confirmation">
+          <div ref={resetDialogRef} id="reset-dialog" className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down" role="alertdialog" aria-label="Reset streak confirmation">
             <p className="text-text-secondary text-sm text-center leading-relaxed">
               It's okay — setbacks are part of the journey, not the end of it.
             </p>
@@ -444,7 +446,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                   onUseFreeze()
                   setShowResetConfirm(false)
                 })}
-                className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2"
+                className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2L9 9H2l6 5-2 7 6-4 6 4-2-7 6-5h-7z"/>
@@ -455,7 +457,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             <div className="flex gap-3 w-full">
               <button
                 onClick={() => { haptic('tap'); setShowResetConfirm(false) }}
-                className="flex-1 bg-bg-card-hover text-text-dim py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:text-text active:scale-[0.97]"
+                className="flex-1 bg-bg-card-hover text-text-dim py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:text-text active:scale-[0.97] min-h-[44px]"
               >
                 Keep Going
               </button>
@@ -465,7 +467,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                   onReset()
                   setShowResetConfirm(false)
                 })}
-                className="flex-1 bg-danger/10 border border-danger/20 text-danger py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:bg-danger/20 active:scale-[0.97]"
+                className="flex-1 bg-danger/10 border border-danger/20 text-danger py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:bg-danger/20 active:scale-[0.97] min-h-[44px]"
               >
                 Start Fresh
               </button>

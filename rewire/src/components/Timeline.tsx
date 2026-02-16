@@ -15,7 +15,7 @@ export default function Timeline({ currentDays }: Props) {
   const [view, setView] = useState<View>(recovery.length > 0 ? 'recovery' : 'milestones')
 
   return (
-    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
+    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8" role="region" aria-label="Recovery timeline">
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Recovery Timeline</h2>
         <p className="text-text-dim text-xs">See how far you've come and what's ahead.</p>

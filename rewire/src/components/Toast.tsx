@@ -47,13 +47,19 @@ export default function Toast({ message, type = 'success', onDone, duration = 25
     ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
     : <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
 
+  const dismiss = () => {
+    setVisible(false)
+    setTimeout(() => onDoneRef.current(), 300)
+  }
+
   return (
     <div
-      className={`fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-[200] rounded-xl border backdrop-blur-xl text-sm font-medium transition-all duration-300 pointer-events-none overflow-hidden ${bgColor} ${
-        visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+      className={`fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-[200] rounded-xl border backdrop-blur-xl text-sm font-medium transition-all duration-300 cursor-pointer overflow-hidden ${bgColor} ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
       }`}
       role="status"
       aria-live="polite"
+      onClick={dismiss}
     >
       <div className="flex items-center gap-2 px-4 py-2.5">
         {icon}

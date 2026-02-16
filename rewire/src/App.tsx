@@ -281,7 +281,7 @@ function App() {
             <span className="text-accent-glow text-xs font-medium">A new version is available</span>
             <button
               onClick={() => { haptic('tap'); applyUpdate() }}
-              className="text-white text-xs font-semibold bg-accent hover:bg-accent-glow px-3 py-1 rounded-lg transition-all duration-200 active:scale-[0.97]"
+              className="text-white text-xs font-semibold bg-accent hover:bg-accent-glow px-3 py-1.5 rounded-xl transition-all duration-200 active:scale-[0.97] min-h-[32px]"
             >
               Update Now
             </button>
@@ -320,7 +320,7 @@ function App() {
       )}
 
       {/* Content — max-w-2xl centers content on tablets/desktop for readability */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto pb-20" {...swipeHandlers}>
+      <main ref={scrollRef} className="flex-1 overflow-y-auto pb-20" {...swipeHandlers} aria-label="Main content">
         <div className="max-w-2xl mx-auto">
         <div
           className={slideDir === 'left' ? 'tab-slide-left' : slideDir === 'right' ? 'tab-slide-right' : 'tab-content'}
@@ -367,7 +367,7 @@ function App() {
           {tab === 'share' && <ShareCard days={currentDays} longestStreak={longestStreak} />}
         </div>
         </div>
-      </div>
+      </main>
 
       {/* Bottom Navigation — always visible so users can access stats/timeline after reset */}
       <nav className="fixed bottom-0 left-0 right-0 bg-bg/80 backdrop-blur-xl border-t border-border z-50" aria-label="App navigation">

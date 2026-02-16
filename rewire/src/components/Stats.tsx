@@ -80,7 +80,7 @@ function StreakCalendar({ currentDays, startDate }: { currentDays: number; start
   return (
     <div className="glass rounded-2xl p-4 mb-6">
       <h3 className="text-sm font-semibold text-text mb-3">Last 5 Weeks</h3>
-      <div className="grid grid-cols-7 gap-1.5">
+      <div className="grid grid-cols-7 gap-1.5" role="grid" aria-label="Streak calendar for last 5 weeks">
         {weekdays.map((d, i) => (
           <div key={i} className="text-center text-text-muted text-[9px] font-medium pb-1" aria-label={d.full}>{d.abbr}</div>
         ))}
@@ -322,7 +322,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
+    <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8" role="region" aria-label="Your statistics">
       {/* Header */}
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Your Stats</h2>
@@ -330,7 +330,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
       </div>
 
       {/* Primary stat card */}
-      <div className="glass-accent rounded-2xl p-6 mb-4 text-center animate-fade-in-delay-1 glow-accent">
+      <div className="glass-accent rounded-2xl p-6 mb-6 text-center animate-fade-in-delay-1 glow-accent">
         <AnimatedNumber value={currentDays} className={`${currentDays >= 10000 ? 'text-3xl sm:text-4xl' : currentDays >= 1000 ? 'text-4xl sm:text-5xl' : 'text-5xl'} font-bold text-text mb-1`} />
         <p className="text-text-dim text-sm">current streak</p>
         {isPersonalBest && currentDays > 0 && (

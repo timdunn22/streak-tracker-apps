@@ -176,7 +176,7 @@ export default function BreathingExercise({ onClose }: Props) {
 
             <button
               onClick={start}
-              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent"
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent min-h-[44px]"
             >
               Begin Exercise
             </button>
@@ -238,7 +238,7 @@ export default function BreathingExercise({ onClose }: Props) {
             <p className="text-text-dim text-xs mb-4">The urge has likely passed. You stayed in control.</p>
             <button
               onClick={() => { haptic('tap'); onClose() }}
-              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-3 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97]"
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-3 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] min-h-[44px]"
             >
               Back to Streak
             </button>

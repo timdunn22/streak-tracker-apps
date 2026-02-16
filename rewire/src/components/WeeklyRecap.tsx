@@ -18,7 +18,7 @@ export default function WeeklyRecap({ currentDays, longestStreak, totalResets }:
 
   if (isFirstWeek) {
     return (
-      <div className="glass-accent rounded-2xl p-5 w-full max-w-sm animate-fade-in-delay-2 mb-4">
+      <div className="glass-accent rounded-2xl p-5 w-full max-w-sm animate-fade-in-delay-2 mb-6">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-base">{config.milestones[0]?.icon || '\u{1F4AA}'}</span>
           <h3 className="text-sm font-semibold text-text">Keep Going</h3>
@@ -48,7 +48,7 @@ export default function WeeklyRecap({ currentDays, longestStreak, totalResets }:
   const isPersonalBest = currentDays >= longestStreak && totalResets > 0
 
   return (
-    <div className="glass-accent rounded-2xl p-5 w-full max-w-sm animate-fade-in-delay-2 mb-4">
+    <div className="glass-accent rounded-2xl p-5 w-full max-w-sm animate-fade-in-delay-2 mb-6">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-base">{'\u{1F4C5}'}</span>
