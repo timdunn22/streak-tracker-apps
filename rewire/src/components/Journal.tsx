@@ -20,6 +20,30 @@ const MOODS = [
   { value: 5, emoji: '💪', label: 'Strong' },
 ]
 
+/** Truncates long journal entries (200+ chars) with an expand toggle */
+function JournalEntryText({ text }: { text: string }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = text.length > 200
+
+  if (!isLong) {
+    return <p className="text-text-secondary text-xs leading-relaxed break-words">{text}</p>
+  }
+
+  return (
+    <div>
+      <p className="text-text-secondary text-xs leading-relaxed break-words">
+        {expanded ? text : `${text.slice(0, 200)}...`}
+      </p>
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="text-accent-glow text-[10px] font-medium mt-1 min-h-[28px]"
+      >
+        {expanded ? 'Show less' : 'Read more'}
+      </button>
+    </div>
+  )
+}
+
 export default function Journal({ entries, onAdd, onDelete, currentDays, showToast }: Props) {
   const [isWriting, setIsWriting] = useState(false)
   const [mood, setMood] = useState(3)
@@ -102,7 +126,10 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
     }
   }
 
-  const recentEntries = [...entries].reverse().slice(0, 5)
+  const [showAllEntries, setShowAllEntries] = useState(false)
+  const reversedEntries = [...entries].reverse()
+  const recentEntries = showAllEntries ? reversedEntries : reversedEntries.slice(0, 5)
+  const hasMore = reversedEntries.length > 5
 
   return (
     <div className="w-full max-w-sm">
@@ -174,13 +201,13 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
             onKeyDown={handleKeyDown}
             placeholder="What happened today? Any triggers, wins, or reflections..."
             className="w-full bg-bg-card border border-border rounded-xl p-3 text-text text-sm placeholder:text-text-muted resize-none h-24 focus:outline-none focus:border-accent/30 transition-colors duration-200"
-            maxLength={500}
+            maxLength={1000}
             autoFocus
             aria-label="Journal entry text"
           />
 
           <div className="flex items-center justify-between mt-3">
-            <span className="text-text-muted text-[10px]">{text.length}/500</span>
+            <span className={`text-[10px] tabular-nums ${text.length > 900 ? 'text-warning' : 'text-text-muted'}`}>{text.length}/1,000</span>
             <button
               onClick={submit}
               disabled={!text.trim()}
@@ -241,9 +268,25 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
                   </button>
                 )}
               </div>
-              <p className="text-text-secondary text-xs leading-relaxed">{entry.text}</p>
+              <JournalEntryText text={entry.text} />
             </div>
           ))}
+          {hasMore && !showAllEntries && (
+            <button
+              onClick={() => { haptic('tap'); setShowAllEntries(true) }}
+              className="w-full text-accent-glow text-xs font-semibold py-2.5 rounded-xl bg-accent/5 border border-accent/10 transition-all duration-200 active:scale-[0.99] min-h-[44px]"
+            >
+              Show all {reversedEntries.length} entries
+            </button>
+          )}
+          {showAllEntries && hasMore && (
+            <button
+              onClick={() => { haptic('tap'); setShowAllEntries(false) }}
+              className="w-full text-text-muted text-xs font-medium py-2.5 rounded-xl transition-all duration-200 active:scale-[0.99] min-h-[44px]"
+            >
+              Show less
+            </button>
+          )}
         </div>
       )}
 

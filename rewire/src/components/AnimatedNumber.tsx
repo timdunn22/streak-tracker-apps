@@ -9,7 +9,13 @@ interface Props {
   raw?: boolean
 }
 
-const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+// Query the live media query on each render rather than caching at module load.
+// This ensures the animation skip is respected if the user toggles reduced motion
+// while the app is open (e.g. via system settings or accessibility shortcut).
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
 
 export default function AnimatedNumber({ value, duration = 800, className = '', raw = false }: Props) {
   // Guard against NaN/Infinity to prevent animation loops or display of "NaN"
@@ -25,7 +31,7 @@ export default function AnimatedNumber({ value, duration = 800, className = '', 
     if (diff === 0) return
 
     // Skip animation for reduced motion users
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion()) {
       setDisplay(end)
       prevValue.current = end
       return

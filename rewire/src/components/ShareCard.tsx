@@ -11,6 +11,7 @@ interface Props {
 export default function ShareCard({ days, longestStreak }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const busyRef = useRef(false)
 
   const getMessage = () => {
     if (days < 3) return 'The journey begins.'
@@ -86,10 +87,13 @@ export default function ShareCard({ days, longestStreak }: Props) {
     }
 
     ctx.fillStyle = '#f4f4f8'
-    ctx.font = 'bold 120px -apple-system, BlinkMacSystemFont, sans-serif'
+    // Adaptive font size for large day counts to prevent canvas text overflow
+    const dayStr = `${days}`
+    const dayFontSize = dayStr.length >= 5 ? 72 : dayStr.length >= 4 ? 90 : 120
+    ctx.font = `bold ${dayFontSize}px -apple-system, BlinkMacSystemFont, sans-serif`
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
-    ctx.fillText(`${days}`, cx, cy - 10)
+    ctx.fillText(dayStr, cx, cy - 10)
 
     ctx.fillStyle = '#7a7a95'
     ctx.font = '500 28px -apple-system, BlinkMacSystemFont, sans-serif'
@@ -184,6 +188,17 @@ export default function ShareCard({ days, longestStreak }: Props) {
     }
   }
 
+  // Wrapped to prevent double-tap triggering concurrent share card generations
+  const handleGenerate = async () => {
+    if (busyRef.current) return
+    busyRef.current = true
+    try {
+      await generateAndShare()
+    } finally {
+      busyRef.current = false
+    }
+  }
+
   return (
     <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
       <div className="mb-6 animate-fade-in">
@@ -232,7 +247,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
       </div>
 
       <button
-        onClick={() => { haptic('tap'); generateAndShare() }}
+        onClick={() => { haptic('tap'); handleGenerate() }}
         disabled={status === 'saving'}
         className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-2 relative overflow-hidden"
         aria-live="polite"

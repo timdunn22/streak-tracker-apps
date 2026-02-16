@@ -47,7 +47,11 @@ export default function DailyCheckIn({ days }: { days: number }) {
     }
   }, [])
 
+  const checkingRef = useRef(false)
   const checkIn = () => {
+    // Prevent double-tap on the check-in button
+    if (checkingRef.current) return
+    checkingRef.current = true
     haptic('success')
     try { localStorage.setItem(CHECKIN_KEY, getToday()) } catch { /* quota exceeded */ }
     setState('success')

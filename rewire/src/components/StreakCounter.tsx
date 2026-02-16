@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useLiveTimer } from '../hooks/useLiveTimer'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
@@ -12,6 +12,24 @@ import FloatingParticles from './FloatingParticles'
 import MoneySaved from './MoneySaved'
 import Journal from './Journal'
 import type { JournalEntry } from '../hooks/useStreak'
+
+/** Returns a responsive font-size class based on day count digits to prevent overflow on small screens. */
+function getDaysFontClass(days: number): string {
+  if (days >= 10000) return 'text-4xl sm:text-5xl'
+  if (days >= 1000) return 'text-5xl sm:text-6xl'
+  return 'text-7xl'
+}
+
+/** Debounce guard: prevents double-tap within 600ms on critical actions */
+function useDebounceAction() {
+  const lastRef = useRef(0)
+  return useCallback((fn: () => void) => {
+    const now = Date.now()
+    if (now - lastRef.current < 600) return
+    lastRef.current = now
+    fn()
+  }, [])
+}
 
 const WELCOME_KEY = `${config.id}-welcome-seen`
 
@@ -45,6 +63,34 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
   const [showWelcome, setShowWelcome] = useState(false)
   const liveTime = useLiveTimer(startDate)
   const { canInstall, install } = useInstallPrompt()
+  const guardAction = useDebounceAction()
+
+  // "Welcome back" banner for returning users after 7+ days of inactivity
+  const [showWelcomeBack, setShowWelcomeBack] = useState(false)
+  useEffect(() => {
+    if (!isActive || days === 0) return
+    try {
+      const LAST_VISIT_KEY = `${config.id}-last-visit`
+      const SESSION_KEY = `${config.id}-wb-seen`
+      const lastVisit = localStorage.getItem(LAST_VISIT_KEY)
+      const alreadyShown = sessionStorage.getItem(SESSION_KEY)
+      // Update last visit timestamp
+      localStorage.setItem(LAST_VISIT_KEY, new Date().toISOString())
+      if (alreadyShown) return
+      if (lastVisit) {
+        const daysSinceVisit = Math.floor((Date.now() - new Date(lastVisit).getTime()) / 86400000)
+        if (daysSinceVisit >= 7) {
+          sessionStorage.setItem(SESSION_KEY, '1')
+          const timer = setTimeout(() => setShowWelcomeBack(true), 800)
+          const dismiss = setTimeout(() => setShowWelcomeBack(false), 10000)
+          return () => { clearTimeout(timer); clearTimeout(dismiss) }
+        }
+      } else {
+        // First-ever visit with an active streak (e.g. imported data) -- don't show
+        sessionStorage.setItem(SESSION_KEY, '1')
+      }
+    } catch { /* storage unavailable */ }
+  }, [isActive, days])
 
   // Show welcome tooltip for first-time users (day 0, first ever streak)
   useEffect(() => {
@@ -61,6 +107,39 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
       } catch { /* localStorage unavailable */ }
     }
   }, [isActive, days, totalResets])
+
+  // Handle Escape key to dismiss the reset confirmation alertdialog,
+  // matching the keyboard behavior of MilestoneModal and BreathingExercise.
+  const resetDialogRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!showResetConfirm) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowResetConfirm(false)
+      }
+      // Focus trap within the alertdialog
+      if (e.key === 'Tab' && resetDialogRef.current) {
+        const focusable = resetDialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus() }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus() }
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    // Auto-focus the first button in the dialog for keyboard users
+    requestAnimationFrame(() => {
+      const firstBtn = resetDialogRef.current?.querySelector<HTMLElement>('button')
+      firstBtn?.focus()
+    })
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [showResetConfirm])
 
   const getPhase = () => {
     for (const phase of config.phases) {
@@ -101,7 +180,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </p>
 
         <button
-          onClick={() => { haptic('success'); onStart() }}
+          onClick={() => guardAction(() => { haptic('success'); onStart() })}
           className="w-full max-w-[280px] bg-accent hover:bg-accent-glow text-white font-semibold text-base py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-3"
         >
           Start My Journey
@@ -199,10 +278,13 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </svg>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center" aria-live="polite" aria-atomic="true">
-          <AnimatedNumber value={days} className="text-7xl font-bold text-text tracking-tighter animate-count tabular-nums" />
+          <AnimatedNumber value={days} className={`${getDaysFontClass(days)} font-bold text-text tracking-tighter animate-count tabular-nums`} />
           <span className="text-text-dim text-sm mt-1 font-medium">
             {days === 1 ? config.unitLabelSingular : config.unitLabel}
           </span>
+          {days >= config.goalDays && (
+            <span className="text-success text-[9px] font-semibold mt-0.5">Goal reached!</span>
+          )}
           <span className="text-text-muted text-xs mt-1 tabular-nums" aria-label={`${String(liveTime.hours).padStart(2, '0')} hours ${String(liveTime.minutes).padStart(2, '0')} minutes ${String(liveTime.seconds).padStart(2, '0')} seconds`}>
             {String(liveTime.hours).padStart(2, '0')}:{String(liveTime.minutes).padStart(2, '0')}:{String(liveTime.seconds).padStart(2, '0')}
           </span>
@@ -233,6 +315,30 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </div>
       )}
 
+      {/* Welcome back banner for returning users */}
+      {showWelcomeBack && (
+        <div className="w-full max-w-sm mb-4 animate-slide-down" role="status" aria-live="polite">
+          <div className="glass-accent rounded-2xl p-4 text-center relative">
+            <button
+              onClick={() => setShowWelcomeBack(false)}
+              className="absolute top-2 right-2 text-text-muted hover:text-text-dim transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label="Dismiss welcome back message"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+            <p className="text-accent-glow text-xs font-semibold tracking-wide uppercase mb-1">Welcome Back</p>
+            <p className="text-text-secondary text-xs leading-relaxed">
+              {days > 0
+                ? `Great to see you again! You're on day ${formatNumber(days)}. Every day counts.`
+                : "Great to see you again! Ready to continue your journey?"
+              }
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Emergency breathing button */}
       <button
         onClick={() => { haptic('tap'); onShowBreathing() }}
@@ -249,19 +355,32 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         <GrowthTree days={days} />
       </div>
 
-      <div className="flex gap-6 mb-8 animate-fade-in-delay-1">
-        <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 7))}</p>
-          <p className="text-text-muted text-[11px] mt-0.5">{Math.floor(days / 7) === 1 ? 'week' : 'weeks'}</p>
-        </div>
-        <div className="w-px h-10 bg-border" aria-hidden="true" />
-        <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 30))}</p>
+      <div className="flex gap-4 sm:gap-6 mb-8 animate-fade-in-delay-1 flex-wrap justify-center">
+        {days >= 365 ? (
+          <>
+            <div className="text-center min-w-0">
+              <p className="text-lg sm:text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 365))}</p>
+              <p className="text-text-muted text-[11px] mt-0.5">{Math.floor(days / 365) === 1 ? 'year' : 'years'}</p>
+            </div>
+            <div className="w-px h-10 bg-border shrink-0" aria-hidden="true" />
+          </>
+        ) : null}
+        <div className="text-center min-w-0">
+          <p className="text-lg sm:text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 30))}</p>
           <p className="text-text-muted text-[11px] mt-0.5">{Math.floor(days / 30) === 1 ? 'month' : 'months'}</p>
         </div>
-        <div className="w-px h-10 bg-border" aria-hidden="true" />
-        <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{config.goalDays > 0 ? Math.min(100, Math.round((days / config.goalDays) * 100)) : 0}%</p>
+        <div className="w-px h-10 bg-border shrink-0" aria-hidden="true" />
+        {days < 365 && (
+          <>
+            <div className="text-center min-w-0">
+              <p className="text-lg sm:text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 7))}</p>
+              <p className="text-text-muted text-[11px] mt-0.5">{Math.floor(days / 7) === 1 ? 'week' : 'weeks'}</p>
+            </div>
+            <div className="w-px h-10 bg-border shrink-0" aria-hidden="true" />
+          </>
+        )}
+        <div className="text-center min-w-0">
+          <p className="text-lg sm:text-xl font-bold text-text tabular-nums">{config.goalDays > 0 ? Math.min(100, Math.round((days / config.goalDays) * 100)) : 0}%</p>
           <p className="text-text-muted text-[11px] mt-0.5">to goal</p>
         </div>
       </div>
@@ -283,9 +402,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
       <WeeklyRecap currentDays={days} longestStreak={longestStreak} totalResets={totalResets} />
 
-      {days < 365 && (
-        <NextMilestone days={days} />
-      )}
+      <NextMilestone days={days} />
 
       <div className="mt-auto pt-6 animate-fade-in-delay-3">
         {!showResetConfirm ? (
@@ -296,7 +413,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             I had a setback
           </button>
         ) : (
-          <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down" role="alertdialog" aria-label="Reset streak confirmation">
+          <div ref={resetDialogRef} className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down" role="alertdialog" aria-label="Reset streak confirmation">
             <p className="text-text-secondary text-sm text-center leading-relaxed">
               It's okay — setbacks are part of the journey, not the end of it.
             </p>
@@ -322,11 +439,11 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             </p>
             {freezesAvailable > 0 && (
               <button
-                onClick={() => {
+                onClick={() => guardAction(() => {
                   haptic('success')
                   onUseFreeze()
                   setShowResetConfirm(false)
-                }}
+                })}
                 className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -343,11 +460,11 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                 Keep Going
               </button>
               <button
-                onClick={() => {
+                onClick={() => guardAction(() => {
                   haptic('heavy')
                   onReset()
                   setShowResetConfirm(false)
-                }}
+                })}
                 className="flex-1 bg-danger/10 border border-danger/20 text-danger py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:bg-danger/20 active:scale-[0.97]"
               >
                 Start Fresh

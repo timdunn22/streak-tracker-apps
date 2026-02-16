@@ -23,29 +23,47 @@ export function useUpdatePrompt() {
       }
     }
 
+    // Track listeners so they can be removed in the cleanup function.
+    // Without this, the updatefound and statechange listeners leak
+    // if the component (or the hook's host) is unmounted and remounted.
+    let registration: ServiceWorkerRegistration | null = null
+    let updateFoundHandler: (() => void) | null = null
+    const stateChangeHandlers: { worker: ServiceWorker; handler: () => void }[] = []
+
     navigator.serviceWorker.ready.then((reg) => {
+      registration = reg
+
       // Check if a new worker is already waiting
       checkForWaiting(reg)
 
       // Listen for new updates that arrive later
-      reg.addEventListener('updatefound', () => {
+      updateFoundHandler = () => {
         const newWorker = reg.installing
         if (!newWorker) return
 
-        newWorker.addEventListener('statechange', () => {
+        const onStateChange = () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             // New content is available, show update prompt
             setWaitingWorker(newWorker)
             setHasUpdate(true)
           }
-        })
-      })
+        }
+        newWorker.addEventListener('statechange', onStateChange)
+        stateChangeHandlers.push({ worker: newWorker, handler: onStateChange })
+      }
+      reg.addEventListener('updatefound', updateFoundHandler)
     })
 
     navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange)
 
     return () => {
       navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange)
+      if (registration && updateFoundHandler) {
+        registration.removeEventListener('updatefound', updateFoundHandler)
+      }
+      for (const { worker, handler } of stateChangeHandlers) {
+        worker.removeEventListener('statechange', handler)
+      }
     }
   }, [])
 

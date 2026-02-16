@@ -317,3 +317,76 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Windows High Contrast Mode / forced-colors support */
+@media (forced-colors: active) {
+  .glass, .glass-accent {
+    border: 1px solid ButtonText;
+    background: Canvas;
+  }
+
+  .glow-accent, .glow-green {
+    box-shadow: none;
+  }
+
+  /* Ensure progress bars are visible */
+  [role="progressbar"] > div {
+    background: Highlight !important;
+  }
+
+  /* Ensure text contrast in forced colors */
+  .text-shimmer {
+    -webkit-text-fill-color: unset;
+    background: none;
+    color: LinkText;
+  }
+
+  /* Ensure buttons are identifiable */
+  button {
+    border: 1px solid ButtonText;
+  }
+
+  /* Badge locked/unlocked distinction */
+  .opacity-30 {
+    opacity: 0.5;
+    border: 1px dashed GrayText;
+  }
+}
+
+/* Landscape orientation: reduce vertical padding, allow horizontal layout */
+@media (orientation: landscape) and (max-height: 500px) {
+  .min-h-\[85vh\] {
+    min-height: auto;
+  }
+}
+
+/* Very small screens (320px width, iPhone SE) and zoomed text (200%) */
+@media (max-width: 374px) {
+  /* Prevent containers from overflowing the viewport */
+  .max-w-sm {
+    max-width: calc(100vw - 2rem);
+  }
+
+  .text-7xl {
+    font-size: 3.5rem;
+  }
+
+  .text-4xl {
+    font-size: 2rem;
+  }
+
+  /* Shrink streak ring to fit smaller screens */
+  .w-64 {
+    width: 14rem;
+  }
+
+  .h-64 {
+    height: 14rem;
+  }
+
+  /* Tighten navigation padding on small screens */
+  nav .px-5 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}

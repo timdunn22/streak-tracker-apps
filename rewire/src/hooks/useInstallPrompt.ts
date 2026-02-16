@@ -10,11 +10,18 @@ export function useInstallPrompt() {
   const [isInstalled, setIsInstalled] = useState(false)
 
   useEffect(() => {
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
+    // Check if already installed via display-mode media query.
+    // Also subscribe to changes so isInstalled updates if the user installs
+    // the PWA while it's running (Safari/Chrome fire this when switching
+    // from browser tab to standalone window).
+    const displayModeQuery = window.matchMedia('(display-mode: standalone)')
+    if (displayModeQuery.matches) {
       setIsInstalled(true)
-      return
     }
+    const onDisplayModeChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setIsInstalled(true)
+    }
+    displayModeQuery.addEventListener('change', onDisplayModeChange)
 
     const handler = (e: Event) => {
       e.preventDefault()
@@ -26,6 +33,7 @@ export function useInstallPrompt() {
     window.addEventListener('appinstalled', installedHandler)
 
     return () => {
+      displayModeQuery.removeEventListener('change', onDisplayModeChange)
       window.removeEventListener('beforeinstallprompt', handler)
       window.removeEventListener('appinstalled', installedHandler)
     }

@@ -77,13 +77,19 @@ const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
 
 function App() {
   const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved, addJournalEntry, deleteJournalEntry, exportData, importData, storageWarning } = useStreak()
-  const [tab, setTab] = useState<Tab>('home')
+  const [tab, setTab] = useState<Tab>(() => {
+    // Restore tab from URL hash on initial load (e.g. #timeline, #stats, #share)
+    const hash = window.location.hash.replace('#', '') as Tab
+    return TAB_ORDER.includes(hash) ? hash : 'home'
+  })
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none')
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null)
   const [showBreathing, setShowBreathing] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null)
   const prevTabRef = useRef<Tab>('home')
   const scrollRef = useRef<HTMLDivElement>(null)
+  // Flag to distinguish user-initiated tab changes from popstate (back/forward)
+  const isPopstateRef = useRef(false)
 
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToast({ message, type })
@@ -104,12 +110,24 @@ function App() {
   const isOnline = useOnlineStatus()
   const { hasUpdate, applyUpdate } = useUpdatePrompt()
   const [srAnnouncement, setSrAnnouncement] = useState('')
+  const announceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Screen reader announcement helper
+  // Screen reader announcement helper.
+  // The clear-timer is tracked via ref so it can be cancelled on unmount,
+  // preventing a React state update on an unmounted component.
   const announce = useCallback((message: string) => {
     setSrAnnouncement(message)
+    // Clear any pending timer from a previous announcement
+    if (announceTimerRef.current) clearTimeout(announceTimerRef.current)
     // Clear after a delay so the same message can be re-announced
-    setTimeout(() => setSrAnnouncement(''), 1000)
+    announceTimerRef.current = setTimeout(() => setSrAnnouncement(''), 1000)
+  }, [])
+
+  // Clean up the announce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (announceTimerRef.current) clearTimeout(announceTimerRef.current)
+    }
   }, [])
 
   useMilestoneAlert(currentDays, setActiveMilestone)
@@ -127,9 +145,32 @@ function App() {
     setSlideDir(nextIdx > prevIdx ? 'left' : 'right')
     prevTabRef.current = next
     setTab(next)
+    // Push to browser history so back/forward works (skip if triggered by popstate)
+    if (!isPopstateRef.current) {
+      const hash = next === 'home' ? '' : `#${next}`
+      window.history.pushState({ tab: next }, '', hash || window.location.pathname)
+    }
+    isPopstateRef.current = false
     // Reset scroll position when switching tabs
     scrollRef.current?.scrollTo({ top: 0 })
   }, [tab])
+
+  // Handle browser back/forward buttons to switch tabs
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      const target = (e.state?.tab as Tab) || (window.location.hash.replace('#', '') as Tab) || 'home'
+      if (TAB_ORDER.includes(target) && target !== tab) {
+        isPopstateRef.current = true
+        switchTab(target)
+      }
+    }
+    window.addEventListener('popstate', handlePopState)
+    // Push initial state so first back press works
+    if (!window.history.state?.tab) {
+      window.history.replaceState({ tab }, '', tab === 'home' ? window.location.pathname : `#${tab}`)
+    }
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [tab, switchTab])
 
   // Swipe gesture navigation between tabs
   const swipeHandlers = useSwipeNavigation({
@@ -278,8 +319,9 @@ function App() {
         </div>
       )}
 
-      {/* Content */}
+      {/* Content — max-w-2xl centers content on tablets/desktop for readability */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto pb-20" {...swipeHandlers}>
+        <div className="max-w-2xl mx-auto">
         <div
           className={slideDir === 'left' ? 'tab-slide-left' : slideDir === 'right' ? 'tab-slide-right' : 'tab-content'}
           key={tab}
@@ -323,6 +365,7 @@ function App() {
             />
           )}
           {tab === 'share' && <ShareCard days={currentDays} longestStreak={longestStreak} />}
+        </div>
         </div>
       </div>
 

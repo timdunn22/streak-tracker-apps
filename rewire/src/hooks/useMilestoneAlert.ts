@@ -59,6 +59,9 @@ function playChime() {
 
       osc.start(ctx.currentTime + i * 0.12)
       osc.stop(ctx.currentTime + i * 0.12 + 0.6)
+      // Disconnect nodes after playback ends to release them from the audio
+      // graph sooner. Safari in particular retains ended nodes until GC.
+      osc.addEventListener('ended', () => { osc.disconnect(); gain.disconnect() }, { once: true })
     })
   } catch {
     // Web Audio not available

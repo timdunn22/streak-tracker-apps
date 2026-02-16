@@ -251,7 +251,7 @@ export function useStreak() {
         : Date.now().toString(36) + Math.random().toString(36).slice(2, 9),
       date: new Date().toISOString(),
       mood: Math.max(1, Math.min(5, Math.round(mood))),
-      text: text.slice(0, 500),
+      text: text.slice(0, 1000),
       triggers: sanitizedTriggers,
     }
     setData(prev => ({

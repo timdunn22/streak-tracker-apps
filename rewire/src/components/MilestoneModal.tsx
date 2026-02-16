@@ -74,17 +74,24 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
 
   useEffect(() => {
     if (milestone) {
+      // Reset show to false first so the entrance animation replays correctly
+      // when transitioning directly from one milestone value to another
+      // (e.g. if two milestones are reached in quick succession).
+      setShow(false)
       haptic('success')
       const timer = setTimeout(() => {
         setShow(true)
         // Focus the Continue button after animation
-        setTimeout(() => continueRef.current?.focus(), 500)
+        const focusTimer = setTimeout(() => continueRef.current?.focus(), 500)
+        // Store focusTimer for cleanup
+        timerRefs.push(focusTimer)
       }, 100)
+      const timerRefs: ReturnType<typeof setTimeout>[] = [timer]
       document.addEventListener('keydown', handleKeyDown)
       // Prevent background scrolling
       document.body.style.overflow = 'hidden'
       return () => {
-        clearTimeout(timer)
+        timerRefs.forEach(t => clearTimeout(t))
         document.removeEventListener('keydown', handleKeyDown)
         document.body.style.overflow = ''
       }

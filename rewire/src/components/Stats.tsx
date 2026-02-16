@@ -331,7 +331,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
 
       {/* Primary stat card */}
       <div className="glass-accent rounded-2xl p-6 mb-4 text-center animate-fade-in-delay-1 glow-accent">
-        <AnimatedNumber value={currentDays} className="text-5xl font-bold text-text mb-1" />
+        <AnimatedNumber value={currentDays} className={`${currentDays >= 10000 ? 'text-3xl sm:text-4xl' : currentDays >= 1000 ? 'text-4xl sm:text-5xl' : 'text-5xl'} font-bold text-text mb-1`} />
         <p className="text-text-dim text-sm">current streak</p>
         {isPersonalBest && currentDays > 0 && (
           <span className="inline-flex items-center gap-1 mt-3 text-xs bg-success/10 border border-success/20 text-success px-3 py-1 rounded-full">
@@ -349,17 +349,17 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
       </div>
 
       {/* Stat grid */}
-      <div className="grid grid-cols-3 gap-3 mb-6 animate-fade-in-delay-2">
-        <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-text tabular-nums">{formatNumber(longestStreak)}</p>
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6 animate-fade-in-delay-2">
+        <div className="glass rounded-xl p-3 sm:p-4 text-center overflow-hidden">
+          <p className="text-lg sm:text-2xl font-bold text-text tabular-nums truncate">{formatNumber(longestStreak)}</p>
           <p className="text-text-muted text-[11px] mt-1">Longest</p>
         </div>
-        <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-text tabular-nums">{formatNumber(totalCleanDays)}</p>
+        <div className="glass rounded-xl p-3 sm:p-4 text-center overflow-hidden">
+          <p className="text-lg sm:text-2xl font-bold text-text tabular-nums truncate">{formatNumber(totalCleanDays)}</p>
           <p className="text-text-muted text-[11px] mt-1">Total Clean</p>
         </div>
-        <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-text tabular-nums">{formatNumber(totalResets)}</p>
+        <div className="glass rounded-xl p-3 sm:p-4 text-center overflow-hidden">
+          <p className="text-lg sm:text-2xl font-bold text-text tabular-nums truncate">{formatNumber(totalResets)}</p>
           <p className="text-text-muted text-[11px] mt-1">{totalResets === 1 ? 'Reset' : 'Resets'}</p>
         </div>
       </div>
@@ -434,9 +434,12 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <h3 className="text-sm font-semibold text-text mb-3">Streak History</h3>
           <div className="flex flex-col gap-2" role="list" aria-label="Past streak history">
             {[...streaks].reverse().slice(0, 10).map((s, i) => {
+              // Use the original array index as key (stable across re-renders)
+              // rather than the loop index, which shifts when new streaks are added.
+              const originalIdx = streaks.length - 1 - i
               const pct = Math.max(10, (s / Math.max(longestStreak, 1)) * 100)
               return (
-                <div key={i} className="flex items-center gap-3" role="listitem" aria-label={`Streak #${streaks.length - i}: ${s} ${s === 1 ? 'day' : 'days'}${s === longestStreak ? ' — longest streak' : ''}`}>
+                <div key={`streak-${originalIdx}`} className="flex items-center gap-3" role="listitem" aria-label={`Streak #${streaks.length - i}: ${s} ${s === 1 ? 'day' : 'days'}${s === longestStreak ? ' — longest streak' : ''}`}>
                   <span className="text-text-muted text-[11px] w-5 text-right">#{streaks.length - i}</span>
                   <div className="flex-1 h-6 bg-border/50 rounded-lg overflow-hidden relative">
                     <div
