@@ -153,10 +153,10 @@ export default function BreathingExercise({ onClose }: Props) {
   }
 
   return (
-    <div ref={dialogRef} className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 backdrop-blur-xl" onClick={onClose} role="dialog" aria-modal="true" aria-label="Breathing exercise">
+    <div ref={dialogRef} className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 backdrop-blur-xl" onClick={() => { cleanup(); onClose() }} role="dialog" aria-modal="true" aria-label="Breathing exercise">
       <div className="relative w-full max-w-sm mx-8 text-center" onClick={e => e.stopPropagation()}>
         <button
-          onClick={onClose}
+          onClick={() => { cleanup(); onClose() }}
           className="absolute -top-14 right-0 text-text-muted hover:text-text transition-colors p-3 min-w-[44px] min-h-[44px] flex items-center justify-center"
           aria-label="Close breathing exercise"
         >
@@ -170,15 +170,15 @@ export default function BreathingExercise({ onClose }: Props) {
             <div className="text-4xl mb-4">🫁</div>
             <h2 className="text-xl font-bold text-text mb-2">Feeling an Urge?</h2>
             <p className="text-text-dim text-sm mb-2 leading-relaxed">
-              Try the 4-7-8 breathing technique. It activates your parasympathetic nervous system and reduces cravings.
+              The 4-7-8 technique calms your nervous system and helps cravings pass faster.
             </p>
-            <p className="text-text-muted text-xs mb-8">4 cycles — about 80 seconds total</p>
+            <p className="text-text-muted text-xs mb-8">4 cycles, about 80 seconds</p>
 
             <button
               onClick={start}
-              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent"
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent"
             >
-              Start Breathing
+              Begin Exercise
             </button>
           </div>
         ) : (
@@ -235,10 +235,10 @@ export default function BreathingExercise({ onClose }: Props) {
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
             <p className="text-success text-sm font-semibold mb-1">Great work!</p>
-            <p className="text-text-dim text-xs mb-4">The craving has likely passed. You're in control.</p>
+            <p className="text-text-dim text-xs mb-4">The urge has likely passed. You stayed in control.</p>
             <button
-              onClick={onClose}
-              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-3 rounded-2xl transition-all duration-200 active:scale-[0.97]"
+              onClick={() => { haptic('tap'); onClose() }}
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-3 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97]"
             >
               Back to Streak
             </button>

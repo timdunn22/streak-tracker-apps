@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { clearSeenMilestones } from './useMilestoneAlert'
 import { config } from '../config'
 
@@ -65,9 +65,11 @@ function isValidDate(s: string): boolean {
   const d = new Date(s)
   if (isNaN(d.getTime())) return false
   // Reject dates before 2020 (app didn't exist) or more than 1 day in the future
-  // to guard against corrupted/malicious data
+  // to guard against corrupted/malicious data or system clock manipulation
   const year = d.getFullYear()
   if (year < 2020 || year > 2100) return false
+  // Enforce the 1-day-in-future limit (86400000 ms = 24 hours)
+  if (d.getTime() > Date.now() + 86400000) return false
   return true
 }
 
@@ -122,11 +124,14 @@ function validateData(parsed: unknown): StreakData {
   }
 }
 
-function saveData(data: StreakData) {
+/** Returns true on success, false if storage quota is exceeded */
+function saveData(data: StreakData): boolean {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    return true
   } catch {
-    // localStorage quota exceeded — silently fail to avoid crashing
+    // localStorage quota exceeded — return false so caller can warn user
+    return false
   }
 }
 
@@ -145,9 +150,28 @@ export function getDaysBetween(start: string, end: Date = new Date()): number {
 export function useStreak() {
   const [data, setData] = useState<StreakData>(loadData)
 
+  const [storageWarning, setStorageWarning] = useState(false)
+
   useEffect(() => {
-    saveData(data)
-  }, [data])
+    const ok = saveData(data)
+    if (!ok && !storageWarning) {
+      setStorageWarning(true)
+    } else if (ok && storageWarning) {
+      setStorageWarning(false)
+    }
+  }, [data, storageWarning])
+
+  // Force re-evaluation of currentDays at midnight so the streak counter
+  // updates without requiring a page refresh or user interaction
+  const [, forceUpdate] = useState(0)
+  useEffect(() => {
+    const now = new Date()
+    const msUntilMidnight =
+      new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime() - now.getTime()
+    // Schedule a re-render shortly after midnight (add 1s buffer for clock jitter)
+    const timer = setTimeout(() => forceUpdate(n => n + 1), msUntilMidnight + 1000)
+    return () => clearTimeout(timer)
+  })
 
   const currentDays = data.startDate ? getDaysBetween(data.startDate) : 0
   const longestStreak = Math.max(currentDays, data.streaks.length > 0 ? data.streaks.reduce((a, b) => Math.max(a, b), 0) : 0)
@@ -191,20 +215,22 @@ export function useStreak() {
     })
   }, [])
 
+  // Track freeze success via ref because setData's functional updater
+  // runs synchronously in React 19 (batched), so the ref is set before
+  // the return statement executes. This is safe for the current React model.
+  const freezeResultRef = useRef(false)
   const useFreeze = useCallback(() => {
-    // Use functional updater to avoid race conditions between the
-    // outer check and the async state update. Track success via ref.
-    let didFreeze = false
+    freezeResultRef.current = false
     setData(prev => {
       if (prev.freezesAvailable <= 0) return prev
-      didFreeze = true
+      freezeResultRef.current = true
       return {
         ...prev,
         freezesAvailable: prev.freezesAvailable - 1,
         freezesUsed: prev.freezesUsed + 1,
       }
     })
-    return didFreeze
+    return freezeResultRef.current
   }, [])
 
   const setDailyCost = useCallback((cost: number) => {
@@ -343,5 +369,6 @@ export function useStreak() {
     deleteJournalEntry,
     exportData,
     importData,
+    storageWarning,
   }
 }

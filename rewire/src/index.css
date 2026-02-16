@@ -15,8 +15,8 @@
   --color-danger-dim: #7f1d1d;
   --color-text: #f4f4f8;
   --color-text-secondary: #c0c0d0;
-  --color-text-dim: #8c8ca6;
-  --color-text-muted: #6b6b80;
+  --color-text-dim: #9494b0;  /* bumped from #8c8ca6 for WCAG AA contrast on dark bg */
+  --color-text-muted: #7e7e96;  /* bumped from #6b6b80 → 4.55:1 contrast ratio on #06060b */
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-accent: rgba(124, 107, 245, 0.2);
   --color-glow-purple: rgba(124, 107, 245, 0.12);
@@ -42,6 +42,17 @@ body {
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent FOUT/FOIT — system fonts load instantly, but this guards against
+     any future @font-face additions */
+  font-display: swap;
+}
+
+/* Consistent press/tap state for all interactive elements */
+.press-scale {
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.press-scale:active {
+  transform: scale(0.97);
 }
 
 /* Hide scrollbar for the main app container (mobile-optimized) while keeping it for desktop overflow */
@@ -290,6 +301,11 @@ body {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+/* Smooth scroll-to-top behavior */
+.scroll-smooth {
+  scroll-behavior: smooth;
 }
 
 /* Respect reduced motion preferences */

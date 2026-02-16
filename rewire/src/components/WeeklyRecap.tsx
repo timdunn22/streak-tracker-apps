@@ -1,4 +1,5 @@
 import { config } from '../config'
+import { formatNumber } from '../utils/format'
 
 interface Props {
   currentDays: number
@@ -23,8 +24,8 @@ export default function WeeklyRecap({ currentDays, longestStreak, totalResets }:
           <h3 className="text-sm font-semibold text-text">Keep Going</h3>
         </div>
         <p className="text-text-secondary text-xs leading-relaxed">
-          {currentDays} days in. The first week is the hardest — you're making real progress.
-          {7 - currentDays} more days to complete your first full week.
+          {formatNumber(currentDays)} {currentDays === 1 ? 'day' : 'days'} in. The first week is the hardest — you're making real progress.
+          {formatNumber(7 - currentDays)} more {7 - currentDays === 1 ? 'day' : 'days'} to complete your first full week.
         </p>
       </div>
     )
@@ -62,12 +63,12 @@ export default function WeeklyRecap({ currentDays, longestStreak, totalResets }:
 
       <div className="flex gap-3">
         <div className="flex-1 bg-bg-card rounded-xl p-2.5 text-center">
-          <p className="text-lg font-bold text-text tabular-nums">{currentDays}</p>
-          <p className="text-text-muted text-[10px]">days</p>
+          <p className="text-lg font-bold text-text tabular-nums">{formatNumber(currentDays)}</p>
+          <p className="text-text-muted text-[10px]">{currentDays === 1 ? 'day' : 'days'}</p>
         </div>
         <div className="flex-1 bg-bg-card rounded-xl p-2.5 text-center">
-          <p className="text-lg font-bold text-text tabular-nums">{currentWeek}</p>
-          <p className="text-text-muted text-[10px]">weeks</p>
+          <p className="text-lg font-bold text-text tabular-nums">{formatNumber(currentWeek)}</p>
+          <p className="text-text-muted text-[10px]">{currentWeek === 1 ? 'week' : 'weeks'}</p>
         </div>
         <div className="flex-1 bg-bg-card rounded-xl p-2.5 text-center">
           <p className="text-lg font-bold text-text tabular-nums">{config.goalDays > 0 ? Math.min(100, Math.round((currentDays / config.goalDays) * 100)) : 0}%</p>

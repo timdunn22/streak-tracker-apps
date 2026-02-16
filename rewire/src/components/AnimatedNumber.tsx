@@ -1,21 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
+import { formatNumber } from '../utils/format'
 
 interface Props {
   value: number
   duration?: number
   className?: string
+  /** When true, display raw number without locale formatting (e.g. for IDs) */
+  raw?: boolean
 }
 
 const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-export default function AnimatedNumber({ value, duration = 800, className = '' }: Props) {
-  const [display, setDisplay] = useState(value)
-  const prevValue = useRef(value)
+export default function AnimatedNumber({ value, duration = 800, className = '', raw = false }: Props) {
+  // Guard against NaN/Infinity to prevent animation loops or display of "NaN"
+  const safeValue = Number.isFinite(value) ? value : 0
+  const [display, setDisplay] = useState(safeValue)
+  const prevValue = useRef(safeValue)
   const rafRef = useRef<number>(0)
 
   useEffect(() => {
     const start = prevValue.current
-    const end = value
+    const end = safeValue
     const diff = end - start
     if (diff === 0) return
 
@@ -45,7 +50,7 @@ export default function AnimatedNumber({ value, duration = 800, className = '' }
 
     rafRef.current = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [value, duration])
+  }, [safeValue, duration])
 
-  return <span className={className}>{display}</span>
+  return <span className={className}>{raw ? display : formatNumber(display)}</span>
 }

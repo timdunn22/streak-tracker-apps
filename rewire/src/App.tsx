@@ -14,14 +14,31 @@ import MilestoneModal from './components/MilestoneModal'
 import BreathingExercise from './components/BreathingExercise'
 import Toast from './components/Toast'
 
-// Error Boundary: catches render errors and shows a recovery UI instead of white-screening
+// Error Boundary: catches render errors and shows a recovery UI instead of white-screening.
+// Also catches unhandled promise rejections and global errors that escape React's tree.
 class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  private handleGlobalError = () => { this.setState({ hasError: true }) }
+  private handleRejection = () => { this.setState({ hasError: true }) }
+
   constructor(props: { children: ReactNode }) {
     super(props)
     this.state = { hasError: false }
   }
+  componentDidMount() {
+    window.addEventListener('error', this.handleGlobalError)
+    window.addEventListener('unhandledrejection', this.handleRejection)
+  }
+  componentWillUnmount() {
+    window.removeEventListener('error', this.handleGlobalError)
+    window.removeEventListener('unhandledrejection', this.handleRejection)
+  }
   static getDerivedStateFromError() {
     return { hasError: true }
+  }
+  componentDidCatch(_error: Error, _info: { componentStack?: string | null }) {
+    // In production we have no external logging service, but this hook
+    // ensures the error is captured by the boundary rather than silently
+    // swallowed. The recovery UI below lets users continue.
   }
   render() {
     if (this.state.hasError) {
@@ -34,17 +51,17 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
           </div>
           <p className="text-xl font-bold text-text mb-2">Something went wrong</p>
           <p className="text-text-dim text-sm mb-6 max-w-xs leading-relaxed">
-            The app encountered an unexpected error. Your streak data is safe in local storage.
+            Don't worry — your streak data is safe. Try again, or reload the app if the problem persists.
           </p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all mb-3 min-h-[44px] active:scale-[0.97]"
+            className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all duration-200 mb-3 min-h-[44px] active:scale-[0.97]"
           >
             Try Again
           </button>
           <button
             onClick={() => window.location.reload()}
-            className="text-text-muted text-xs hover:text-text-dim transition-colors py-3 px-6 min-h-[44px]"
+            className="text-text-muted text-xs hover:text-text-dim transition-colors duration-200 py-3 px-6 min-h-[44px] active:scale-[0.97]"
           >
             Reload App
           </button>
@@ -59,7 +76,7 @@ type Tab = 'home' | 'timeline' | 'stats' | 'share'
 const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
 
 function App() {
-  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved, addJournalEntry, deleteJournalEntry, exportData, importData } = useStreak()
+  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved, addJournalEntry, deleteJournalEntry, exportData, importData, storageWarning } = useStreak()
   const [tab, setTab] = useState<Tab>('home')
   const [slideDir, setSlideDir] = useState<'left' | 'right' | 'none'>('none')
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null)
@@ -98,7 +115,12 @@ function App() {
   useMilestoneAlert(currentDays, setActiveMilestone)
 
   const switchTab = useCallback((next: Tab) => {
-    if (next === tab) return
+    if (next === tab) {
+      // Re-tap current tab: scroll to top
+      scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+      haptic('tap')
+      return
+    }
     haptic('tap')
     const prevIdx = TAB_ORDER.indexOf(prevTabRef.current)
     const nextIdx = TAB_ORDER.indexOf(next)
@@ -215,12 +237,12 @@ function App() {
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            <span className="text-accent-glow text-xs font-medium">A new version is available.</span>
+            <span className="text-accent-glow text-xs font-medium">A new version is available</span>
             <button
-              onClick={applyUpdate}
-              className="text-white text-xs font-semibold bg-accent hover:bg-accent-glow px-3 py-1 rounded-lg transition-all active:scale-[0.97]"
+              onClick={() => { haptic('tap'); applyUpdate() }}
+              className="text-white text-xs font-semibold bg-accent hover:bg-accent-glow px-3 py-1 rounded-lg transition-all duration-200 active:scale-[0.97]"
             >
-              Update
+              Update Now
             </button>
           </div>
         </div>
@@ -240,6 +262,18 @@ function App() {
               <line x1="12" y1="20" x2="12.01" y2="20"/>
             </svg>
             <span className="text-warning text-xs font-medium">You're offline. Your data is saved locally.</span>
+          </div>
+        </div>
+      )}
+
+      {/* Storage quota warning */}
+      {storageWarning && (
+        <div className="fixed top-0 left-0 right-0 z-[200] bg-danger/15 border-b border-danger/25 backdrop-blur-xl" role="alert" aria-live="assertive">
+          <div className="flex items-center justify-center gap-2 py-2 px-4 pt-[max(0.5rem,env(safe-area-inset-top))]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span className="text-danger text-xs font-medium">Storage full. Export a backup and clear browser data to keep saving.</span>
           </div>
         </div>
       )}
@@ -364,10 +398,10 @@ function NavItem({ label, active, onClick, icon }: {
       aria-label={label}
       aria-selected={active}
       tabIndex={active ? 0 : -1}
-      className={`relative flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 min-w-[44px] min-h-[44px] ${
+      className={`relative flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 ease-out min-w-[44px] min-h-[44px] ${
         active
           ? 'text-accent-glow'
-          : 'text-text-muted hover:text-text-dim active:scale-95'
+          : 'text-text-muted hover:text-text-dim active:scale-[0.95]'
       }`}
     >
       {/* Subtle background glow when active */}

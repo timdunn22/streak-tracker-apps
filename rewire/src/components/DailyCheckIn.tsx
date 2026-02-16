@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
 
@@ -29,6 +29,8 @@ const encouragements = [
 export default function DailyCheckIn({ days }: { days: number }) {
   const [visible, setVisible] = useState(false)
   const [state, setState] = useState<'prompt' | 'success' | 'dismissed'>('prompt')
+  // Track check-in animation timers so they can be cleaned up on unmount
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
     if (!hasCheckedInToday() && days > 0) {
@@ -37,13 +39,21 @@ export default function DailyCheckIn({ days }: { days: number }) {
     }
   }, [days])
 
+  // Clean up any pending animation timers on unmount
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach(t => clearTimeout(t))
+      timersRef.current = []
+    }
+  }, [])
+
   const checkIn = () => {
     haptic('success')
     try { localStorage.setItem(CHECKIN_KEY, getToday()) } catch { /* quota exceeded */ }
     setState('success')
     // Show success state briefly, then fade out
-    setTimeout(() => setState('dismissed'), 1500)
-    setTimeout(() => setVisible(false), 1900)
+    timersRef.current.push(setTimeout(() => setState('dismissed'), 1500))
+    timersRef.current.push(setTimeout(() => setVisible(false), 1900))
   }
 
   if (!visible) return null
@@ -60,7 +70,7 @@ export default function DailyCheckIn({ days }: { days: number }) {
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
             <p className="text-success text-sm font-semibold">Checked in!</p>
-            <p className="text-text-muted text-xs mt-1">Day {days} logged. Keep going.</p>
+            <p className="text-text-muted text-xs mt-1">Day {days} logged — you're on track.</p>
           </div>
         ) : (
           <>
@@ -73,7 +83,7 @@ export default function DailyCheckIn({ days }: { days: number }) {
             </p>
             <button
               onClick={checkIn}
-              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 active:scale-[0.97] flex items-center justify-center gap-2"
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97] flex items-center justify-center gap-2"
               aria-label={`Check in for day ${days}`}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

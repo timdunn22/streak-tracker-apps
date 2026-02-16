@@ -1,5 +1,6 @@
 import { useRef, useMemo } from 'react'
 import { haptic } from '../hooks/useHaptic'
+import { formatNumber, formatCurrency, formatCurrencyDecimal } from '../utils/format'
 import Badges from './Badges'
 import AnimatedNumber from './AnimatedNumber'
 import type { JournalEntry } from '../hooks/useStreak'
@@ -114,6 +115,16 @@ function MoodChart({ journal }: { journal: JournalEntry[] }) {
   if (last14.length < 2) return null
 
   const avgMood = last14.reduce((sum, e) => sum + e.mood, 0) / last14.length
+  // Safe index: clamp to 1-5 range for MOODS lookup
+  const avgMoodIdx = Math.max(1, Math.min(5, Math.round(avgMood)))
+
+  // Compare equal-sized halves to determine trend direction fairly
+  const halfLen = Math.floor(last14.length / 2)
+  const firstHalf = last14.slice(0, halfLen)
+  const secondHalf = last14.slice(-halfLen)
+  const firstAvg = firstHalf.length > 0 ? firstHalf.reduce((s, e) => s + e.mood, 0) / firstHalf.length : 0
+  const secondAvg = secondHalf.length > 0 ? secondHalf.reduce((s, e) => s + e.mood, 0) / secondHalf.length : 0
+  const trendingUp = secondAvg > firstAvg
 
   return (
     <div className="glass rounded-2xl p-4 mb-6">
@@ -141,19 +152,38 @@ function MoodChart({ journal }: { journal: JournalEntry[] }) {
         ))}
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-text-muted text-[10px]">Average: {MOODS[Math.round(avgMood)]} {avgMood.toFixed(1)}/5</span>
-        {last14.length >= 7 && (
-          <span className={`text-[10px] font-semibold ${
-            last14.slice(-7).reduce((s, e) => s + e.mood, 0) / 7 >
-            last14.slice(0, 7).reduce((s, e) => s + e.mood, 0) / Math.min(7, last14.slice(0, 7).length)
-              ? 'text-success' : 'text-text-muted'
-          }`}>
-            {last14.slice(-7).reduce((s, e) => s + e.mood, 0) / 7 >
-            last14.slice(0, 7).reduce((s, e) => s + e.mood, 0) / Math.min(7, last14.slice(0, 7).length)
-              ? 'Trending up' : 'Trending steady'}
+        <span className="text-text-muted text-[10px]">Average: {MOODS[avgMoodIdx]} {avgMood.toFixed(1)}/5</span>
+        {last14.length >= 4 && (
+          <span className={`text-[10px] font-semibold ${trendingUp ? 'text-success' : 'text-text-muted'}`}>
+            {trendingUp ? 'Trending up' : 'Trending steady'}
           </span>
         )}
       </div>
+    </div>
+  )
+}
+
+// Memoize random skeleton bar heights so they don't flicker on every re-render
+function MoodSkeleton({ journalCount }: { journalCount: number }) {
+  // Stable random heights: useMemo with empty deps ensures they're computed once
+  const heights = useMemo(() => Array.from({ length: 7 }, () => 30 + Math.random() * 50), [])
+  return (
+    <div className="glass rounded-2xl p-4 mb-6 animate-fade-in-delay-2">
+      <h3 className="text-sm font-semibold text-text mb-2">Mood Trend</h3>
+      <div className="flex items-end gap-1 h-16 mb-2" aria-hidden="true">
+        {heights.map((h, i) => (
+          <div
+            key={i}
+            className="flex-1 rounded-t-sm skeleton-pulse"
+            style={{ height: `${h}%` }}
+          />
+        ))}
+      </div>
+      <p className="text-text-muted text-[10px] text-center">
+        {journalCount === 0
+          ? 'Add journal entries to see your mood trend'
+          : 'One more entry to unlock your mood chart'}
+      </p>
     </div>
   )
 }
@@ -229,8 +259,8 @@ function StreakSparkline({ streaks, currentDays }: { streaks: number[]; currentD
         ))}
       </svg>
       <div className="flex justify-between mt-1">
-        <span className="text-text-muted text-[9px]">{last10[0]}d</span>
-        <span className="text-accent-glow text-[9px] font-semibold">{last10[last10.length - 1]}d (current)</span>
+        <span className="text-text-muted text-[9px] tabular-nums">{formatNumber(last10[0])} {last10[0] === 1 ? 'day' : 'days'}</span>
+        <span className="text-accent-glow text-[9px] font-semibold tabular-nums">{formatNumber(last10[last10.length - 1])} days (current)</span>
       </div>
     </div>
   )
@@ -261,7 +291,7 @@ function LevelCard({ totalCleanDays }: { totalCleanDays: number }) {
         {levelData.next && (
           <div className="text-right">
             <p className="text-accent-glow text-[10px] font-semibold">{levelData.next.title}</p>
-            <p className="text-text-muted text-[10px]">{levelData.xpForNext - levelData.xpInLevel}d to next</p>
+            <p className="text-text-muted text-[10px] tabular-nums">{formatNumber(levelData.xpForNext - levelData.xpInLevel)} days to next</p>
           </div>
         )}
       </div>
@@ -321,16 +351,16 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
       {/* Stat grid */}
       <div className="grid grid-cols-3 gap-3 mb-6 animate-fade-in-delay-2">
         <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-text">{longestStreak}</p>
+          <p className="text-2xl font-bold text-text tabular-nums">{formatNumber(longestStreak)}</p>
           <p className="text-text-muted text-[11px] mt-1">Longest</p>
         </div>
         <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-text">{totalCleanDays}</p>
+          <p className="text-2xl font-bold text-text tabular-nums">{formatNumber(totalCleanDays)}</p>
           <p className="text-text-muted text-[11px] mt-1">Total Clean</p>
         </div>
         <div className="glass rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-text">{totalResets}</p>
-          <p className="text-text-muted text-[11px] mt-1">Resets</p>
+          <p className="text-2xl font-bold text-text tabular-nums">{formatNumber(totalResets)}</p>
+          <p className="text-text-muted text-[11px] mt-1">{totalResets === 1 ? 'Reset' : 'Resets'}</p>
         </div>
       </div>
 
@@ -352,23 +382,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <MoodChart journal={journal} />
         </div>
       ) : (
-        <div className="glass rounded-2xl p-4 mb-6 animate-fade-in-delay-2">
-          <h3 className="text-sm font-semibold text-text mb-2">Mood Trend</h3>
-          <div className="flex items-end gap-1 h-16 mb-2" aria-hidden="true">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex-1 rounded-t-sm skeleton-pulse"
-                style={{ height: `${30 + Math.random() * 50}%` }}
-              />
-            ))}
-          </div>
-          <p className="text-text-muted text-[10px] text-center">
-            {journal.length === 0
-              ? 'Add journal entries to see your mood trend'
-              : 'One more entry to unlock your mood chart'}
-          </p>
-        </div>
+        <MoodSkeleton journalCount={journal.length} />
       )}
 
       {/* Improvement indicator */}
@@ -377,12 +391,12 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           <div className="flex justify-between items-center">
             <div>
               <p className="text-text-dim text-xs font-medium">Average Streak</p>
-              <p className="text-text text-lg font-bold">{avgStreak} days</p>
+              <p className="text-text text-lg font-bold tabular-nums">{formatNumber(avgStreak)} {avgStreak === 1 ? 'day' : 'days'}</p>
             </div>
             {currentDays > avgStreak && (
               <div className="bg-success/10 border border-success/20 rounded-xl px-3 py-2">
-                <p className="text-success text-xs font-semibold">
-                  +{currentDays - avgStreak}d above avg
+                <p className="text-success text-xs font-semibold tabular-nums">
+                  +{formatNumber(currentDays - avgStreak)} above avg
                 </p>
               </div>
             )}
@@ -402,8 +416,8 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
               </div>
             </div>
             <div className="text-right">
-              <p className="text-text-muted text-[10px]">${dailyCost}/day</p>
-              <p className="text-text-muted text-[10px]">${Math.round(dailyCost * 30)}/month</p>
+              <p className="text-text-muted text-[10px] tabular-nums">{formatCurrencyDecimal(dailyCost)}/day</p>
+              <p className="text-text-muted text-[10px] tabular-nums">{formatCurrency(Math.round(dailyCost * 30))}/month</p>
             </div>
           </div>
         </div>
@@ -434,8 +448,8 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
                           : 'var(--color-accent-dim)',
                       }}
                     />
-                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-medium text-text-secondary">
-                      {s} {s === 1 ? 'day' : 'days'}
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-medium text-text-secondary tabular-nums">
+                      {formatNumber(s)} {s === 1 ? 'day' : 'days'}
                     </span>
                   </div>
                 </div>
@@ -445,9 +459,9 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
         </div>
       ) : (
         <div className="glass rounded-2xl p-8 text-center animate-fade-in-delay-3">
-          <p className="text-3xl mb-3">🎯</p>
-          <p className="text-text-dim text-sm">No past streaks yet.</p>
-          <p className="text-text-muted text-xs mt-1">Keep this one going!</p>
+          <p className="text-3xl mb-3" aria-hidden="true">🎯</p>
+          <p className="text-text-dim text-sm font-medium">No past streaks yet</p>
+          <p className="text-text-muted text-xs mt-1">This is your first — make it count!</p>
         </div>
       )}
 
@@ -465,7 +479,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
         <div className="flex gap-3">
           <button
             onClick={() => { haptic('tap'); onExport() }}
-            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
+            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
             aria-label="Export backup to JSON file"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -477,7 +491,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
           </button>
           <button
             onClick={() => { haptic('tap'); fileInputRef.current?.click() }}
-            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
+            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
             aria-label="Import backup from JSON file"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

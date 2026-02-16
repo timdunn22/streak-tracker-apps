@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { config } from '../config'
+import { haptic } from '../hooks/useHaptic'
+import { formatNumber } from '../utils/format'
 
 interface Props {
   currentDays: number
@@ -16,18 +18,18 @@ export default function Timeline({ currentDays }: Props) {
     <div className="px-6 pt-[max(2rem,calc(env(safe-area-inset-top)+0.5rem))] pb-8">
       <div className="mb-6 animate-fade-in">
         <h2 className="text-xl font-bold text-text mb-1">Recovery Timeline</h2>
-        <p className="text-text-dim text-xs">Your progress. Here's what's happening.</p>
+        <p className="text-text-dim text-xs">See how far you've come and what's ahead.</p>
       </div>
 
       {recovery.length > 0 && (
         <div className="flex gap-2 mb-6 animate-fade-in" role="tablist" aria-label="Timeline view">
           <button
-            onClick={() => setView('recovery')}
+            onClick={() => { haptic('tap'); setView('recovery') }}
             role="tab"
             id="tab-recovery"
             aria-selected={view === 'recovery'}
             aria-controls="tabpanel-recovery"
-            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
+            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ease-out min-h-[44px] active:scale-[0.97] ${
               view === 'recovery'
                 ? 'bg-accent/10 border border-accent/20 text-accent-glow'
                 : 'bg-bg-card border border-border text-text-muted'
@@ -36,12 +38,12 @@ export default function Timeline({ currentDays }: Props) {
             Your Body
           </button>
           <button
-            onClick={() => setView('milestones')}
+            onClick={() => { haptic('tap'); setView('milestones') }}
             role="tab"
             id="tab-milestones"
             aria-selected={view === 'milestones'}
             aria-controls="tabpanel-milestones"
-            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all min-h-[44px] ${
+            className={`flex-1 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ease-out min-h-[44px] active:scale-[0.97] ${
               view === 'milestones'
                 ? 'bg-accent/10 border border-accent/20 text-accent-glow'
                 : 'bg-bg-card border border-border text-text-muted'
@@ -91,7 +93,7 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
           <div className="mt-3 pt-3 border-t border-border">
             <div className="flex justify-between items-center">
               <span className="text-text-muted text-[10px]">Next: {events[currentEventIdx].title}</span>
-              <span className="text-accent-glow text-[10px] font-semibold">{events[currentEventIdx].day - currentDays}d away</span>
+              <span className="text-accent-glow text-[10px] font-semibold tabular-nums">{formatNumber(events[currentEventIdx].day - currentDays)} {events[currentEventIdx].day - currentDays === 1 ? 'day' : 'days'} away</span>
             </div>
             <div className="w-full h-1 bg-border rounded-full mt-1.5 overflow-hidden" role="progressbar" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} aria-label={`Progress to ${events[currentEventIdx].title}`}>
               <div
@@ -177,7 +179,7 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
                     <span className={`text-[11px] font-medium ${
                       isActive ? 'text-accent-glow' : unlocked ? 'text-success' : isNext ? 'text-accent-glow' : 'text-text-muted'
                     }`}>
-                      {isActive ? 'You are here' : unlocked ? `Day ${event.day}` : isNext ? `${event.day - currentDays}d away` : `Day ${event.day}`}
+                      {isActive ? 'You are here' : unlocked ? `Day ${formatNumber(event.day)}` : isNext ? `${formatNumber(event.day - currentDays)} ${event.day - currentDays === 1 ? 'day' : 'days'} away` : `Day ${formatNumber(event.day)}`}
                     </span>
                   </div>
                   <p className={`text-xs leading-relaxed ${isActive || unlocked ? 'text-text-secondary' : 'text-text-muted'}`}>
@@ -279,7 +281,7 @@ function MilestoneTimeline({ currentDays, milestones }: { currentDays: number; m
                     <span className={`text-[11px] font-medium ${
                       unlocked ? 'text-success' : isNext ? 'text-accent-glow' : 'text-text-muted'
                     }`}>
-                      {unlocked ? 'Day ' + m.day : isNext ? `${daysAway}d away` : `Day ${m.day}`}
+                      {unlocked ? `Day ${formatNumber(m.day)}` : isNext ? `${formatNumber(daysAway)} ${daysAway === 1 ? 'day' : 'days'} away` : `Day ${formatNumber(m.day)}`}
                     </span>
                   </div>
                   <p className={`text-xs leading-relaxed ${unlocked ? 'text-text-secondary' : 'text-text-muted'}`}>

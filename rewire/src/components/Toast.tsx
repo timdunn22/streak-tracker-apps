@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 interface ToastProps {
   message: string
@@ -9,6 +9,11 @@ interface ToastProps {
 
 export default function Toast({ message, type = 'success', onDone, duration = 2500 }: ToastProps) {
   const [visible, setVisible] = useState(false)
+  // Stabilize onDone via ref so that if parent passes a new function identity
+  // on re-render, the timers don't restart (which would cause infinite loops
+  // or flickering toasts)
+  const onDoneRef = useRef(onDone)
+  useEffect(() => { onDoneRef.current = onDone })
 
   useEffect(() => {
     // Animate in
@@ -16,13 +21,13 @@ export default function Toast({ message, type = 'success', onDone, duration = 25
     // Animate out
     const hideTimer = setTimeout(() => setVisible(false), duration)
     // Remove from DOM
-    const removeTimer = setTimeout(onDone, duration + 300)
+    const removeTimer = setTimeout(() => onDoneRef.current(), duration + 300)
     return () => {
       clearTimeout(showTimer)
       clearTimeout(hideTimer)
       clearTimeout(removeTimer)
     }
-  }, [onDone, duration])
+  }, [duration])
 
   const bgColor = type === 'success'
     ? 'bg-success/15 border-success/25 text-success'

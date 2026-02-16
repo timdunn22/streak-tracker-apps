@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
+import { formatCurrencyDecimal, formatNumber } from '../utils/format'
 import AnimatedNumber from './AnimatedNumber'
 
 interface Props {
@@ -14,6 +15,14 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
   const [editing, setEditing] = useState(false)
   const [inputVal, setInputVal] = useState(dailyCost?.toString() || config.defaultDailyCost?.toString() || '')
   const [inputError, setInputError] = useState(false)
+
+  // Sync input value when dailyCost changes externally (e.g. data import)
+  // but only when not actively editing to avoid overwriting user input
+  useEffect(() => {
+    if (!editing && dailyCost !== null) {
+      setInputVal(dailyCost.toString())
+    }
+  }, [dailyCost, editing])
 
   if (!config.defaultDailyCost && !dailyCost) return null
 
@@ -45,7 +54,7 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
           </div>
           <button
             onClick={() => { haptic('tap'); setEditing(true) }}
-            className="text-accent-glow text-xs font-semibold py-2 px-4 min-h-[44px] min-w-[44px] rounded-xl bg-accent/10 border border-accent/20 transition-all active:scale-[0.97]"
+            className="text-accent-glow text-xs font-semibold py-2 px-4 min-h-[44px] min-w-[44px] rounded-xl bg-accent/10 border border-accent/20 transition-all duration-200 ease-out active:scale-[0.97]"
           >
             Set up
           </button>
@@ -87,13 +96,13 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
         <div className="flex gap-2">
           <button
             onClick={() => { setEditing(false); setInputError(false) }}
-            className="flex-1 bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97]"
+            className="flex-1 bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97]"
           >
             Cancel
           </button>
           <button
             onClick={validateAndSave}
-            className="flex-1 bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all active:scale-[0.97]"
+            className="flex-1 bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 ease-out active:scale-[0.97]"
           >
             Save
           </button>
@@ -115,13 +124,13 @@ export default function MoneySaved({ days, dailyCost, moneySaved, onSetCost }: P
               className="text-text text-2xl font-bold tabular-nums"
             />
           </div>
-          <p className="text-text-muted text-[10px] mt-0.5">
-            ${dailyCost}/day × {days} days
+          <p className="text-text-muted text-[10px] mt-0.5 tabular-nums">
+            {formatCurrencyDecimal(dailyCost!)}/day &times; {formatNumber(days)} {days === 1 ? 'day' : 'days'}
           </p>
         </div>
         <button
           onClick={() => { haptic('tap'); setEditing(true) }}
-          className="text-text-muted text-[10px] hover:text-text-dim transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          className="text-text-muted text-[10px] hover:text-text-dim transition-colors duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center active:scale-[0.97]"
           aria-label="Edit daily spending amount"
         >
           Edit

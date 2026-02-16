@@ -3,6 +3,7 @@ import { useLiveTimer } from '../hooks/useLiveTimer'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
 import { useInstallPrompt } from '../hooks/useInstallPrompt'
+import { formatNumber } from '../utils/format'
 import AnimatedNumber from './AnimatedNumber'
 import GrowthTree from './GrowthTree'
 import WeeklyRecap from './WeeklyRecap'
@@ -96,12 +97,12 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         </p>
 
         <p className="text-text-muted text-center mb-12 max-w-[260px] text-xs leading-relaxed animate-fade-in-delay-2">
-          100% private. No account needed. Your data stays on your device.
+          100% private. No account needed. Your data never leaves your device.
         </p>
 
         <button
           onClick={() => { haptic('success'); onStart() }}
-          className="w-full max-w-[280px] bg-accent hover:bg-accent-glow text-white font-semibold text-base py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-3"
+          className="w-full max-w-[280px] bg-accent hover:bg-accent-glow text-white font-semibold text-base py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-3"
         >
           Start My Journey
         </button>
@@ -109,7 +110,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         {canInstall && (
           <button
             onClick={() => { haptic('tap'); install() }}
-            className="mt-4 w-full max-w-[280px] bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-2xl transition-all duration-200 active:scale-[0.97] animate-fade-in-delay-3 flex items-center justify-center gap-2"
+            className="mt-4 w-full max-w-[280px] bg-bg-card border border-border text-text-dim font-medium text-sm py-3 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] animate-fade-in-delay-3 flex items-center justify-center gap-2"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -235,7 +236,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
       {/* Emergency breathing button */}
       <button
         onClick={() => { haptic('tap'); onShowBreathing() }}
-        className="mb-6 flex items-center gap-2 bg-bg-card border border-border hover:border-accent/20 text-text-dim text-xs font-medium py-2.5 px-5 rounded-full transition-all active:scale-[0.97] animate-fade-in"
+        className="mb-6 flex items-center gap-2 bg-bg-card border border-border hover:border-accent/20 text-text-dim text-xs font-medium py-2.5 px-5 rounded-full transition-all duration-200 ease-out active:scale-[0.97] animate-fade-in"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
@@ -250,13 +251,13 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
       <div className="flex gap-6 mb-8 animate-fade-in-delay-1">
         <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{Math.floor(days / 7)}</p>
-          <p className="text-text-muted text-[11px] mt-0.5">weeks</p>
+          <p className="text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 7))}</p>
+          <p className="text-text-muted text-[11px] mt-0.5">{Math.floor(days / 7) === 1 ? 'week' : 'weeks'}</p>
         </div>
         <div className="w-px h-10 bg-border" aria-hidden="true" />
         <div className="text-center">
-          <p className="text-xl font-bold text-text tabular-nums">{Math.floor(days / 30)}</p>
-          <p className="text-text-muted text-[11px] mt-0.5">months</p>
+          <p className="text-xl font-bold text-text tabular-nums">{formatNumber(Math.floor(days / 30))}</p>
+          <p className="text-text-muted text-[11px] mt-0.5">{Math.floor(days / 30) === 1 ? 'month' : 'months'}</p>
         </div>
         <div className="w-px h-10 bg-border" aria-hidden="true" />
         <div className="text-center">
@@ -290,24 +291,24 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
         {!showResetConfirm ? (
           <button
             onClick={() => { haptic('tap'); setShowResetConfirm(true) }}
-            className="text-text-muted text-xs hover:text-danger/70 transition-colors py-3 px-6 min-h-[44px]"
+            className="text-text-muted text-xs hover:text-danger/70 transition-colors duration-200 py-3 px-6 min-h-[44px]"
           >
-            I relapsed
+            I had a setback
           </button>
         ) : (
           <div className="flex flex-col items-center gap-3 glass rounded-2xl p-5 w-full max-w-sm animate-slide-down" role="alertdialog" aria-label="Reset streak confirmation">
             <p className="text-text-secondary text-sm text-center leading-relaxed">
-              It's okay. Setbacks don't erase progress.
+              It's okay — setbacks are part of the journey, not the end of it.
             </p>
             {/* Compassionate stats - show total progress */}
             <div className="flex gap-4 py-2">
               <div className="text-center">
-                <p className="text-text text-lg font-bold">{totalCleanDays}</p>
+                <p className="text-text text-lg font-bold tabular-nums">{formatNumber(totalCleanDays)}</p>
                 <p className="text-text-muted text-[10px]">total clean days</p>
               </div>
               <div className="w-px bg-border" aria-hidden="true" />
               <div className="text-center">
-                <p className="text-text text-lg font-bold">{longestStreak}</p>
+                <p className="text-text text-lg font-bold tabular-nums">{formatNumber(longestStreak)}</p>
                 <p className="text-text-muted text-[10px]">personal best</p>
               </div>
             </div>
@@ -315,7 +316,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
               {days > longestStreak
                 ? "This was your longest streak ever. That's real growth."
                 : totalResets > 0
-                ? `You've been clean ${totalCleanDays} out of your total days. Every day still counts.`
+                ? `You've been clean ${formatNumber(totalCleanDays)} of your total days. Every single one counts.`
                 : "Every day you stayed clean made your brain stronger."
               }
             </p>
@@ -326,7 +327,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                   onUseFreeze()
                   setShowResetConfirm(false)
                 }}
-                className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2"
+                className="w-full bg-accent/10 border border-accent/20 text-accent-glow py-3 rounded-xl text-sm font-semibold transition-all duration-200 ease-out hover:bg-accent/20 active:scale-[0.97] flex items-center justify-center gap-2"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2L9 9H2l6 5-2 7 6-4 6 4-2-7 6-5h-7z"/>
@@ -337,7 +338,7 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
             <div className="flex gap-3 w-full">
               <button
                 onClick={() => { haptic('tap'); setShowResetConfirm(false) }}
-                className="flex-1 bg-bg-card-hover text-text-dim py-3 rounded-xl text-sm font-medium transition-all hover:text-text active:scale-[0.97]"
+                className="flex-1 bg-bg-card-hover text-text-dim py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:text-text active:scale-[0.97]"
               >
                 Keep Going
               </button>
@@ -347,9 +348,9 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
                   onReset()
                   setShowResetConfirm(false)
                 }}
-                className="flex-1 bg-danger/10 border border-danger/20 text-danger py-3 rounded-xl text-sm font-medium transition-all hover:bg-danger/20 active:scale-[0.97]"
+                className="flex-1 bg-danger/10 border border-danger/20 text-danger py-3 rounded-xl text-sm font-medium transition-all duration-200 ease-out hover:bg-danger/20 active:scale-[0.97]"
               >
-                Reset
+                Start Fresh
               </button>
             </div>
           </div>
@@ -373,11 +374,13 @@ function NextMilestone({ days }: { days: number }) {
     <div className="glass-accent rounded-2xl p-4 w-full max-w-sm animate-fade-in-delay-2">
       <div className="flex justify-between items-center mb-2">
         <span className="text-text-dim text-xs font-medium">Next: {next.label}</span>
-        <span className="text-accent-glow text-xs font-semibold">{daysLeft}d left</span>
+        <span className="text-accent-glow text-xs font-semibold tabular-nums">
+          {daysLeft === 1 ? '1 day left' : `${formatNumber(daysLeft)} days left`}
+        </span>
       </div>
       <div className="w-full h-1.5 bg-border rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(segmentProgress * 100)} aria-valuemin={0} aria-valuemax={100} aria-label={`Progress to ${next.label}: ${Math.round(segmentProgress * 100)}%`}>
         <div
-          className="h-full bg-accent rounded-full transition-all duration-500"
+          className="h-full bg-accent rounded-full transition-all duration-500 ease-out"
           style={{ width: `${segmentProgress * 100}%` }}
         />
       </div>

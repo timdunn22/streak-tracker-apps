@@ -1,6 +1,7 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
+import { formatRelativeDate } from '../utils/format'
 import type { JournalEntry } from '../hooks/useStreak'
 
 interface Props {
@@ -29,6 +30,17 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
   const undoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  // Clean up undo timer on unmount to prevent memory leaks and
+  // state updates after the component is removed from the tree
+  useEffect(() => {
+    return () => {
+      if (undoTimerRef.current) {
+        clearTimeout(undoTimerRef.current)
+        undoTimerRef.current = null
+      }
+    }
+  }, [])
+
   const confirmDelete = useCallback((id: string) => {
     haptic('tap')
     setPendingDeleteId(id)
@@ -51,7 +63,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
       }
       onDelete(pendingDeleteId)
       setPendingDeleteId(null)
-      if (showToast) showToast('Entry deleted. Tap undo in 5s to restore.', 'info')
+      if (showToast) showToast('Entry deleted. Tap undo to restore.', 'info')
     }
   }, [pendingDeleteId, onDelete, entries, showToast])
 
@@ -92,22 +104,12 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
 
   const recentEntries = [...entries].reverse().slice(0, 5)
 
-  const formatDate = (iso: string) => {
-    const d = new Date(iso)
-    const now = new Date()
-    const diff = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24))
-    if (diff === 0) return 'Today'
-    if (diff === 1) return 'Yesterday'
-    if (diff < 7) return `${diff} days ago`
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  }
-
   return (
     <div className="w-full max-w-sm">
       {!isWriting ? (
         <button
           onClick={() => { haptic('tap'); setIsWriting(true) }}
-          className="w-full glass rounded-2xl p-4 text-left transition-all hover:border-accent/20 active:scale-[0.99] animate-fade-in-delay-2"
+          className="w-full glass rounded-2xl p-4 text-left transition-all duration-200 ease-out hover:border-accent/20 active:scale-[0.99] animate-fade-in-delay-2"
         >
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
@@ -170,8 +172,8 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
             value={text}
             onChange={e => setText(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Write about your day, triggers, wins..."
-            className="w-full bg-bg-card border border-border rounded-xl p-3 text-text text-sm placeholder:text-text-muted resize-none h-24 focus:outline-none focus:border-accent/30 transition-colors"
+            placeholder="What happened today? Any triggers, wins, or reflections..."
+            className="w-full bg-bg-card border border-border rounded-xl p-3 text-text text-sm placeholder:text-text-muted resize-none h-24 focus:outline-none focus:border-accent/30 transition-colors duration-200"
             maxLength={500}
             autoFocus
             aria-label="Journal entry text"
@@ -182,9 +184,9 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
             <button
               onClick={submit}
               disabled={!text.trim()}
-              className="bg-accent hover:bg-accent-glow disabled:opacity-30 text-white font-semibold text-sm py-2 px-6 rounded-xl transition-all active:scale-[0.97]"
+              className="bg-accent hover:bg-accent-glow disabled:opacity-30 disabled:active:scale-100 text-white font-semibold text-sm py-2 px-6 rounded-xl transition-all duration-200 ease-out active:scale-[0.97]"
             >
-              Save
+              Save Entry
             </button>
           </div>
         </div>
@@ -196,7 +198,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
             <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
           </svg>
           <p className="text-text-muted text-xs leading-relaxed">
-            No journal entries yet. Writing helps you process triggers and track emotional growth.
+            Your journal is empty. Writing even a few words helps you recognize patterns and build self-awareness.
           </p>
         </div>
       )}
@@ -208,7 +210,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm">{MOODS.find(m => m.value === entry.mood)?.emoji || '😐'}</span>
-                  <span className="text-text-muted text-[10px]">{formatDate(entry.date)}</span>
+                  <span className="text-text-muted text-[10px]">{formatRelativeDate(entry.date)}</span>
                 </div>
                 {pendingDeleteId === entry.id ? (
                   <div className="flex items-center gap-2">
@@ -231,7 +233,7 @@ export default function Journal({ entries, onAdd, onDelete, currentDays, showToa
                   <button
                     onClick={() => confirmDelete(entry.id)}
                     className="text-text-muted hover:text-danger text-[10px] transition-all p-2.5 -mr-2.5 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center"
-                    aria-label={`Delete journal entry from ${formatDate(entry.date)}`}
+                    aria-label={`Delete journal entry from ${formatRelativeDate(entry.date)}`}
                   >
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>

@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react'
 import { config } from '../config'
+import { haptic } from '../hooks/useHaptic'
+import { formatNumber } from '../utils/format'
 
 interface Props {
   days: number
@@ -156,16 +158,21 @@ export default function ShareCard({ days, longestStreak }: Props) {
         }
       }
 
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `${config.id.replace(/[^a-z0-9-]/g, '')}-day-${days}.png`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-      setStatus('saved')
-      setTimeout(() => setStatus('idle'), 2000)
+      let downloadUrl: string | null = null
+      try {
+        downloadUrl = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = downloadUrl
+        a.download = `${config.id.replace(/[^a-z0-9-]/g, '')}-day-${days}.png`
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        setStatus('saved')
+        setTimeout(() => setStatus('idle'), 2000)
+      } finally {
+        // Always revoke ObjectURL to prevent memory leak, even if DOM ops fail
+        if (downloadUrl) URL.revokeObjectURL(downloadUrl)
+      }
     } catch (err) {
       // Share cancelled by user is not an error
       if (err instanceof Error && err.name === 'AbortError') {
@@ -200,7 +207,7 @@ export default function ShareCard({ days, longestStreak }: Props) {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-bold text-text">{days}</span>
+              <span className="text-3xl font-bold text-text tabular-nums">{formatNumber(days)}</span>
               <span className="text-text-muted text-[10px]">{days === 1 ? config.unitLabelSingular : config.unitLabel}</span>
             </div>
           </div>
@@ -209,15 +216,15 @@ export default function ShareCard({ days, longestStreak }: Props) {
 
           <div className="flex justify-center gap-6 mt-4">
             <div className="text-center">
-              <p className="text-text text-sm font-bold">{Math.floor(days / 7)}</p>
-              <p className="text-text-muted text-[10px]">weeks</p>
+              <p className="text-text text-sm font-bold tabular-nums">{formatNumber(Math.floor(days / 7))}</p>
+              <p className="text-text-muted text-[10px]">{Math.floor(days / 7) === 1 ? 'week' : 'weeks'}</p>
             </div>
             <div className="text-center">
-              <p className="text-text text-sm font-bold">{config.goalDays > 0 ? Math.min(100, Math.round((days / config.goalDays) * 100)) : 0}%</p>
+              <p className="text-text text-sm font-bold tabular-nums">{config.goalDays > 0 ? Math.min(100, Math.round((days / config.goalDays) * 100)) : 0}%</p>
               <p className="text-text-muted text-[10px]">progress</p>
             </div>
             <div className="text-center">
-              <p className="text-text text-sm font-bold">{longestStreak}</p>
+              <p className="text-text text-sm font-bold tabular-nums">{formatNumber(longestStreak)}</p>
               <p className="text-text-muted text-[10px]">best</p>
             </div>
           </div>
@@ -225,9 +232,9 @@ export default function ShareCard({ days, longestStreak }: Props) {
       </div>
 
       <button
-        onClick={generateAndShare}
+        onClick={() => { haptic('tap'); generateAndShare() }}
         disabled={status === 'saving'}
-        className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-2 relative overflow-hidden"
+        className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 ease-out active:scale-[0.97] glow-accent animate-fade-in-delay-2 relative overflow-hidden"
         aria-live="polite"
       >
         {status === 'saving' && (
@@ -239,12 +246,12 @@ export default function ShareCard({ days, longestStreak }: Props) {
           </span>
         )}
         <span className={status === 'saving' ? 'invisible' : ''}>
-          {status === 'saved' ? 'Saved!' : status === 'error' ? 'Something went wrong' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
+          {status === 'saved' ? 'Saved!' : status === 'error' ? 'Failed — try again' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
         </span>
       </button>
 
       <p className="text-text-muted text-[11px] text-center mt-3 animate-fade-in-delay-3">
-        Generates a 1080x1350 image — perfect for TikTok and Instagram
+        1080 &times; 1350 — optimized for TikTok, Instagram, and X
       </p>
 
       <canvas ref={canvasRef} className="hidden" aria-hidden="true" />
