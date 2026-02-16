@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLiveTimer } from '../hooks/useLiveTimer'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
@@ -11,6 +11,8 @@ import FloatingParticles from './FloatingParticles'
 import MoneySaved from './MoneySaved'
 import Journal from './Journal'
 import type { JournalEntry } from '../hooks/useStreak'
+
+const WELCOME_KEY = `${config.id}-welcome-seen`
 
 interface Props {
   days: number
@@ -38,8 +40,25 @@ function getDailyQuote(daysSinceStart: number): string {
 
 export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, totalCleanDays, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost, onShowBreathing, journal, onAddJournal, onDeleteJournal }: Props) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
   const liveTime = useLiveTimer(startDate)
   const { canInstall, install } = useInstallPrompt()
+
+  // Show welcome tooltip for first-time users (day 0, first ever streak)
+  useEffect(() => {
+    if (isActive && days === 0 && totalResets === 0) {
+      try {
+        if (!localStorage.getItem(WELCOME_KEY)) {
+          const timer = setTimeout(() => setShowWelcome(true), 1500)
+          const dismiss = setTimeout(() => {
+            setShowWelcome(false)
+            try { localStorage.setItem(WELCOME_KEY, '1') } catch { /* quota */ }
+          }, 8000)
+          return () => { clearTimeout(timer); clearTimeout(dismiss) }
+        }
+      } catch { /* localStorage unavailable */ }
+    }
+  }, [isActive, days, totalResets])
 
   const getPhase = () => {
     for (const phase of config.phases) {
@@ -186,6 +205,30 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
           </span>
         </div>
       </div>
+
+      {/* First-time welcome tooltip */}
+      {showWelcome && (
+        <div className="w-full max-w-sm mb-4 animate-slide-down" role="status" aria-live="polite">
+          <div className="glass-accent rounded-2xl p-4 text-center relative">
+            <button
+              onClick={() => {
+                setShowWelcome(false)
+                try { localStorage.setItem(WELCOME_KEY, '1') } catch { /* quota */ }
+              }}
+              className="absolute top-2 right-2 text-text-muted hover:text-text-dim transition-colors p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              aria-label="Dismiss welcome message"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+            <p className="text-accent-glow text-xs font-semibold tracking-wide uppercase mb-1">Welcome</p>
+            <p className="text-text-secondary text-xs leading-relaxed">
+              Your journey has begun! Swipe between tabs to explore your Timeline, Stats, and Share card. Check in daily and journal to build your streak.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Emergency breathing button */}
       <button

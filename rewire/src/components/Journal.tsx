@@ -163,6 +163,17 @@ export default function Journal({ entries, onAdd, onDelete, currentDays }: Props
         </div>
       )}
 
+      {!isWriting && recentEntries.length === 0 && (
+        <div className="mt-3 glass rounded-xl p-4 text-center animate-fade-in-delay-3">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-50" aria-hidden="true">
+            <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+          </svg>
+          <p className="text-text-muted text-xs leading-relaxed">
+            No journal entries yet. Writing helps you process triggers and track emotional growth.
+          </p>
+        </div>
+      )}
+
       {recentEntries.length > 0 && !isWriting && (
         <div className="mt-3 space-y-2 animate-fade-in-delay-3">
           {recentEntries.map(entry => (

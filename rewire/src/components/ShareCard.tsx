@@ -131,11 +131,13 @@ export default function ShareCard({ days, longestStreak }: Props) {
 
     ctx.fillStyle = '#6b6b80'
     ctx.font = '500 22px -apple-system, BlinkMacSystemFont, sans-serif'
-    ctx.fillText(config.name, cx, h - 100)
+    ctx.fillText(config.name.slice(0, 50), cx, h - 100)
 
     ctx.fillStyle = '#8c8ca6'
     ctx.font = '400 18px -apple-system, BlinkMacSystemFont, sans-serif'
-    ctx.fillText(window.location.origin.replace('https://', ''), cx, h - 65)
+    // Cap origin text length to prevent canvas rendering issues with unexpected URLs
+    const origin = window.location.origin.replace('https://', '').slice(0, 80)
+    ctx.fillText(origin, cx, h - 65)
 
     try {
       const blob = await new Promise<Blob | null>((resolve) =>
@@ -224,10 +226,20 @@ export default function ShareCard({ days, longestStreak }: Props) {
       <button
         onClick={generateAndShare}
         disabled={status === 'saving'}
-        className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-2"
+        className="w-full bg-accent hover:bg-accent-glow disabled:opacity-50 text-white font-semibold py-4 rounded-2xl transition-all duration-200 active:scale-[0.97] glow-accent animate-fade-in-delay-2 relative overflow-hidden"
         aria-live="polite"
       >
-        {status === 'saving' ? 'Generating...' : status === 'saved' ? 'Saved!' : status === 'error' ? 'Something went wrong' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
+        {status === 'saving' && (
+          <span className="absolute inset-0 flex items-center justify-center">
+            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+            </svg>
+          </span>
+        )}
+        <span className={status === 'saving' ? 'invisible' : ''}>
+          {status === 'saved' ? 'Saved!' : status === 'error' ? 'Something went wrong' : (typeof navigator !== 'undefined' && navigator.share) ? 'Share Your Progress' : 'Download Share Card'}
+        </span>
       </button>
 
       <p className="text-text-muted text-[11px] text-center mt-3 animate-fade-in-delay-3">

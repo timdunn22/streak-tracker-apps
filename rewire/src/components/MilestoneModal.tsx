@@ -156,11 +156,20 @@ export default function MilestoneModal({ milestone, onClose }: Props) {
             <button
               onClick={async () => {
                 haptic('tap')
-                const text = `Day ${milestone} — ${data.label}! Tracking with ${config.name}`
-                if (navigator.share) {
-                  try { await navigator.share({ title: `${config.name} Milestone`, text, url: window.location.origin }) } catch {}
-                } else if (navigator.clipboard) {
-                  try { await navigator.clipboard.writeText(text) } catch {}
+                // Clamp milestone value for display safety
+                const safeDay = Math.max(0, Math.min(milestone, 36500))
+                const text = `Day ${safeDay} — ${data.label}! Tracking with ${config.name}`
+                try {
+                  if (navigator.share) {
+                    await navigator.share({ title: `${config.name} Milestone`, text, url: window.location.origin })
+                  } else if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(text)
+                  }
+                } catch (err) {
+                  // AbortError = user cancelled share sheet, not a real error
+                  if (!(err instanceof Error && err.name === 'AbortError')) {
+                    // Silently ignore — clipboard/share may be denied
+                  }
                 }
                 onClose()
               }}

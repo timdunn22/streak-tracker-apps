@@ -33,15 +33,18 @@ export default function BreathingExercise({ onClose }: Props) {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const phaseIndexRef = useRef(0)
+  // Guard against state updates after unmount (recursive setTimeout in runPhase)
+  const unmountedRef = useRef(false)
 
   const encouragement = ENCOURAGEMENTS[cycle % ENCOURAGEMENTS.length]
 
   const cleanup = useCallback(() => {
-    if (timerRef.current) clearTimeout(timerRef.current)
-    if (countdownRef.current) clearInterval(countdownRef.current)
+    if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
+    if (countdownRef.current) { clearInterval(countdownRef.current); countdownRef.current = null }
   }, [])
 
   const runPhase = useCallback((phaseIdx: number, currentCycle: number) => {
+    if (unmountedRef.current) return
     if (currentCycle >= totalCycles) {
       setPhase('idle')
       setActive(false)
@@ -57,6 +60,7 @@ export default function BreathingExercise({ onClose }: Props) {
     if (p.phase === 'inhale') haptic('tap')
 
     countdownRef.current = setInterval(() => {
+      if (unmountedRef.current) return
       setSecondsLeft(prev => {
         if (prev <= 1) {
           if (countdownRef.current) clearInterval(countdownRef.current)
@@ -67,6 +71,7 @@ export default function BreathingExercise({ onClose }: Props) {
     }, 1000)
 
     timerRef.current = setTimeout(() => {
+      if (unmountedRef.current) return
       if (countdownRef.current) clearInterval(countdownRef.current)
       const nextIdx = phaseIdx + 1
       if (nextIdx >= PHASES.length) {
@@ -93,7 +98,13 @@ export default function BreathingExercise({ onClose }: Props) {
     setCycle(0)
   }
 
-  useEffect(() => cleanup, [cleanup])
+  useEffect(() => {
+    unmountedRef.current = false
+    return () => {
+      unmountedRef.current = true
+      cleanup()
+    }
+  }, [cleanup])
 
   const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -218,9 +229,19 @@ export default function BreathingExercise({ onClose }: Props) {
         )}
 
         {!active && cycle >= totalCycles && cycle > 0 && (
-          <div className="mt-6 glass rounded-2xl p-4 animate-fade-in">
+          <div className="mt-6 glass-accent rounded-2xl p-5 animate-slide-down text-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
             <p className="text-success text-sm font-semibold mb-1">Great work!</p>
-            <p className="text-text-dim text-xs">The craving has likely passed. You're in control.</p>
+            <p className="text-text-dim text-xs mb-4">The craving has likely passed. You're in control.</p>
+            <button
+              onClick={onClose}
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold py-3 rounded-2xl transition-all duration-200 active:scale-[0.97]"
+            >
+              Back to Streak
+            </button>
           </div>
         )}
       </div>

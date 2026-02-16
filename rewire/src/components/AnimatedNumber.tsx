@@ -6,6 +6,8 @@ interface Props {
   className?: string
 }
 
+const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 export default function AnimatedNumber({ value, duration = 800, className = '' }: Props) {
   const [display, setDisplay] = useState(value)
   const prevValue = useRef(value)
@@ -16,6 +18,13 @@ export default function AnimatedNumber({ value, duration = 800, className = '' }
     const end = value
     const diff = end - start
     if (diff === 0) return
+
+    // Skip animation for reduced motion users
+    if (prefersReducedMotion) {
+      setDisplay(end)
+      prevValue.current = end
+      return
+    }
 
     const startTime = performance.now()
 

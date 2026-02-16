@@ -30,6 +30,12 @@ export default function Toast({ message, type = 'success', onDone, duration = 25
     ? 'bg-danger/15 border-danger/25 text-danger'
     : 'bg-accent/15 border-accent/25 text-accent-glow'
 
+  const progressColor = type === 'success'
+    ? 'bg-success/40'
+    : type === 'error'
+    ? 'bg-danger/40'
+    : 'bg-accent/40'
+
   const icon = type === 'success'
     ? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
     : type === 'error'
@@ -38,14 +44,25 @@ export default function Toast({ message, type = 'success', onDone, duration = 25
 
   return (
     <div
-      className={`fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-[200] flex items-center gap-2 px-4 py-2.5 rounded-xl border backdrop-blur-xl text-sm font-medium transition-all duration-300 pointer-events-none ${bgColor} ${
+      className={`fixed top-[max(1rem,env(safe-area-inset-top))] left-1/2 -translate-x-1/2 z-[200] rounded-xl border backdrop-blur-xl text-sm font-medium transition-all duration-300 pointer-events-none overflow-hidden ${bgColor} ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
       }`}
       role="status"
       aria-live="polite"
     >
-      {icon}
-      {message}
+      <div className="flex items-center gap-2 px-4 py-2.5">
+        {icon}
+        {message}
+      </div>
+      {/* Auto-dismiss progress bar */}
+      <div className="h-0.5 w-full" aria-hidden="true">
+        <div
+          className={`h-full ${progressColor} rounded-full`}
+          style={{
+            animation: visible ? `toast-progress ${duration}ms linear forwards` : 'none',
+          }}
+        />
+      </div>
     </div>
   )
 }

@@ -28,7 +28,7 @@ const encouragements = [
 
 export default function DailyCheckIn({ days }: { days: number }) {
   const [visible, setVisible] = useState(false)
-  const [dismissed, setDismissed] = useState(false)
+  const [state, setState] = useState<'prompt' | 'success' | 'dismissed'>('prompt')
 
   useEffect(() => {
     if (!hasCheckedInToday() && days > 0) {
@@ -40,8 +40,10 @@ export default function DailyCheckIn({ days }: { days: number }) {
   const checkIn = () => {
     haptic('success')
     try { localStorage.setItem(CHECKIN_KEY, getToday()) } catch { /* quota exceeded */ }
-    setDismissed(true)
-    setTimeout(() => setVisible(false), 400)
+    setState('success')
+    // Show success state briefly, then fade out
+    setTimeout(() => setState('dismissed'), 1500)
+    setTimeout(() => setVisible(false), 1900)
   }
 
   if (!visible) return null
@@ -49,25 +51,38 @@ export default function DailyCheckIn({ days }: { days: number }) {
   const msg = encouragements[days % encouragements.length]
 
   return (
-    <div className={`w-full max-w-sm mb-6 ${dismissed ? 'animate-fade-out' : 'animate-slide-down'}`}>
+    <div className={`w-full max-w-sm mb-6 ${state === 'dismissed' ? 'animate-fade-out' : 'animate-slide-down'}`}>
       <div className="glass-accent rounded-2xl p-5 text-center">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <div className="w-2 h-2 rounded-full bg-accent animate-pulse-slow" />
-          <p className="text-accent-glow text-xs font-semibold tracking-wide uppercase">Daily Check-in</p>
-        </div>
-        <p className="text-text-secondary text-sm leading-relaxed mb-4">
-          Day {days}. {msg}
-        </p>
-        <button
-          onClick={checkIn}
-          className="w-full bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 active:scale-[0.97] flex items-center justify-center gap-2"
-          aria-label={`Check in for day ${days}`}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="20 6 9 17 4 12"/>
-          </svg>
-          Still going strong
-        </button>
+        {state === 'success' ? (
+          <div className="py-2">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2" aria-hidden="true">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <p className="text-success text-sm font-semibold">Checked in!</p>
+            <p className="text-text-muted text-xs mt-1">Day {days} logged. Keep going.</p>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <div className="w-2 h-2 rounded-full bg-accent animate-pulse-slow" />
+              <p className="text-accent-glow text-xs font-semibold tracking-wide uppercase">Daily Check-in</p>
+            </div>
+            <p className="text-text-secondary text-sm leading-relaxed mb-4">
+              Day {days}. {msg}
+            </p>
+            <button
+              onClick={checkIn}
+              className="w-full bg-accent hover:bg-accent-glow text-white font-semibold text-sm py-3 rounded-xl transition-all duration-200 active:scale-[0.97] flex items-center justify-center gap-2"
+              aria-label={`Check in for day ${days}`}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Still going strong
+            </button>
+          </>
+        )}
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { config } from '../config'
 
 const MILESTONES = [1, 3, 7, 14, 21, 30, 45, 60, 90, 120, 180, 365]
@@ -28,11 +28,20 @@ export function clearSeenMilestones() {
   try { localStorage.removeItem(SEEN_KEY) } catch { /* localStorage unavailable */ }
 }
 
+// Reuse a single AudioContext across chime calls to prevent resource leaks
+let sharedAudioCtx: AudioContext | null = null
+
 // Play a short ascending chime using Web Audio API (skipped for reduced-motion preference)
 function playChime() {
   if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
   try {
-    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+    if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+      sharedAudioCtx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+    }
+    const ctx = sharedAudioCtx
+    // Resume if suspended (browser autoplay policy)
+    if (ctx.state === 'suspended') ctx.resume()
+
     const notes = [523.25, 659.25, 783.99] // C5, E5, G5 — major chord
 
     notes.forEach((freq, i) => {
@@ -51,9 +60,6 @@ function playChime() {
       osc.start(ctx.currentTime + i * 0.12)
       osc.stop(ctx.currentTime + i * 0.12 + 0.6)
     })
-
-    // Clean up after sound finishes
-    setTimeout(() => ctx.close(), 2000)
   } catch {
     // Web Audio not available
   }
@@ -64,6 +70,14 @@ export function useMilestoneAlert(
   onMilestone: (day: number) => void
 ) {
   const prevDays = useRef(currentDays)
+  // Stabilise callback ref so the effect doesn't re-fire when the
+  // parent passes a new function identity (e.g. inline or non-memoised)
+  const onMilestoneRef = useRef(onMilestone)
+  useEffect(() => { onMilestoneRef.current = onMilestone })
+
+  const handleMilestone = useCallback((day: number) => {
+    onMilestoneRef.current(day)
+  }, [])
 
   useEffect(() => {
     if (currentDays <= 0) return
@@ -80,6 +94,6 @@ export function useMilestoneAlert(
     // New milestone reached!
     markSeen(milestone)
     playChime()
-    onMilestone(milestone)
-  }, [currentDays, onMilestone])
+    handleMilestone(milestone)
+  }, [currentDays, handleMilestone])
 }

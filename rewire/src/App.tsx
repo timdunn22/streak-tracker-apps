@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback, Component, type ReactNode } from 'react'
 import { useStreak } from './hooks/useStreak'
 import { useMilestoneAlert } from './hooks/useMilestoneAlert'
+import { useSwipeNavigation } from './hooks/useSwipeNavigation'
+import { useOnlineStatus } from './hooks/useOnlineStatus'
 import { config } from './config'
 import { haptic } from './hooks/useHaptic'
 import StreakCounter from './components/StreakCounter'
@@ -24,19 +26,24 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
     if (this.state.hasError) {
       return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-bg px-8 text-center">
-          <p className="text-3xl mb-4">Something went wrong</p>
+          <div className="w-16 h-16 rounded-2xl bg-danger/10 border border-danger/20 flex items-center justify-center mb-6">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <p className="text-xl font-bold text-text mb-2">Something went wrong</p>
           <p className="text-text-dim text-sm mb-6 max-w-xs leading-relaxed">
-            The app encountered an unexpected error. Your streak data is safe.
+            The app encountered an unexpected error. Your streak data is safe in local storage.
           </p>
           <button
             onClick={() => this.setState({ hasError: false })}
-            className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all mb-3"
+            className="bg-accent hover:bg-accent-glow text-white font-semibold py-3 px-8 rounded-2xl transition-all mb-3 min-h-[44px] active:scale-[0.97]"
           >
             Try Again
           </button>
           <button
             onClick={() => window.location.reload()}
-            className="text-text-muted text-xs hover:text-text-dim transition-colors py-2 px-4"
+            className="text-text-muted text-xs hover:text-text-dim transition-colors py-3 px-6 min-h-[44px]"
           >
             Reload App
           </button>
@@ -76,9 +83,11 @@ function App() {
     }
   }, [importData, showToast])
 
+  const isOnline = useOnlineStatus()
+
   useMilestoneAlert(currentDays, setActiveMilestone)
 
-  const switchTab = (next: Tab) => {
+  const switchTab = useCallback((next: Tab) => {
     if (next === tab) return
     haptic('tap')
     const prevIdx = TAB_ORDER.indexOf(prevTabRef.current)
@@ -88,7 +97,23 @@ function App() {
     setTab(next)
     // Reset scroll position when switching tabs
     scrollRef.current?.scrollTo({ top: 0 })
-  }
+  }, [tab])
+
+  // Swipe gesture navigation between tabs
+  const swipeHandlers = useSwipeNavigation({
+    onSwipeLeft: useCallback(() => {
+      const currentIdx = TAB_ORDER.indexOf(tab)
+      if (currentIdx < TAB_ORDER.length - 1) {
+        switchTab(TAB_ORDER[currentIdx + 1])
+      }
+    }, [tab, switchTab]),
+    onSwipeRight: useCallback(() => {
+      const currentIdx = TAB_ORDER.indexOf(tab)
+      if (currentIdx > 0) {
+        switchTab(TAB_ORDER[currentIdx - 1])
+      }
+    }, [tab, switchTab]),
+  })
 
   // Apply dynamic theme colors from config + request persistent storage
   useEffect(() => {
@@ -101,7 +126,10 @@ function App() {
     document.title = `${config.name} — ${config.tagline}`
 
     // Dynamic favicon from config colors
-    const svgFavicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${config.accentColor}"/><stop offset="100%" style="stop-color:${config.accentGlow}"/></linearGradient></defs><circle cx="50" cy="50" r="48" fill="url(#g)"/><text x="50" y="66" text-anchor="middle" font-size="50" font-family="Arial" font-weight="bold" fill="white">${config.name[0]}</text></svg>`
+    // Sanitize values to prevent SVG injection (defense-in-depth; config is developer-controlled)
+    const safeColor = (c: string) => /^#[0-9a-fA-F]{3,8}$/.test(c) ? c : '#888'
+    const safeLetter = (config.name[0] || 'A').replace(/[<>"'&]/g, '')
+    const svgFavicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${safeColor(config.accentColor)}"/><stop offset="100%" style="stop-color:${safeColor(config.accentGlow)}"/></linearGradient></defs><circle cx="50" cy="50" r="48" fill="url(#g)"/><text x="50" y="66" text-anchor="middle" font-size="50" font-family="Arial" font-weight="bold" fill="white">${safeLetter}</text></svg>`
     const link = document.querySelector('link[rel="icon"]') as HTMLLinkElement
     if (link) link.href = `data:image/svg+xml,${encodeURIComponent(svgFavicon)}`
 
@@ -116,8 +144,26 @@ function App() {
       {/* Toast notifications */}
       {toast && <Toast message={toast.message} type={toast.type} onDone={() => setToast(null)} />}
 
+      {/* Offline indicator */}
+      {!isOnline && (
+        <div className="fixed top-0 left-0 right-0 z-[200] bg-warning/15 border-b border-warning/25 backdrop-blur-xl" role="alert" aria-live="assertive">
+          <div className="flex items-center justify-center gap-2 py-2 px-4 pt-[max(0.5rem,env(safe-area-inset-top))]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="1" y1="1" x2="23" y2="23"/>
+              <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+              <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+              <path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>
+              <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+              <line x1="12" y1="20" x2="12.01" y2="20"/>
+            </svg>
+            <span className="text-warning text-xs font-medium">You're offline. Your data is saved locally.</span>
+          </div>
+        </div>
+      )}
+
       {/* Content */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto pb-20">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto pb-20" {...swipeHandlers}>
         <div
           className={slideDir === 'left' ? 'tab-slide-left' : slideDir === 'right' ? 'tab-slide-right' : 'tab-content'}
           key={tab}
@@ -233,18 +279,22 @@ function NavItem({ label, active, onClick, icon }: {
       onClick={onClick}
       aria-label={label}
       aria-current={active ? 'page' : undefined}
-      className={`flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 min-w-[44px] min-h-[44px] ${
+      className={`relative flex flex-col items-center gap-0.5 px-5 py-2 rounded-2xl transition-all duration-200 min-w-[44px] min-h-[44px] ${
         active
           ? 'text-accent-glow'
-          : 'text-text-muted hover:text-text-dim'
+          : 'text-text-muted hover:text-text-dim active:scale-95'
       }`}
     >
-      <div className={`transition-all duration-200 ${active ? 'scale-110' : ''}`}>
+      {/* Subtle background glow when active */}
+      {active && (
+        <div className="absolute inset-0 rounded-2xl bg-accent/8 transition-opacity duration-300" aria-hidden="true" />
+      )}
+      <div className={`relative transition-all duration-200 ${active ? 'scale-110 -translate-y-0.5' : ''}`}>
         {icon}
       </div>
-      <span className="text-[10px] font-semibold tracking-wide">{label}</span>
+      <span className={`relative text-[10px] font-semibold tracking-wide transition-all duration-200 ${active ? '-translate-y-0.5' : ''}`}>{label}</span>
       {active && (
-        <div className="w-1 h-1 rounded-full bg-accent-glow mt-0.5" aria-hidden="true" />
+        <div className="relative w-4 h-1 rounded-full bg-accent-glow mt-0.5 transition-all duration-300" aria-hidden="true" />
       )}
     </button>
   )

@@ -181,9 +181,27 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
       </div>
 
       {/* Mood Chart */}
-      {journal.length >= 2 && (
+      {journal.length >= 2 ? (
         <div className="animate-fade-in-delay-2">
           <MoodChart journal={journal} />
+        </div>
+      ) : (
+        <div className="glass rounded-2xl p-4 mb-6 animate-fade-in-delay-2">
+          <h3 className="text-sm font-semibold text-text mb-2">Mood Trend</h3>
+          <div className="flex items-end gap-1 h-16 mb-2" aria-hidden="true">
+            {Array.from({ length: 7 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex-1 rounded-t-sm skeleton-pulse"
+                style={{ height: `${30 + Math.random() * 50}%` }}
+              />
+            ))}
+          </div>
+          <p className="text-text-muted text-[10px] text-center">
+            {journal.length === 0
+              ? 'Add journal entries to see your mood trend'
+              : 'One more entry to unlock your mood chart'}
+          </p>
         </div>
       )}
 
@@ -269,12 +287,19 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
 
       {/* Data Export/Import */}
       <div className="mt-8 pt-6 border-t border-border animate-fade-in-delay-3">
-        <h3 className="text-sm font-semibold text-text mb-3">Your Data</h3>
-        <p className="text-text-muted text-xs mb-4">Export a backup or restore from a previous one. Your data never leaves your device.</p>
+        <div className="flex items-center gap-2 mb-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-dim)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <h3 className="text-sm font-semibold text-text">Your Data</h3>
+        </div>
+        <p className="text-text-muted text-xs mb-4 leading-relaxed">
+          Export a backup or restore from a previous one. Your data never leaves your device.
+        </p>
         <div className="flex gap-3">
           <button
             onClick={() => { haptic('tap'); onExport() }}
-            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2"
+            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
             aria-label="Export backup to JSON file"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -282,11 +307,11 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
               <polyline points="7 10 12 15 17 10"/>
               <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
-            Export Backup
+            Export
           </button>
           <button
             onClick={() => { haptic('tap'); fileInputRef.current?.click() }}
-            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2"
+            className="flex-1 bg-bg-card border border-border hover:border-accent/30 text-text-dim font-medium text-sm py-3 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 min-h-[44px]"
             aria-label="Import backup from JSON file"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -294,7 +319,7 @@ export default function Stats({ currentDays, longestStreak, totalCleanDays, tota
               <polyline points="17 8 12 3 7 8"/>
               <line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
-            Import Backup
+            Import
           </button>
         </div>
         <input

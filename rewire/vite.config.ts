@@ -146,11 +146,14 @@ function seoPlugin(): Plugin {
         operatingSystem: 'Any',
         inLanguage: 'en',
         browserRequirements: 'Requires a modern web browser with JavaScript',
-        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock' },
         description: cfg.metaDescription,
         url: cfg.appUrl,
-        author: { '@type': 'Person', name: 'Tim Dunn' },
+        author: { '@type': 'Person', name: 'Tim Dunn', url: 'https://github.com/timdunn22' },
         featureList: 'Live streak timer, Recovery phases, Milestones, Streak freeze, Badge collection, Journal, Share progress card, Offline support',
+        screenshot: `${cfg.landingUrl}/og-image.svg`,
+        datePublished: '2025-01-01',
+        dateModified: '2025-06-01',
       })
 
       const metaTags = `
@@ -159,7 +162,9 @@ function seoPlugin(): Plugin {
     <meta name="author" content="Tim Dunn" />
     <link rel="canonical" href="${cfg.appUrl}/" />
     <link rel="alternate" href="${cfg.landingUrl}/" />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
     <meta property="og:title" content="${cfg.title}" />
     <meta property="og:description" content="${cfg.metaDescription}" />
     <meta property="og:type" content="website" />
@@ -268,6 +273,10 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        // Ensure offline navigation always returns index.html (SPA fallback)
+        navigateFallback: 'index.html',
+        // Only apply fallback to same-origin navigation requests, not static assets
+        navigateFallbackDenylist: [/^\/api/, /\.[a-z]+$/i],
       },
     }),
   ],

@@ -59,7 +59,16 @@ function loadData(): StreakData {
 
 function isValidDate(s: string): boolean {
   if (s.length > 50) return false // prevent excessively long date strings
-  return !isNaN(new Date(s).getTime())
+  // Require ISO-8601-like format to reject ambiguous strings (e.g. "constructor",
+  // "Tuesday", etc.) that some engines parse to valid Date objects
+  if (!/^\d{4}-\d{2}-\d{2}/.test(s)) return false
+  const d = new Date(s)
+  if (isNaN(d.getTime())) return false
+  // Reject dates before 2020 (app didn't exist) or more than 1 day in the future
+  // to guard against corrupted/malicious data
+  const year = d.getFullYear()
+  if (year < 2020 || year > 2100) return false
+  return true
 }
 
 function validateData(parsed: unknown): StreakData {
@@ -72,7 +81,7 @@ function validateData(parsed: unknown): StreakData {
     streaks: Array.isArray(p.streaks) ? p.streaks.filter((n: unknown) => typeof n === 'number' && isFinite(n) && n >= 0 && n <= 36500).slice(0, 10000) : [],
     totalCleanDays: typeof p.totalCleanDays === 'number' && isFinite(p.totalCleanDays) ? Math.max(0, Math.min(p.totalCleanDays, 1000000)) : 0,
     freezesAvailable: typeof p.freezesAvailable === 'number' ? Math.min(Math.max(p.freezesAvailable, 0), 2) : 2,
-    freezesUsed: typeof p.freezesUsed === 'number' && isFinite(p.freezesUsed) ? Math.max(0, p.freezesUsed) : 0,
+    freezesUsed: typeof p.freezesUsed === 'number' && isFinite(p.freezesUsed) ? Math.max(0, Math.min(p.freezesUsed, 100000)) : 0,
     lastFreezeRecharge: typeof p.lastFreezeRecharge === 'string' && isValidDate(p.lastFreezeRecharge) ? p.lastFreezeRecharge : null,
     dailyCost: typeof p.dailyCost === 'number' && isFinite(p.dailyCost) && p.dailyCost >= 0 && p.dailyCost <= 10000 ? p.dailyCost : null,
     journal: Array.isArray(p.journal) ? p.journal.filter((e: unknown) => {
@@ -110,8 +119,14 @@ function saveData(data: StreakData) {
 
 export function getDaysBetween(start: string, end: Date = new Date()): number {
   const startDate = new Date(start)
-  const diffMs = end.getTime() - startDate.getTime()
-  return Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)))
+  if (isNaN(startDate.getTime())) return 0
+  // Use local-date-only comparison to avoid DST/timezone drift:
+  // normalise both dates to midnight local time before diffing
+  const startMidnight = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
+  const endMidnight = new Date(end.getFullYear(), end.getMonth(), end.getDate())
+  const diffMs = endMidnight.getTime() - startMidnight.getTime()
+  // Clamp: no negative days (future start dates), no more than streak cap
+  return Math.max(0, Math.min(Math.round(diffMs / (1000 * 60 * 60 * 24)), 36500))
 }
 
 export function useStreak() {
@@ -164,17 +179,20 @@ export function useStreak() {
   }, [])
 
   const useFreeze = useCallback(() => {
-    if (data.freezesAvailable <= 0) return false
+    // Use functional updater to avoid race conditions between the
+    // outer check and the async state update. Track success via ref.
+    let didFreeze = false
     setData(prev => {
       if (prev.freezesAvailable <= 0) return prev
+      didFreeze = true
       return {
         ...prev,
         freezesAvailable: prev.freezesAvailable - 1,
         freezesUsed: prev.freezesUsed + 1,
       }
     })
-    return true
-  }, [data.freezesAvailable])
+    return didFreeze
+  }, [])
 
   const setDailyCost = useCallback((cost: number) => {
     if (!isFinite(cost) || cost < 0 || cost > 10000) return
@@ -251,8 +269,8 @@ export function useStreak() {
             resolve(false)
             return
           }
-          if (typeof parsed.version !== 'number' || parsed.version > 1) {
-            alert('This backup was created by a newer version. Please update the app first.')
+          if (typeof parsed.version !== 'number' || parsed.version !== 1) {
+            alert('Unsupported backup version. Please use a valid backup file or update the app.')
             resolve(false)
             return
           }
