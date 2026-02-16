@@ -134,11 +134,14 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
     }
     document.addEventListener('keydown', handleKeyDown)
     // Auto-focus the first button in the dialog for keyboard users
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       const firstBtn = resetDialogRef.current?.querySelector<HTMLElement>('button')
       firstBtn?.focus()
     })
-    return () => document.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      cancelAnimationFrame(rafId)
+    }
   }, [showResetConfirm])
 
   const getPhase = () => {

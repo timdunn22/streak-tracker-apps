@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { config } from '../config'
 import { haptic } from '../hooks/useHaptic'
 import { formatNumber } from '../utils/format'
@@ -12,6 +12,14 @@ export default function ShareCard({ days, longestStreak }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const busyRef = useRef(false)
+  // Track status-reset timers so they can be cancelled on unmount
+  const statusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (statusTimerRef.current) clearTimeout(statusTimerRef.current)
+    }
+  }, [])
 
   const getMessage = () => {
     if (days < 3) return 'The journey begins.'
@@ -172,7 +180,8 @@ export default function ShareCard({ days, longestStreak }: Props) {
         a.click()
         document.body.removeChild(a)
         setStatus('saved')
-        setTimeout(() => setStatus('idle'), 2000)
+        if (statusTimerRef.current) clearTimeout(statusTimerRef.current)
+        statusTimerRef.current = setTimeout(() => setStatus('idle'), 2000)
       } finally {
         // Always revoke ObjectURL to prevent memory leak, even if DOM ops fail
         if (downloadUrl) URL.revokeObjectURL(downloadUrl)
@@ -183,7 +192,8 @@ export default function ShareCard({ days, longestStreak }: Props) {
         setStatus('idle')
       } else {
         setStatus('error')
-        setTimeout(() => setStatus('idle'), 2000)
+        if (statusTimerRef.current) clearTimeout(statusTimerRef.current)
+        statusTimerRef.current = setTimeout(() => setStatus('idle'), 2000)
       }
     }
   }
