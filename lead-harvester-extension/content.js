@@ -101,14 +101,14 @@
     // Rating
     rating: 'span.MW4etd, span[role="img"][aria-label*="star"]',
     // Review count
-    reviewCount: 'span.UY7F9',
+    reviewCount: 'span.UY7F9, span.e4rVHe',
     // Category
     category:
       'button[jsaction*="category"] span, span.mgr77e span, div.W4Efsd:first-child span:nth-child(2)',
     // Address text spans
     address: 'div.W4Efsd span[style*="color"], span.W4Efsd',
     // Phone - look in aria-labels and text
-    phone: 'button[data-tooltip*="phone"], span[style*="color"]',
+    phone: 'button[data-tooltip*="phone"], span.UsdlK, span[style*="color"]',
     // Website link
     websiteLink: 'a[data-value="Website"], a[aria-label*="Website"]',
     // Hours
@@ -245,23 +245,53 @@
       }
     });
 
-    // Category: often the first info span text
-    const categorySpans = card.querySelectorAll(
-      'span.mgr77e span, div.W4Efsd span.fontBodyMedium'
-    );
-    categorySpans.forEach((s) => {
-      const t = s.textContent.trim();
-      if (
-        t &&
-        !lead.category &&
-        t.length < 50 &&
-        !/\d/.test(t) &&
-        !t.includes('$') &&
-        !/closed|open/i.test(t)
-      ) {
-        lead.category = t;
+    // Category: in first nested W4Efsd's first span
+    const innerW4s = card.querySelectorAll('div.W4Efsd div.W4Efsd');
+    if (innerW4s.length > 0) {
+      const firstSpan = innerW4s[0].querySelector(':scope > span:first-child span');
+      if (firstSpan) {
+        const catText = firstSpan.textContent.trim();
+        if (catText && catText.length < 50 && !/\d/.test(catText) && !catText.includes('$') && !/closed|open/i.test(catText)) {
+          lead.category = catText;
+        }
       }
-    });
+    }
+
+    // Fallback category: old selector approach
+    if (!lead.category) {
+      const categorySpans = card.querySelectorAll(
+        'div.W4Efsd span.fontBodyMedium'
+      );
+      categorySpans.forEach((s) => {
+        const t = s.textContent.trim();
+        if (
+          t &&
+          !lead.category &&
+          t.length < 50 &&
+          !/\d/.test(t) &&
+          !t.includes('$') &&
+          !/closed|open/i.test(t)
+        ) {
+          lead.category = t;
+        }
+      });
+    }
+
+    // Address fallback: positional extraction from first nested W4Efsd
+    if (!lead.address && innerW4s.length > 0) {
+      const spans = innerW4s[0].querySelectorAll(':scope > span');
+      if (spans.length > 1) {
+        const addrSpan = spans[1].querySelector('span:last-child');
+        if (addrSpan) lead.address = addrSpan.textContent.trim();
+      }
+    }
+
+    // Hours: text in the second nested W4Efsd
+    if (!lead.hours && innerW4s.length > 1) {
+      const hourText = innerW4s[1].textContent.trim();
+      const hourMatch = hourText.match(/Open\s+[^·]+|Closed/i);
+      if (hourMatch) lead.hours = hourMatch[0].trim();
+    }
 
     // Website from href if the card is a link
     const websiteBtn = card.querySelector('a[href*="http"]');

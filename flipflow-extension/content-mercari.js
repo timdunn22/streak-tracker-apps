@@ -6,14 +6,14 @@
 (() => {
   const SELECTORS = {
     /* listing detail page */
-    DETAIL_TITLE: '[data-testid="item-name"], h1[class*="ItemName"], .item-name h1, h2[data-testid="ItemInfo"]',
-    DETAIL_PRICE: '[data-testid="item-price"], [class*="ItemPrice"], .item-price',
-    DETAIL_DESCRIPTION: '[data-testid="item-description"], [class*="ItemDescription"], .item-description',
-    DETAIL_BRAND: '[data-testid="item-brand"], [class*="Brand"] a, .item-brand',
-    DETAIL_SIZE: '[data-testid="item-size"], [class*="Size"]',
-    DETAIL_CONDITION: '[data-testid="item-condition"], [class*="Condition"]',
-    DETAIL_IMAGES: '[data-testid="image-carousel"] img, [class*="ItemPhotos"] img, .item-photo img, [class*="DesktopCarousel"] img',
-    DETAIL_CATEGORY: '[data-testid="item-category"], [class*="Category"] a, .item-category a',
+    DETAIL_TITLE: '[data-testid="ItemName"], [data-testid="item-name"], h1[class*="ItemName"], .item-name h1, h2[data-testid="ItemInfo"]',
+    DETAIL_PRICE: '[data-testid="ItemPrice"], [data-testid="item-price"], [class*="ItemPrice"], .item-price',
+    DETAIL_DESCRIPTION: '[data-testid="ItemDescription"], [data-testid="item-description"], [class*="ItemDescription"], .item-description',
+    DETAIL_BRAND: '[data-testid="ItemBrand"], [data-testid="item-brand"], [class*="Brand"] a, .item-brand',
+    DETAIL_SIZE: '[data-testid="ItemSize"], [data-testid="item-size"], [class*="Size"]',
+    DETAIL_CONDITION: '[data-testid="ItemCondition"], [data-testid="item-condition"], [class*="Condition"]',
+    DETAIL_IMAGES: '[data-testid^="FilmStripImg"] img, [data-testid="CarouselContainer"] img, [data-testid="image-carousel"] img, [class*="ItemPhotos"] img, .item-photo img, [class*="DesktopCarousel"] img',
+    DETAIL_CATEGORY: '[data-testid="Breadcrumb"] a, [data-testid="RootBreadcrumb"] a, [data-testid="item-category"], [class*="Category"] a, .item-category a',
 
     /* create / sell page */
     CREATE_TITLE: 'input[name="name"], input[name="title"], input[placeholder*="What are you selling"]',

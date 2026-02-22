@@ -18,13 +18,13 @@
 
     /* single listing page */
     DETAIL_TITLE: '[data-test="listing-title"], .listing__title h1, h1.listing__title',
-    DETAIL_PRICE: '[data-test="listing-price"], .listing__price .p--t--1',
+    DETAIL_PRICE: '[data-test="listing-price"] span, .h1, [data-test="listing-price"], .listing__price .p--t--1',
     DETAIL_DESCRIPTION: '[data-test="listing-description"], .listing__description',
-    DETAIL_BRAND: '.listing__details-list .listing__detail-item:first-child',
+    DETAIL_BRAND: '[data-test="item-details"] [data-test="brand"], .listing__details-list .listing__detail-item:first-child',
     DETAIL_SIZE: '[data-test="listing-size"], .listing__size',
     DETAIL_CONDITION: '.listing__condition, .listing__details .condition',
     DETAIL_IMAGES: '.listing__carousel img, .media-carousel__image, .listing__image img',
-    DETAIL_CATEGORY: '.listing__breadcrumbs a, .listing__category',
+    DETAIL_CATEGORY: '[data-test^="breadcrumbs-href"] a, [data-test="breadcrumbs"] a, .listing__breadcrumbs a, .listing__category',
 
     /* create listing page */
     CREATE_TITLE: '#listing-title, input[name="title"], [data-vv-name="title"]',

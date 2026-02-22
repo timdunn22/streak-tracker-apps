@@ -310,12 +310,10 @@
     if (priceEl) data.price = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, "")) || 0;
 
     // Reviews
-    const revEl = document.querySelector(
-      'a[href="#reviews"] span, [data-reviews-count], .wt-badge--status-02'
-    );
-    if (revEl) {
-      const m = revEl.textContent.match(/([\d,]+)/);
-      if (m) data.reviews = parseInt(m[1].replace(/,/g, ""), 10);
+    const revSpans = document.querySelectorAll('a[href="#reviews"] span, [data-reviews-count], .wt-badge--status-02');
+    for (const s of revSpans) {
+      const m = s.textContent.match(/([\d,]+)/);
+      if (m) { data.reviews = parseInt(m[1].replace(/,/g, ""), 10); break; }
     }
 
     return data;

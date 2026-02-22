@@ -67,12 +67,15 @@
     const products = [];
 
     cards.forEach((card) => {
-      const titleEl = card.querySelector('h2 a span') || card.querySelector('h2 span');
+      // Title: Amazon restructured so <a> now wraps <h2>, not the other way around
+      const titleEl = card.querySelector('h2 span') || card.querySelector('h2');
       const priceWhole = card.querySelector('.a-price-whole');
       const priceFraction = card.querySelector('.a-price-fraction');
       const ratingEl = card.querySelector('.a-icon-alt');
-      const reviewCountEl = card.querySelector('.a-size-base.s-underline-text');
-      const linkEl = card.querySelector('h2 a');
+
+      // Link: try h2 > a first, then a wrapping h2, then any /dp/ link
+      const h2El = card.querySelector('h2');
+      const linkEl = h2El ? (h2El.querySelector('a') || h2El.closest('a')) : card.querySelector('a[href*="/dp/"]');
 
       let price = null;
       if (priceWhole) {
@@ -87,10 +90,20 @@
         if (m) rating = parseFloat(m[1]);
       }
 
+      // Review count: prefer aria-label on ratings link, fall back to class selectors
+      const reviewLink = card.querySelector('a[aria-label*="ratings"]');
       let reviewCount = 0;
-      if (reviewCountEl) {
-        const raw = reviewCountEl.textContent.replace(/[^0-9]/g, '');
-        reviewCount = parseInt(raw, 10) || 0;
+      if (reviewLink) {
+        const ariaLabel = reviewLink.getAttribute('aria-label') || '';
+        const raw = ariaLabel.replace(/[,]/g, '').match(/(\d+)/);
+        if (raw) reviewCount = parseInt(raw[1], 10);
+      } else {
+        // Fallback to old method
+        const reviewCountEl = card.querySelector('.a-size-base.s-underline-text, .a-size-mini.s-underline-text');
+        if (reviewCountEl) {
+          const txt = reviewCountEl.textContent.replace(/[(),K]/gi, '').trim();
+          reviewCount = txt.includes('.') ? Math.round(parseFloat(txt) * 1000) : parseInt(txt, 10) || 0;
+        }
       }
 
       const href = linkEl ? linkEl.href : '';
