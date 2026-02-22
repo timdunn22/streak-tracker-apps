@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PastePure</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="icons/icon48.png" alt="PastePure" class="logo">
+      <h1>PastePure</h1>
+    </header>
+
+    <div class="toggle-row">
+      <span class="label">Global</span>
+      <label class="switch">
+        <input type="checkbox" id="globalToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="toggle-row">
+      <span class="label" id="siteLabel">This site</span>
+      <label class="switch">
+        <input type="checkbox" id="siteToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="mode-section">
+      <span class="section-title">Paste Mode</span>
+      <label class="radio-row">
+        <input type="radio" name="mode" value="pure" id="modePure" checked>
+        <span>Pure plain text</span>
+      </label>
+      <label class="radio-row">
+        <input type="radio" name="mode" value="smart" id="modeSmart">
+        <span>Smart paste <small>(keeps links + line breaks)</small></span>
+      </label>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="stats">
+      <span class="stat-number" id="pasteCount">0</span>
+      <span class="stat-label">pastes cleaned today</span>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

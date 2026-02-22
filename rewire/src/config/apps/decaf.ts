@@ -87,4 +87,5 @@ export const decaf: AppConfig = {
     'What time did you wake up and how rested did you feel?',
     'What surprised you most about going caffeine-free?',
   ],
+  stripeLink: '',
 }

@@ -1,0 +1,611 @@
+[
+  {
+    "name": "Target",
+    "url": "https://www.target.com/cart",
+    "domain": "target.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.target.com/cart",
+    "httpStatus": 200,
+    "loadTimeMs": 1350,
+    "contentScriptLoaded": false,
+    "notificationShown": true,
+    "notificationType": "passive",
+    "notificationText": "SaveSmart5 coupon codes available for this store. Add items to cart to use them.×",
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 1,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/coupon\\s*code/i",
+        "tag": "SPAN",
+        "text": "5 coupon codes available for this store. Add items to cart to use them.",
+        "className": "ss-message",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/target_com.png",
+    "rating": "PARTIALLY WORKS",
+    "notes": [
+      "Cart appears to be empty",
+      "Passive notification shown - codes available but coupon input not found"
+    ]
+  },
+  {
+    "name": "Amazon",
+    "url": "https://www.amazon.com/gp/cart/view.html",
+    "domain": "amazon.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.amazon.com/gp/cart/view.html",
+    "httpStatus": 503,
+    "loadTimeMs": 393,
+    "contentScriptLoaded": false,
+    "notificationShown": true,
+    "notificationType": "passive",
+    "notificationText": "SaveSmart5 coupon codes available for this store. Add items to cart to use them.×",
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 1,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/coupon\\s*code/i",
+        "tag": "SPAN",
+        "text": "5 coupon codes available for this store. Add items to cart to use them.",
+        "className": "ss-message",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 503 ()"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/amazon_com.png",
+    "rating": "PARTIALLY WORKS",
+    "notes": [
+      "Passive notification shown - codes available but coupon input not found"
+    ]
+  },
+  {
+    "name": "Nike",
+    "url": "https://www.nike.com/cart",
+    "domain": "nike.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.nike.com/cart",
+    "httpStatus": 200,
+    "loadTimeMs": 1379,
+    "contentScriptLoaded": false,
+    "notificationShown": true,
+    "notificationType": "active",
+    "notificationText": "SaveSmartWe found 5 coupon codes for this storeTry Coupons×",
+    "couponInputFound": true,
+    "couponInputDetails": {
+      "found": true,
+      "visible": true,
+      "selector": "input[name*=\"promo\" i]",
+      "tagName": "INPUT",
+      "type": "text",
+      "name": "promotionCode",
+      "id": "",
+      "placeholder": "",
+      "className": "shadowed-Input css-n6vsqs et014m90",
+      "ariaLabel": "Enter a Promo Code"
+    },
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 15,
+    "expandTriggerDetails": [
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "Do you have a Promo Code?",
+        "className": "",
+        "id": ""
+      },
+      {
+        "method": "selector",
+        "selector": "details summary",
+        "tag": "SUMMARY",
+        "text": "Guides",
+        "className": "drop-down-accessibility-button",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 9,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 429 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "NikeShop ERROR - TypeError: Cannot convert undefined or null to object",
+      "[NikeAI] users profile is not detected",
+      "[NikeAI] users accessToken is not detected",
+      "PAGE_ERROR: Unhandled Promise Rejection: Successful response with errors",
+      "Failed to load resource: the server responded with a status of 429 ()"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/nike_com.png",
+    "rating": "WORKS",
+    "notes": [
+      "Cart appears to be empty"
+    ]
+  },
+  {
+    "name": "Best Buy",
+    "url": "https://www.bestbuy.com/cart",
+    "domain": "bestbuy.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.bestbuy.com/cart",
+    "httpStatus": 200,
+    "loadTimeMs": 3064,
+    "contentScriptLoaded": false,
+    "notificationShown": false,
+    "notificationType": null,
+    "notificationText": null,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 158,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Gift Cards",
+        "className": "bottom-left-links ",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Best BuyGift Cards",
+        "className": "mt-200 flex justify-start px-200",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Gift Cards",
+        "className": "crumb",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "SPAN",
+        "text": "Gift Cards",
+        "className": "font-sans text-primary decoration-primary text-style-body-sm-400",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Best Buy Gift Cards",
+        "className": "flex justify-start px-200 mb-100 mt-100",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Best Buy E-Gift Cards*",
+        "className": "",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Best Buy E-Gift Cards*",
+        "className": "no-underline cn-carousel-item flex flex-col flex-wrap border pt-100 w-full align",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "SPAN",
+        "text": "Best Buy E-Gift Cards*",
+        "className": "font-sans text-default text-style-body-md-400 cn-item-copy text-center max-w-ful",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Corporate Gift Cards",
+        "className": "",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Corporate Gift Cards",
+        "className": "no-underline cn-carousel-item flex flex-col flex-wrap border pt-100 w-full align",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 35,
+    "consoleErrors": [
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR",
+      "PAGE_ERROR: Minified React error #419; visit https://reactjs.org/docs/error-decoder.html?invariant=419 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR",
+      "[Network error]: cart-icon-v2 Failed to fetch",
+      "ApolloError: Failed to fetch",
+      "PAGE_ERROR: ApolloError: Failed to fetch",
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR",
+      "PAGE_ERROR: Uncaught (in promise) TypeError: Failed to fetch",
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR",
+      "[Network error]: header Failed to fetch"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/bestbuy_com.png",
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Content script did not load"
+    ]
+  },
+  {
+    "name": "Dominos",
+    "url": "https://www.dominos.com/",
+    "domain": "dominos.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.dominos.com/",
+    "httpStatus": 200,
+    "loadTimeMs": 886,
+    "contentScriptLoaded": false,
+    "notificationShown": false,
+    "notificationType": null,
+    "notificationText": null,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 1,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Gift Cards",
+        "className": "sh-typo-body-2",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Creating a worker from 'blob:https://www.dominos.com/414f09fb-774d-455c-ae69-1f2e85385beb' violates the following Content Security Policy directive: \"child-src assets.braintreegateway.com *.paypal.com\". Note that 'worker-src' was not explicitly set, so 'child-src' is used as a fallback. The action has been blocked."
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/dominos_com.png",
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Cart appears to be empty",
+      "Content script did not load"
+    ]
+  },
+  {
+    "name": "H&M",
+    "url": "https://www2.hm.com/en_us/cart",
+    "domain": "hm.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www2.hm.com/en_us/cart",
+    "httpStatus": 200,
+    "loadTimeMs": 2001,
+    "contentScriptLoaded": false,
+    "notificationShown": false,
+    "notificationType": null,
+    "notificationText": null,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 10,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Gift Cards",
+        "className": "f6f673",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "Our Gift CardsCheck Your BalanceTerms & Conditions",
+        "className": "d0b881",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "BUTTON",
+        "text": "Our Gift Cards",
+        "className": "fdedb1 bcad69 afc02a b2febc",
+        "id": "tab-VDO2c9gToYie-TL9kyZ5H"
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "SPAN",
+        "text": "Our Gift Cards",
+        "className": "e85bed e53238",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "E-Gift CardPhysical Gift CardActivate/Reload",
+        "className": "XjYy ad55bd d059e1",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "E-Gift Card",
+        "className": "c31d04 bd143c a8db51 de689f e52cec",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Physical Gift Card",
+        "className": "c31d04 bd143c a8db51 de689f e52cec",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Gift Cards",
+        "className": "de37fd ba8019 da151b f577b8",
+        "id": "4"
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "DIV",
+        "text": "HM.com/Customer Service/Gift Cards",
+        "className": "f6f673",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Gift Card Terms and Conditions",
+        "className": "af5572",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/hm_com.png",
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Content script did not load"
+    ]
+  },
+  {
+    "name": "Walmart",
+    "url": "https://www.walmart.com/cart",
+    "domain": "walmart.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.walmart.com/",
+    "httpStatus": 200,
+    "loadTimeMs": 1246,
+    "contentScriptLoaded": false,
+    "notificationShown": false,
+    "notificationType": null,
+    "notificationText": null,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": false,
+    "expandTriggerCount": 0,
+    "expandTriggerDetails": null,
+    "consoleErrorCount": 4,
+    "consoleErrors": [
+      "Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'strict-dynamic' 'wasm-unsafe-eval' *.1worldsync.com *.accenture.com *.babylist.com *.buywith.com *.cloudfront.net *.cloudinary.com *.cnetcontent.com *.digital-cloud.medallia.com *.flix360.com *.flix360.io *.fullstory.com *.kampyle.co *.kampyle.com *.ksckreate.net *.px-cloud.net *.quantummetric.com *.richcontext.com *.salsify.com *.syndigo.cloud *.syndigo.com *.talkshop.live *.thestable.com *.wal.co *.walmart-customcards.com *.walmart.com:* *.walmart.net *.walmartimages.com *.zeekit.www.walmart.com aroptical-scan.wal-mart.com aroptical-wasm.walmart.com assets-jpcust.jwpsrv.com assets.optiwise.ai b.affil.walmart.com b.affiliates.walmart.com b.identity.walmart.com b.native-checkout.prod.affiliates.walmart.com b.photos3.walmart.com b.www.walmart.com beacon.walmart.com bp.www.walmart.com ccsprodus1.blob.core.windows.net cdn.jwplayer.com connect.facebook.net content.etilize.com content.jwplatform.com d3nkfb7815bs43.cloudfront.net d3np41mctoibfu.cloudfront.net drfdisvc.walmart.com ls.chatid.com maps.googleapis.com media.flixcar.com media.flixfacts.com media.sku.ninja mmwm-scan-prod.centralus.cloudapp.azure.com photorankstatics-a.akamaihd.net rackcdn.com s.xlgmedia.com salsify-ecdn.com ssl.p.jwpcdn.com videos-cloudfront.jwpsrv.com ws.cnetcontent.com wss://api.talkshop.live www.ezdia.com www.recaptcha.net 'nonce-Oz97cDCzdzEWqZpc''. Either the 'unsafe-inline' keyword, a hash ('sha256-yQWDT/EhU51MjjZDNvV6xuBmwxuylA6dtIk6kHxUYwo='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.",
+      "Loading the script 'https://www.walmart.com/akam/13/3014b2a6' violates the following Content Security Policy directive: \"script-src 'self' 'strict-dynamic' 'wasm-unsafe-eval' *.1worldsync.com *.accenture.com *.babylist.com *.buywith.com *.cloudfront.net *.cloudinary.com *.cnetcontent.com *.digital-cloud.medallia.com *.flix360.com *.flix360.io *.fullstory.com *.kampyle.co *.kampyle.com *.ksckreate.net *.px-cloud.net *.quantummetric.com *.richcontext.com *.salsify.com *.syndigo.cloud *.syndigo.com *.talkshop.live *.thestable.com *.wal.co *.walmart-customcards.com *.walmart.com:* *.walmart.net *.walmartimages.com *.zeekit.www.walmart.com aroptical-scan.wal-mart.com aroptical-wasm.walmart.com assets-jpcust.jwpsrv.com assets.optiwise.ai b.affil.walmart.com b.affiliates.walmart.com b.identity.walmart.com b.native-checkout.prod.affiliates.walmart.com b.photos3.walmart.com b.www.walmart.com beacon.walmart.com bp.www.walmart.com ccsprodus1.blob.core.windows.net cdn.jwplayer.com connect.facebook.net content.etilize.com content.jwplatform.com d3nkfb7815bs43.cloudfront.net d3np41mctoibfu.cloudfront.net drfdisvc.walmart.com ls.chatid.com maps.googleapis.com media.flixcar.com media.flixfacts.com media.sku.ninja mmwm-scan-prod.centralus.cloudapp.azure.com photorankstatics-a.akamaihd.net rackcdn.com s.xlgmedia.com salsify-ecdn.com ssl.p.jwpcdn.com videos-cloudfront.jwpsrv.com ws.cnetcontent.com wss://api.talkshop.live www.ezdia.com www.recaptcha.net 'nonce-Oz97cDCzdzEWqZpc'\". Note that 'strict-dynamic' is present, so host-based allowlisting is disabled. Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked.",
+      "Failed to load resource: the server responded with a status of 412 ()",
+      "PAGE_ERROR: Cannot create proxy with a non-object as target or handler"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/walmart_com.png",
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Content script did not load"
+    ]
+  },
+  {
+    "name": "Sephora",
+    "url": "https://www.sephora.com/basket",
+    "domain": "sephora.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.sephora.com/basket",
+    "httpStatus": 200,
+    "loadTimeMs": 1599,
+    "contentScriptLoaded": false,
+    "notificationShown": false,
+    "notificationType": null,
+    "notificationText": null,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": false,
+    "expandTriggerCount": 0,
+    "expandTriggerDetails": null,
+    "consoleErrorCount": 43,
+    "consoleErrors": [
+      "2026-02-20 22:45:00,871 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot destructure property 'name' of 'e' as it is undefined.\n    at Function.<anonymous> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:1659961)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,872 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot read properties of undefined (reading 'is')\n    at r.is.r (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:258597)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,872 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot destructure property 'id' of 'e' as it is undefined.\n    at Function.<anonymous> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:1316350)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,872 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot read properties of undefined (reading 'is')\n    at r.is.r (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:258597)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,872 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] Error: Minified React error #321; visit https://reactjs.org/docs/error-decoder.html?invariant=321 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at Object.mi (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:351289)\n    at t.useState (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:439484)\n    at Function.<anonymous> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:171147)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,873 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot read properties of undefined (reading 'is')\n    at r.is.r (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:258597)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,873 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot read properties of undefined (reading 'is')\n    at r.is.r (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:258597)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,874 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot destructure property 'id' of 'e' as it is undefined.\n    at Function.<anonymous> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:1316350)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,874 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] TypeError: Cannot read properties of undefined (reading 'is')\n    at r.is.r (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:258597)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)",
+      "2026-02-20 22:45:00,874 [URL: /basket] [template: Basket/RwdBasketpage] [wrapComponentRender.js] Error: Minified React error #321; visit https://reactjs.org/docs/error-decoder.html?invariant=321 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.\n    at Object.mi (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:351289)\n    at t.useState (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:439484)\n    at Function.<anonymous> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:171147)\n    at b (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287643)\n    at https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:5:287908\n    at F (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:297933)\n    at G (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:298593)\n    at us (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:362379)\n    at fu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:398869)\n    at gu (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:399608)\n    at ou (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:394751)\n    at C (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449135)\n    at w (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:449667)\n    at S._.<computed> (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106331)\n    at R (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106100)\n    at MessagePort.D (https://www.sephora.com/js/ufe/isomorphic/main.bundle.B100CoriginmasterD20260217184414.js:2:106159)\n    at Object.g [as apply] (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:25:458)\n    at MessagePort.<anonymous> (https://www.sephora.com/resources/6d91756f0d642a03f9e3b5f9aca755a11630011008b74:26:178)"
+    ],
+    "screenshotPath": null,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Error: Execution context was destroyed, most likely because of a navigation."
+    ]
+  },
+  {
+    "name": "Adidas",
+    "url": "https://www.adidas.com/us/cart",
+    "domain": "adidas.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.adidas.com/us/cart",
+    "httpStatus": 403,
+    "loadTimeMs": 247,
+    "contentScriptLoaded": false,
+    "notificationShown": true,
+    "notificationType": "passive",
+    "notificationText": "SaveSmart5 coupon codes available for this store. Add items to cart to use them.×",
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 1,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/coupon\\s*code/i",
+        "tag": "SPAN",
+        "text": "5 coupon codes available for this store. Add items to cart to use them.",
+        "className": "ss-message",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 2,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 403 ()",
+      "Failed to load resource: the server responded with a status of 403 ()"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/adidas_com.png",
+    "rating": "PARTIALLY WORKS",
+    "notes": [
+      "Passive notification shown - codes available but coupon input not found"
+    ]
+  },
+  {
+    "name": "Pizza Hut",
+    "url": "https://www.pizzahut.com/",
+    "domain": "pizzahut.com",
+    "pageLoaded": true,
+    "finalUrl": "https://www.pizzahut.com/",
+    "httpStatus": 200,
+    "loadTimeMs": 4653,
+    "contentScriptLoaded": false,
+    "notificationShown": false,
+    "notificationType": null,
+    "notificationText": null,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "expandTriggerClicked": true,
+    "expandTriggerCount": 2,
+    "expandTriggerDetails": [
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "A",
+        "text": "Gift cards",
+        "className": "css-10c3b58",
+        "id": ""
+      },
+      {
+        "method": "text-pattern",
+        "pattern": "/gift\\s*card/i",
+        "tag": "SPAN",
+        "text": "Gift cards",
+        "className": "css-hab31k",
+        "id": ""
+      }
+    ],
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "/Users/timdunn/mobile_app_ideas/coupon-finder-extension/screenshots-v2/pizzahut_com.png",
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Content script did not load"
+    ]
+  }
+]

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CleanLink</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-row">
+        <img src="icons/icon48.png" alt="CleanLink" class="logo">
+        <h1>CleanLink</h1>
+        <label class="toggle-switch" title="Toggle extension on/off">
+          <input type="checkbox" id="globalToggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <p class="tagline">Strip tracking from your URLs</p>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <span class="stat-number" id="paramsToday">0</span>
+        <span class="stat-label">Params removed today</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="urlsCleaned">0</span>
+        <span class="stat-label">URLs cleaned this session</span>
+      </div>
+    </section>
+
+    <section class="tool-section">
+      <h2>Clean a URL</h2>
+      <div class="url-tool">
+        <textarea id="dirtyUrl" placeholder="Paste a URL with tracking params..." rows="2"></textarea>
+        <button id="cleanBtn" class="btn-primary">Clean</button>
+        <div id="cleanResult" class="clean-result hidden">
+          <input type="text" id="cleanedUrl" readonly>
+          <button id="copyBtn" class="btn-copy" title="Copy to clipboard">Copy</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories-section">
+      <h2>Parameter Categories</h2>
+      <div class="categories" id="categoryList"></div>
+    </section>
+
+    <section class="recent-section">
+      <h2>Recently Cleaned URLs</h2>
+      <div id="recentList" class="recent-list">
+        <p class="empty-state">No URLs cleaned yet</p>
+      </div>
+    </section>
+
+    <footer>
+      <button id="resetBtn" class="btn-secondary">Reset Stats</button>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

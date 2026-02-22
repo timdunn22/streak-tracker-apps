@@ -85,4 +85,5 @@ export const rewire: AppConfig = {
     'Describe a moment today where you felt genuinely proud.',
     'What would you tell someone on Day 1?',
   ],
+  stripeLink: '',
 }

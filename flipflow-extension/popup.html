@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlipFlow</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <!-- header -->
+    <header class="header">
+      <div class="header-brand">
+        <img src="icons/icon48.png" alt="FlipFlow" class="header-logo">
+        <div>
+          <h1 class="header-title">FlipFlow</h1>
+          <p class="header-subtitle">Reseller Listing Manager</p>
+        </div>
+      </div>
+      <div class="header-badge" id="premiumBadge">FREE</div>
+    </header>
+
+    <!-- tabs -->
+    <nav class="tabs">
+      <button class="tab tab-active" data-tab="dashboard">Dashboard</button>
+      <button class="tab" data-tab="inventory">Inventory</button>
+      <button class="tab" data-tab="crosspost">Cross-Post</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- dashboard tab -->
+    <section class="tab-panel tab-panel-active" id="tab-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card stat-card-primary">
+          <div class="stat-value" id="todayShares">0</div>
+          <div class="stat-label">Shares Today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalListings">0</div>
+          <div class="stat-label">Saved Listings</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="crossPostCount">0</div>
+          <div class="stat-label">Cross-Posted</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="copiesUsed">0/5</div>
+          <div class="stat-label">Copies Today</div>
+        </div>
+      </div>
+
+      <!-- share chart -->
+      <div class="chart-card">
+        <h3 class="chart-title">Shares - Last 7 Days</h3>
+        <div class="chart" id="shareChart"></div>
+      </div>
+
+      <!-- quick actions -->
+      <div class="actions-card">
+        <h3 class="actions-title">Quick Actions</h3>
+        <button class="action-btn" id="btnOpenPoshmark">
+          <span class="action-icon">&#x1F6CD;</span>
+          Open Poshmark Closet
+        </button>
+        <button class="action-btn" id="btnOpenEbay">
+          <span class="action-icon">&#x1F4E6;</span>
+          Open eBay Sell
+        </button>
+        <button class="action-btn" id="btnOpenMercari">
+          <span class="action-icon">&#x1F3F7;</span>
+          Open Mercari Sell
+        </button>
+      </div>
+    </section>
+
+    <!-- inventory tab -->
+    <section class="tab-panel" id="tab-inventory">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchListings" placeholder="Search saved listings...">
+      </div>
+      <div class="listing-list" id="listingList">
+        <div class="empty-state">
+          <div class="empty-icon">&#x1F4CB;</div>
+          <p>No saved listings yet.</p>
+          <p class="empty-hint">Visit a listing on Poshmark, eBay, or Mercari and click "Copy Listing".</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- cross-post tab -->
+    <section class="tab-panel" id="tab-crosspost">
+      <div class="crosspost-list" id="crosspostList">
+        <div class="empty-state">
+          <div class="empty-icon">&#x1F504;</div>
+          <p>No cross-posted items yet.</p>
+          <p class="empty-hint">Copy a listing, then paste it on another marketplace to track cross-posts.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- settings tab -->
+    <section class="tab-panel" id="tab-settings">
+      <div class="settings-section">
+        <h3 class="settings-title">Scheduled Sharing (Poshmark)</h3>
+        <p class="settings-desc">Set times to auto-share your closet daily. <span class="premium-tag" id="scheduleRequiresPremium">Premium</span></p>
+        <div class="schedule-times" id="scheduleTimes">
+          <div class="schedule-row">
+            <input type="time" class="schedule-input" value="08:00">
+            <button class="schedule-remove" title="Remove">&times;</button>
+          </div>
+          <div class="schedule-row">
+            <input type="time" class="schedule-input" value="12:00">
+            <button class="schedule-remove" title="Remove">&times;</button>
+          </div>
+          <div class="schedule-row">
+            <input type="time" class="schedule-input" value="18:00">
+            <button class="schedule-remove" title="Remove">&times;</button>
+          </div>
+        </div>
+        <button class="settings-btn" id="btnAddSchedule">+ Add Time</button>
+        <button class="settings-btn settings-btn-primary" id="btnSaveSchedule">Save Schedule</button>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-title">Upgrade to Premium</h3>
+        <ul class="premium-features">
+          <li>Unlimited shares per day</li>
+          <li>Unlimited copy &amp; paste</li>
+          <li>Scheduled auto-sharing</li>
+          <li>Bulk operations</li>
+        </ul>
+        <div class="premium-price">$19.99/month</div>
+        <button class="settings-btn settings-btn-premium" id="btnUpgrade">Upgrade Now</button>
+      </div>
+
+      <div class="settings-section">
+        <h3 class="settings-title">Data</h3>
+        <button class="settings-btn settings-btn-danger" id="btnClearData">Clear All Data</button>
+      </div>
+
+      <div class="settings-footer">
+        FlipFlow v1.0.0
+      </div>
+    </section>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

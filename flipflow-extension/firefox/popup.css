@@ -1,0 +1,615 @@
+/* ===================================================================
+   FlipFlow — popup.css
+   Dashboard popup styling.
+   =================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 380px;
+  min-height: 500px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0F0F23;
+  color: #E2E8F0;
+  overflow-x: hidden;
+}
+
+/* ---------- header ---------- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.header-subtitle {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.header-badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.header-badge.premium {
+  background: #F59E0B;
+  color: #000;
+}
+
+/* ---------- tabs ---------- */
+.tabs {
+  display: flex;
+  background: #1A1A35;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #94A3B8;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  position: relative;
+}
+
+.tab:hover {
+  color: #CBD5E1;
+}
+
+.tab-active {
+  color: #A5B4FC;
+}
+
+.tab-active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: #6366F1;
+  border-radius: 2px;
+}
+
+/* ---------- tab panels ---------- */
+.tab-panel {
+  display: none;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.tab-panel-active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- stats grid ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: #1A1A35;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.stat-card-primary {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(124, 58, 237, 0.3));
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+/* ---------- chart ---------- */
+.chart-card {
+  background: #1A1A35;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #CBD5E1;
+  margin-bottom: 12px;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 80px;
+}
+
+.chart-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.chart-bar {
+  width: 100%;
+  background: linear-gradient(to top, #4F46E5, #7C3AED);
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  transition: height 0.3s ease;
+}
+
+.chart-day {
+  font-size: 9px;
+  color: #64748B;
+}
+
+.chart-val {
+  font-size: 9px;
+  color: #94A3B8;
+  font-weight: 600;
+}
+
+/* ---------- actions ---------- */
+.actions-card {
+  background: #1A1A35;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.actions-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #CBD5E1;
+  margin-bottom: 10px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  color: #E2E8F0;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: inherit;
+  margin-bottom: 6px;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.action-btn:last-child {
+  margin-bottom: 0;
+}
+
+.action-icon {
+  font-size: 18px;
+}
+
+/* ---------- search ---------- */
+.search-bar {
+  margin-bottom: 12px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: #1A1A35;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #E2E8F0;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #6366F1;
+}
+
+.search-input::placeholder {
+  color: #64748B;
+}
+
+/* ---------- listing list ---------- */
+.listing-list {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.listing-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background: #1A1A35;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  position: relative;
+}
+
+.listing-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #2D2D50;
+  flex-shrink: 0;
+}
+
+.listing-thumb-placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: #2D2D50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.listing-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.listing-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #E2E8F0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-meta {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+.listing-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #A5B4FC;
+  margin-top: 4px;
+}
+
+.listing-platform {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.platform-poshmark {
+  background: rgba(213, 35, 76, 0.15);
+  color: #F472B6;
+}
+
+.platform-ebay {
+  background: rgba(54, 101, 243, 0.15);
+  color: #93AAFD;
+}
+
+.platform-mercari {
+  background: rgba(77, 193, 241, 0.15);
+  color: #7DD3FC;
+}
+
+.listing-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: rgba(220, 38, 38, 0.1);
+  color: #F87171;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.listing-item:hover .listing-delete {
+  opacity: 1;
+}
+
+.listing-delete:hover {
+  background: rgba(220, 38, 38, 0.2);
+}
+
+/* ---------- cross-post list ---------- */
+.crosspost-item {
+  padding: 12px;
+  background: #1A1A35;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.crosspost-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #E2E8F0;
+  margin-bottom: 6px;
+}
+
+.crosspost-platforms {
+  display: flex;
+  gap: 6px;
+}
+
+/* ---------- empty state ---------- */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748B;
+}
+
+.empty-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.empty-state p {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.empty-hint {
+  font-size: 11px !important;
+  color: #475569 !important;
+}
+
+/* ---------- settings ---------- */
+.settings-section {
+  background: #1A1A35;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.settings-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #E2E8F0;
+  margin-bottom: 4px;
+}
+
+.settings-desc {
+  font-size: 12px;
+  color: #94A3B8;
+  margin-bottom: 12px;
+}
+
+.premium-tag {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(245, 158, 11, 0.15);
+  color: #F59E0B;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.schedule-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.schedule-input {
+  flex: 1;
+  padding: 8px 12px;
+  background: #0F0F23;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #E2E8F0;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+
+.schedule-input:focus {
+  border-color: #6366F1;
+}
+
+.schedule-remove {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(220, 38, 38, 0.1);
+  color: #F87171;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.schedule-remove:hover {
+  background: rgba(220, 38, 38, 0.2);
+}
+
+.settings-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: #A5B4FC;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  margin-top: 8px;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.settings-btn-primary {
+  background: #4F46E5;
+  border-color: #4F46E5;
+  color: #fff;
+}
+
+.settings-btn-primary:hover {
+  background: #4338CA;
+}
+
+.settings-btn-premium {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  border-color: #F59E0B;
+  color: #000;
+  font-weight: 700;
+}
+
+.settings-btn-premium:hover {
+  background: linear-gradient(135deg, #D97706, #B45309);
+}
+
+.settings-btn-danger {
+  border-color: rgba(220, 38, 38, 0.3);
+  color: #F87171;
+}
+
+.settings-btn-danger:hover {
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.premium-features {
+  list-style: none;
+  margin: 12px 0;
+}
+
+.premium-features li {
+  font-size: 12px;
+  color: #CBD5E1;
+  padding: 4px 0;
+  padding-left: 18px;
+  position: relative;
+}
+
+.premium-features li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: #10B981;
+  font-weight: 700;
+}
+
+.premium-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #F59E0B;
+  text-align: center;
+  margin: 8px 0;
+}
+
+.settings-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #475569;
+  padding: 12px 0 4px;
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

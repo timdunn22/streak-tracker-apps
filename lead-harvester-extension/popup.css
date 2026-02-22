@@ -1,0 +1,245 @@
+/* ============================================
+   LeadHarvest — Popup Styles
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+.popup-container {
+  padding: 0;
+}
+
+/* Header */
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #16213e, #1a1a2e);
+  border-bottom: 1px solid #2d2d44;
+}
+
+.popup-logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #00d2ff, #7b2ff7);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.popup-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+.popup-subtitle {
+  font-size: 11px;
+  color: #888;
+  margin-top: 1px;
+}
+
+/* Stats */
+.popup-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #2d2d44;
+}
+
+.popup-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 8px;
+  background: #1a1a2e;
+}
+
+.popup-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #00d2ff;
+}
+
+.popup-stat-label {
+  font-size: 9px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 3px;
+}
+
+/* Tier Badge */
+.popup-tier {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(123, 47, 247, 0.08);
+  border-bottom: 1px solid #2d2d44;
+  font-size: 12px;
+  color: #bbb;
+}
+
+.tier-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tier-free {
+  background: #ffc107;
+}
+
+.tier-premium {
+  background: #00c851;
+}
+
+/* Lifetime */
+.popup-lifetime {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid #2d2d44;
+}
+
+.popup-lifetime-label {
+  font-size: 12px;
+  color: #888;
+}
+
+.popup-lifetime-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #7b2ff7;
+}
+
+/* Actions */
+.popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px;
+}
+
+.popup-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.popup-btn:hover {
+  transform: translateY(-1px);
+}
+
+.popup-btn:active {
+  transform: translateY(0);
+}
+
+.popup-btn-icon {
+  font-size: 14px;
+}
+
+.popup-btn-primary {
+  background: linear-gradient(135deg, #00c851, #00a844);
+  color: #fff;
+}
+
+.popup-btn-primary:hover {
+  box-shadow: 0 4px 15px rgba(0, 200, 81, 0.3);
+}
+
+.popup-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ccc;
+  border: 1px solid #2d2d44;
+}
+
+.popup-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.popup-btn-danger {
+  background: rgba(255, 68, 68, 0.15);
+  color: #ff6666;
+  border: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+.popup-btn-danger:hover {
+  background: rgba(255, 68, 68, 0.25);
+}
+
+/* Status */
+.popup-status {
+  padding: 0 20px;
+  font-size: 11px;
+  text-align: center;
+  min-height: 20px;
+  transition: all 0.2s;
+}
+
+.popup-status.success {
+  color: #00c851;
+}
+
+.popup-status.error {
+  color: #ff4444;
+}
+
+.popup-status.info {
+  color: #00d2ff;
+}
+
+/* Footer */
+.popup-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-top: 1px solid #2d2d44;
+  font-size: 10px;
+  color: #555;
+}
+
+.popup-link {
+  color: #00d2ff;
+  text-decoration: none;
+  font-size: 10px;
+}
+
+.popup-link:hover {
+  text-decoration: underline;
+}

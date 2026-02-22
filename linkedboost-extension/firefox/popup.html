@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedBoost</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <img src="icons/icon48.png" alt="" class="header-icon" />
+      <div>
+        <h1 class="header-title">LinkedBoost</h1>
+        <p class="header-sub">Content & Outreach Toolkit</p>
+      </div>
+    </div>
+    <span id="premium-badge" class="premium-badge hidden">PRO</span>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="templates" role="tab" aria-selected="true">Templates</button>
+    <button class="tab" data-tab="crm" role="tab" aria-selected="false">CRM</button>
+    <button class="tab" data-tab="analytics" role="tab" aria-selected="false">Analytics</button>
+    <button class="tab" data-tab="settings" role="tab" aria-selected="false">Settings</button>
+  </nav>
+
+  <!-- Templates Tab -->
+  <section id="tab-templates" class="tab-content active" role="tabpanel">
+    <div class="section-header">
+      <h2>Post Templates</h2>
+      <button id="add-post-template" class="btn-primary btn-sm">+ Add</button>
+    </div>
+    <div id="post-template-list" class="template-list"></div>
+
+    <div class="section-header" style="margin-top:16px">
+      <h2>DM Templates</h2>
+      <button id="add-dm-template" class="btn-primary btn-sm">+ Add</button>
+    </div>
+    <div id="dm-template-list" class="template-list"></div>
+  </section>
+
+  <!-- CRM Tab -->
+  <section id="tab-crm" class="tab-content" role="tabpanel">
+    <div class="section-header">
+      <h2>Connection CRM</h2>
+      <span id="crm-count" class="badge">0</span>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="crm-search" placeholder="Search contacts..." />
+      <select id="crm-filter">
+        <option value="all">All</option>
+        <option value="Lead">Leads</option>
+        <option value="Client">Clients</option>
+        <option value="Partner">Partners</option>
+        <option value="Friend">Friends</option>
+      </select>
+    </div>
+    <div id="crm-list" class="crm-list"></div>
+  </section>
+
+  <!-- Analytics Tab -->
+  <section id="tab-analytics" class="tab-content" role="tabpanel">
+    <div class="section-header">
+      <h2>Post Analytics</h2>
+    </div>
+    <div id="analytics-summary" class="analytics-summary">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-posts">0</span>
+        <span class="stat-label">Posts Tracked</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-reactions">0</span>
+        <span class="stat-label">Total Reactions</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-comments">0</span>
+        <span class="stat-label">Total Comments</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-shares">0</span>
+        <span class="stat-label">Total Shares</span>
+      </div>
+    </div>
+
+    <h3 class="section-subtitle">Best Posting Times</h3>
+    <div id="best-times" class="best-times"></div>
+
+    <h3 class="section-subtitle">Top Performing Posts</h3>
+    <div id="top-posts" class="top-posts"></div>
+
+    <div id="analytics-locked" class="locked-overlay hidden">
+      <div class="locked-content">
+        <span class="lock-icon">&#128274;</span>
+        <p>Analytics is a Premium feature</p>
+        <button class="btn-premium" id="unlock-analytics">Upgrade — $14.99/mo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings Tab -->
+  <section id="tab-settings" class="tab-content" role="tabpanel">
+    <div class="section-header">
+      <h2>Settings</h2>
+    </div>
+
+    <div class="setting-group">
+      <h3>Account</h3>
+      <div id="account-status" class="account-status">
+        <p>Plan: <strong id="plan-label">Free</strong></p>
+        <button class="btn-premium" id="upgrade-btn">Upgrade to Premium — $14.99/mo</button>
+      </div>
+    </div>
+
+    <div class="setting-group">
+      <h3>Free Tier Limits</h3>
+      <ul class="limits-list">
+        <li>3 templates (post + DM combined)</li>
+        <li>10 CRM contacts</li>
+        <li>No analytics</li>
+        <li>No scheduled reminders</li>
+      </ul>
+    </div>
+
+    <div class="setting-group">
+      <h3>Premium Includes</h3>
+      <ul class="premium-features">
+        <li>Unlimited templates</li>
+        <li>Unlimited CRM contacts</li>
+        <li>Post analytics & insights</li>
+        <li>Follow-up reminders</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+
+    <div class="setting-group">
+      <h3>Data</h3>
+      <button class="btn-danger" id="export-data">Export All Data</button>
+      <button class="btn-danger" id="clear-data" style="margin-top:8px">Clear All Data</button>
+    </div>
+
+    <div class="version">LinkedBoost v1.0.0</div>
+  </section>
+
+  <!-- Template Editor Modal -->
+  <div id="template-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Template</h3>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-field">
+          <label>Name</label>
+          <input type="text" id="tpl-name" placeholder="Template name" />
+        </div>
+        <div class="form-field">
+          <label>Category</label>
+          <select id="tpl-category">
+            <option value="hook">Hook</option>
+            <option value="story">Story</option>
+            <option value="list">List</option>
+            <option value="engagement">Engagement</option>
+            <option value="connection">Connection Request</option>
+            <option value="follow-up">Follow-Up</option>
+            <option value="pitch">Pitch</option>
+            <option value="thank-you">Thank You</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Content</label>
+          <textarea id="tpl-content" rows="8" placeholder="Write your template... Use {first_name}, {company}, {role} for merge fields"></textarea>
+        </div>
+        <div class="merge-fields">
+          <span class="merge-tag" data-field="{first_name}">{first_name}</span>
+          <span class="merge-tag" data-field="{company}">{company}</span>
+          <span class="merge-tag" data-field="{role}">{role}</span>
+          <span class="merge-tag" data-field="{pain_point}">{pain_point}</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-cancel">Cancel</button>
+        <button class="btn-primary" id="modal-save">Save Template</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+/* ==========================================================
+   ColdFlow — Injected styles for Gmail content script UI
+   ========================================================== */
+
+/* ---- Variables ---- */
+:root {
+  --cf-primary: #4f46e5;
+  --cf-primary-hover: #4338ca;
+  --cf-primary-light: #eef2ff;
+  --cf-danger: #ef4444;
+  --cf-success: #22c55e;
+  --cf-warning: #f59e0b;
+  --cf-text: #1f2937;
+  --cf-text-muted: #6b7280;
+  --cf-border: #e5e7eb;
+  --cf-bg: #ffffff;
+  --cf-bg-hover: #f9fafb;
+  --cf-radius: 8px;
+  --cf-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  --cf-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---- Template Picker Button (injected near compose toolbar) ---- */
+.cf-template-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  margin-left: 8px;
+  background: var(--cf-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--cf-font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+.cf-template-btn:hover {
+  background: var(--cf-primary-hover);
+}
+
+.cf-template-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* ---- Template Picker Dropdown ---- */
+.cf-template-dropdown {
+  position: absolute;
+  z-index: 999999;
+  width: 380px;
+  max-height: 480px;
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-border);
+  border-radius: var(--cf-radius);
+  box-shadow: var(--cf-shadow);
+  font-family: var(--cf-font);
+  overflow: hidden;
+  display: none;
+}
+
+.cf-template-dropdown.cf-show {
+  display: flex;
+  flex-direction: column;
+}
+
+.cf-template-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--cf-border);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cf-text);
+}
+
+.cf-template-dropdown-header button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--cf-text-muted);
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.cf-template-search {
+  margin: 8px 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--cf-border);
+  border-radius: 6px;
+  font-size: 13px;
+  width: calc(100% - 24px);
+  box-sizing: border-box;
+  outline: none;
+  font-family: var(--cf-font);
+}
+
+.cf-template-search:focus {
+  border-color: var(--cf-primary);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
+}
+
+.cf-template-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.cf-template-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.1s;
+}
+
+.cf-template-item:hover {
+  background: var(--cf-bg-hover);
+}
+
+.cf-template-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cf-text);
+  margin-bottom: 2px;
+}
+
+.cf-template-item-category {
+  font-size: 11px;
+  color: var(--cf-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cf-template-item-preview {
+  font-size: 12px;
+  color: var(--cf-text-muted);
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cf-template-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--cf-text-muted);
+  font-size: 13px;
+}
+
+/* ---- Merge Field Highlighting ---- */
+.cf-merge-field {
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  border-radius: 3px;
+  padding: 0 2px;
+  color: #92400e;
+  font-weight: 600;
+}
+
+/* ---- Sequence Status Badge ---- */
+.cf-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.cf-badge-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.cf-badge-paused {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.cf-badge-completed {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.cf-badge-stopped {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ---- Floating Panel (Sequence Dashboard overlay) ---- */
+.cf-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 999998;
+  display: none;
+}
+
+.cf-panel-overlay.cf-show {
+  display: block;
+}
+
+.cf-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640px;
+  max-height: 80vh;
+  background: var(--cf-bg);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  z-index: 999999;
+  font-family: var(--cf-font);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cf-panel.cf-show {
+  display: flex;
+}
+
+.cf-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--cf-border);
+}
+
+.cf-panel-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cf-text);
+}
+
+.cf-panel-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--cf-text-muted);
+  padding: 4px 8px;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.cf-panel-close:hover {
+  background: #f3f4f6;
+}
+
+.cf-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+/* ---- Toast Notifications ---- */
+.cf-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background: #1f2937;
+  color: #fff;
+  border-radius: 8px;
+  font-family: var(--cf-font);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 9999999;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.25s ease;
+  max-width: 360px;
+}
+
+.cf-toast.cf-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cf-toast-success {
+  background: #166534;
+}
+
+.cf-toast-error {
+  background: #991b1b;
+}
+
+.cf-toast-warning {
+  background: #92400e;
+}
+
+/* ---- Send Limit Indicator ---- */
+.cf-send-limit-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #fefce8;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #92400e;
+  margin: 8px 12px;
+  font-family: var(--cf-font);
+}
+
+.cf-send-limit-bar .cf-bar-track {
+  flex: 1;
+  height: 6px;
+  background: #fde68a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.cf-send-limit-bar .cf-bar-fill {
+  height: 100%;
+  background: #f59e0b;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* ---- Premium Gate Banner ---- */
+.cf-premium-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #eef2ff, #faf5ff);
+  border: 1px solid #c7d2fe;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 13px;
+  color: var(--cf-text);
+  font-family: var(--cf-font);
+}
+
+.cf-premium-banner button {
+  margin-left: auto;
+  padding: 6px 16px;
+  background: var(--cf-primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cf-premium-banner button:hover {
+  background: var(--cf-primary-hover);
+}
+
+/* ---- Scrollbar in dropdowns ---- */
+.cf-template-list::-webkit-scrollbar,
+.cf-panel-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cf-template-list::-webkit-scrollbar-thumb,
+.cf-panel-body::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}

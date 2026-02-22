@@ -87,4 +87,5 @@ export const sober: AppConfig = {
     'What are you most proud of in your sobriety?',
     'What would drunk-you think of sober-you right now?',
   ],
+  stripeLink: '',
 }

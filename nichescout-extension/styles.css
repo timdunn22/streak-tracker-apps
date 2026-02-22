@@ -1,0 +1,317 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   NicheScout — Content Script Styles (Amazon overlay + badges)
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Badge on each product card ──────────────────────────────────────────── */
+
+.ns-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.92);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  color: #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  line-height: 1.4;
+  max-width: 200px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.ns-badge-score {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  color: #fff;
+}
+
+.ns-badge-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ns-badge-row {
+  white-space: nowrap;
+}
+
+.ns-badge-row strong {
+  color: #94a3b8;
+}
+
+/* ── Niche Summary Overlay Bar ───────────────────────────────────────────── */
+
+.ns-overlay {
+  width: 100%;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-bottom: 3px solid #6366f1;
+  padding: 14px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #e2e8f0;
+  z-index: 10000;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+.ns-overlay-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.ns-overlay-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #c7d2fe;
+  flex-shrink: 0;
+}
+
+.ns-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: #6366f1;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
+  color: #fff;
+}
+
+.ns-overlay-stat {
+  text-align: center;
+  min-width: 100px;
+}
+
+.ns-overlay-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.ns-overlay-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ns-overlay-stat-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.ns-report-btn {
+  margin-left: auto;
+  padding: 8px 18px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.ns-report-btn:hover {
+  background: #4f46e5;
+}
+
+.ns-close-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.ns-close-btn:hover {
+  color: #e2e8f0;
+}
+
+/* ── Niche Report Panel ─────────────────────────────────────────────────── */
+
+.ns-report-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 520px;
+  max-width: 100vw;
+  height: 100vh;
+  background: #0f172a;
+  color: #e2e8f0;
+  z-index: 100000;
+  overflow-y: auto;
+  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  animation: ns-slide-in 0.3s ease;
+}
+
+@keyframes ns-slide-in {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.ns-report-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #1e293b;
+  position: sticky;
+  top: 0;
+  background: #0f172a;
+  z-index: 1;
+}
+
+.ns-report-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #c7d2fe;
+}
+
+.ns-report-body {
+  padding: 20px 24px 40px;
+}
+
+.ns-report-section {
+  margin-bottom: 28px;
+}
+
+.ns-report-section h3 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6366f1;
+  margin: 0 0 12px;
+}
+
+.ns-report-section p {
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.ns-report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ns-report-table td,
+.ns-report-table th {
+  padding: 8px 10px;
+  border-bottom: 1px solid #1e293b;
+  text-align: left;
+}
+
+.ns-report-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.ns-report-products td:first-child,
+.ns-report-products th:first-child {
+  width: 30px;
+  text-align: center;
+}
+
+.ns-truncate {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Bar chart ───────────────────────────────────────────────────────────── */
+
+.ns-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ns-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ns-bar-label {
+  width: 90px;
+  font-size: 13px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.ns-bar-track {
+  flex: 1;
+  height: 14px;
+  background: #1e293b;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.ns-bar-fill {
+  height: 100%;
+  border-radius: 7px;
+  transition: width 0.6s ease;
+}
+
+.ns-bar-green { background: #22c55e; }
+.ns-bar-red   { background: #ef4444; }
+
+.ns-bar-val {
+  font-size: 12px;
+  color: #64748b;
+  width: 40px;
+  text-align: right;
+}
+
+.ns-export-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ns-export-btn:hover {
+  background: #4f46e5;
+}

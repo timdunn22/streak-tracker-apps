@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Upwork Proposal Assistant \u2014 ProposalPilot",
+  "version": "1.0.0",
+  "description": "Write better Upwork proposals faster. Job scoring, red flag detection, template insertion, and proposal tracking.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.upwork.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.upwork.com/jobs/*",
+        "https://www.upwork.com/ab/proposals/*",
+        "https://www.upwork.com/freelancers/proposals/*",
+        "https://www.upwork.com/nx/find-work/details/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "proposal-pilot@timdunn.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}

@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  min-height: 200px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-size: 14px;
+}
+
+.container {
+  padding: 16px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.3px;
+}
+
+.site-info {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-label {
+  color: #8888aa;
+  font-size: 12px;
+}
+
+.site-name {
+  color: #a78bfa;
+  font-size: 13px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.toggle-row label:first-child {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.toggle-sublabel {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 1px;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-slider {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: #374151;
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle-slider::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background: #9ca3af;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.toggle-input:checked + .toggle-slider {
+  background: #7c3aed;
+}
+
+.toggle-input:checked + .toggle-slider::after {
+  transform: translateX(18px);
+  background: #ffffff;
+}
+
+.main-toggle {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+}
+
+.main-toggle .toggle-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.divider {
+  height: 1px;
+  background: #2d2d4a;
+  margin: 10px 0;
+}
+
+#featureToggles.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+footer {
+  text-align: center;
+  padding-top: 8px;
+}
+
+.version {
+  font-size: 11px;
+  color: #4a4a6a;
+}

@@ -19,6 +19,7 @@ export interface StreakData {
   lastFreezeRecharge: string | null // ISO date of last recharge
   dailyCost: number | null // user's daily spending on the habit
   journal: JournalEntry[]
+  premium: boolean
 }
 
 const STORAGE_KEY = `${config.id}-streak-data`
@@ -33,6 +34,7 @@ const defaultData: StreakData = {
   lastFreezeRecharge: null,
   dailyCost: null,
   journal: [],
+  premium: false,
 }
 
 function loadData(): StreakData {
@@ -121,6 +123,7 @@ function validateData(parsed: unknown): StreakData {
       }
       return entry
     }).slice(0, 1000) : [],
+    premium: p.premium === true,
   }
 }
 
@@ -370,5 +373,7 @@ export function useStreak() {
     exportData,
     importData,
     storageWarning,
+    isPremium: data.premium,
+    setPremium: (value: boolean) => setData(prev => ({ ...prev, premium: value })),
   }
 }

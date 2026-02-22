@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=320">
+  <title>Clean Copy</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="icons/icon48.png" alt="Clean Copy" class="logo">
+      <h1>Clean Copy</h1>
+    </header>
+
+    <div class="site-info" id="siteInfo">
+      <span class="site-label">Current site:</span>
+      <span class="site-name" id="siteName">—</span>
+    </div>
+
+    <div class="toggle-row main-toggle">
+      <label for="globalToggle">
+        <span class="toggle-label">Global Enable</span>
+        <span class="toggle-sublabel">Master on/off switch</span>
+      </label>
+      <input type="checkbox" id="globalToggle" class="toggle-input">
+      <label for="globalToggle" class="toggle-slider"></label>
+    </div>
+
+    <div class="divider"></div>
+
+    <div id="featureToggles">
+      <div class="toggle-row">
+        <label for="rightClickToggle">
+          <span class="toggle-label">Enable Right-Click</span>
+        </label>
+        <input type="checkbox" id="rightClickToggle" class="toggle-input">
+        <label for="rightClickToggle" class="toggle-slider"></label>
+      </div>
+
+      <div class="toggle-row">
+        <label for="copyToggle">
+          <span class="toggle-label">Enable Copy</span>
+        </label>
+        <input type="checkbox" id="copyToggle" class="toggle-input">
+        <label for="copyToggle" class="toggle-slider"></label>
+      </div>
+
+      <div class="toggle-row">
+        <label for="selectionToggle">
+          <span class="toggle-label">Enable Selection</span>
+        </label>
+        <input type="checkbox" id="selectionToggle" class="toggle-input">
+        <label for="selectionToggle" class="toggle-slider"></label>
+      </div>
+
+      <div class="toggle-row">
+        <label for="pasteToggle">
+          <span class="toggle-label">Enable Paste</span>
+        </label>
+        <input type="checkbox" id="pasteToggle" class="toggle-input">
+        <label for="pasteToggle" class="toggle-slider"></label>
+      </div>
+
+      <div class="toggle-row">
+        <label for="cleanPasteToggle">
+          <span class="toggle-label">Clean Paste</span>
+          <span class="toggle-sublabel">Strip formatting on paste</span>
+        </label>
+        <input type="checkbox" id="cleanPasteToggle" class="toggle-input">
+        <label for="cleanPasteToggle" class="toggle-slider"></label>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="site-toggle" id="siteToggleSection">
+      <div class="toggle-row">
+        <label for="siteToggle">
+          <span class="toggle-label">Enable for this site</span>
+          <span class="toggle-sublabel" id="siteToggleLabel">—</span>
+        </label>
+        <input type="checkbox" id="siteToggle" class="toggle-input">
+        <label for="siteToggle" class="toggle-slider"></label>
+      </div>
+    </div>
+
+    <footer>
+      <span class="version">v1.0.0</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

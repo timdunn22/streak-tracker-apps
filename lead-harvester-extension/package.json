@@ -1,0 +1,16 @@
+{
+  "name": "lead-harvester-extension",
+  "version": "1.0.0",
+  "main": "background.js",
+  "scripts": {
+    "test": "node test-extension.js",
+    "generate-icons": "python3 generate-icons.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "puppeteer": "^24.37.5"
+  }
+}

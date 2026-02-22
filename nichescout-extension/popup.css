@@ -1,0 +1,623 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   NicheScout — Popup Styles
+   ────────────────────────────────────────────────────────────────────────────── */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 420px;
+  min-height: 520px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 13px;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.ns-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.ns-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ns-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #6366f1;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 15px;
+  color: #fff;
+}
+
+.ns-header h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.ns-tagline {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.ns-usage {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: right;
+}
+
+.ns-usage strong {
+  color: #6366f1;
+}
+
+/* ── Tabs ────────────────────────────────────────────────────────────────── */
+
+.ns-tabs {
+  display: flex;
+  border-bottom: 1px solid #1e293b;
+}
+
+.ns-tab {
+  flex: 1;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ns-tab:hover {
+  color: #94a3b8;
+}
+
+.ns-tab.active {
+  color: #6366f1;
+  border-bottom-color: #6366f1;
+}
+
+/* ── Panels ──────────────────────────────────────────────────────────────── */
+
+.ns-panel {
+  display: none;
+  padding: 16px 18px;
+}
+
+.ns-panel.active {
+  display: block;
+}
+
+.ns-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #c7d2fe;
+  margin-bottom: 8px;
+}
+
+.ns-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 14px;
+}
+
+/* ── Input Group ─────────────────────────────────────────────────────────── */
+
+.ns-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ns-input-group input {
+  flex: 1;
+  padding: 10px 14px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ns-input-group input:focus {
+  border-color: #6366f1;
+}
+
+.ns-input-group input::placeholder {
+  color: #475569;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+
+.ns-btn-primary {
+  padding: 10px 20px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.ns-btn-primary:hover {
+  background: #4f46e5;
+}
+
+.ns-btn-primary:disabled {
+  background: #334155;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.ns-btn-block {
+  display: block;
+  width: 100%;
+}
+
+.ns-btn-ghost {
+  background: none;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ns-btn-ghost:hover {
+  border-color: #64748b;
+  color: #e2e8f0;
+}
+
+/* ── Sample Keywords ─────────────────────────────────────────────────────── */
+
+.ns-sample-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.ns-sample-label {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.ns-sample {
+  padding: 4px 10px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  color: #94a3b8;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ns-sample:hover {
+  background: #334155;
+  color: #e2e8f0;
+  border-color: #6366f1;
+}
+
+/* ── Keyword Results ─────────────────────────────────────────────────────── */
+
+.ns-results {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.ns-result-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #1e293b;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: background 0.15s;
+}
+
+.ns-result-item:hover {
+  background: #334155;
+}
+
+.ns-result-pos {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.ns-result-keyword {
+  flex: 1;
+  font-size: 13px;
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.ns-result-keyword:hover {
+  color: #6366f1;
+  text-decoration: underline;
+}
+
+.ns-result-volume {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.ns-vol-high   { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+.ns-vol-medium { background: rgba(234, 179, 8, 0.15); color: #eab308; }
+.ns-vol-low    { background: rgba(100, 116, 139, 0.15); color: #64748b; }
+
+.ns-result-action {
+  background: none;
+  border: none;
+  color: #6366f1;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px;
+  line-height: 1;
+}
+
+.ns-result-action:hover {
+  color: #4f46e5;
+}
+
+.ns-status {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.ns-status.ns-error {
+  color: #ef4444;
+}
+
+/* ── BSR Calculator ──────────────────────────────────────────────────────── */
+
+.ns-form-row {
+  margin-bottom: 12px;
+}
+
+.ns-form-row label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 5px;
+}
+
+.ns-form-row input,
+.ns-form-row select {
+  width: 100%;
+  padding: 10px 14px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ns-form-row input:focus,
+.ns-form-row select:focus {
+  border-color: #6366f1;
+}
+
+.ns-form-row select option {
+  background: #1e293b;
+}
+
+.ns-bsr-output {
+  margin-top: 16px;
+}
+
+.ns-bsr-card {
+  background: #1e293b;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.ns-bsr-card h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.ns-bsr-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.ns-bsr-stat {
+  text-align: center;
+}
+
+.ns-bsr-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #6366f1;
+}
+
+.ns-bsr-stat-label {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.ns-bsr-reference {
+  margin-top: 20px;
+}
+
+.ns-bsr-reference h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.ns-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ns-ref-table th,
+.ns-ref-table td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid #1e293b;
+  font-size: 11px;
+}
+
+.ns-ref-table th {
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.ns-ref-table td {
+  color: #94a3b8;
+}
+
+/* ── History ─────────────────────────────────────────────────────────────── */
+
+.ns-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.ns-history-list {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.ns-history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #1e293b;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.ns-history-score {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.ns-history-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ns-history-keyword {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ns-history-meta {
+  font-size: 11px;
+  color: #64748b;
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.ns-history-date {
+  font-size: 11px;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.ns-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #475569;
+}
+
+.ns-empty-state p {
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* ── Settings / Premium ──────────────────────────────────────────────────── */
+
+.ns-premium-card {
+  background: linear-gradient(135deg, #1e293b 0%, #312e81 100%);
+  border: 1px solid #4338ca;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ns-premium-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  background: #334155;
+  color: #94a3b8;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.ns-premium-badge.ns-is-premium {
+  background: #22c55e;
+  color: #fff;
+}
+
+.ns-premium-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.ns-premium-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 14px;
+}
+
+.ns-premium-features li {
+  padding: 4px 0;
+  font-size: 12px;
+  color: #c7d2fe;
+}
+
+.ns-premium-features li::before {
+  content: '\2713  ';
+  color: #6366f1;
+  font-weight: 700;
+}
+
+.ns-premium-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: #6366f1;
+  margin-bottom: 14px;
+}
+
+.ns-setting-row {
+  padding: 10px 0;
+  border-top: 1px solid #1e293b;
+}
+
+.ns-setting-row label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.ns-setting-row input[type="checkbox"] {
+  accent-color: #6366f1;
+  width: 16px;
+  height: 16px;
+}
+
+.ns-version {
+  margin-top: 20px;
+  font-size: 11px;
+  color: #334155;
+  text-align: center;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ── Loading spinner ─────────────────────────────────────────────────────── */
+
+.ns-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #334155;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: ns-spin 0.6s linear infinite;
+}
+
+@keyframes ns-spin {
+  to { transform: rotate(360deg); }
+}

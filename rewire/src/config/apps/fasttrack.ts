@@ -84,4 +84,5 @@ export const fasttrack: AppConfig = {
     'What did you do during your fasting window instead of eating?',
     'How has fasting changed your relationship with food?',
   ],
+  stripeLink: '',
 }

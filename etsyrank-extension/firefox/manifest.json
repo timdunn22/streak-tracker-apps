@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Etsy SEO Dashboard & Listing Optimizer \u2014 EtsyRank Pro",
+  "version": "1.0.0",
+  "description": "SEO dashboard for Etsy sellers. Audit listings, research keywords, spy on competitors, and boost your search rankings.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.etsy.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.etsy.com/search*",
+        "https://www.etsy.com/listing/*",
+        "https://www.etsy.com/your/shops/me/tools/listings*",
+        "https://www.etsy.com/your/shops/*/tools/listings*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "etsyrank@timdunn.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}

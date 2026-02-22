@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "Google Maps Lead Scraper \u2014 LeadHarvest",
+  "version": "1.0.0",
+  "description": "Extract business contact info from Google Maps search results. Export leads to CSV with names, phones, emails, websites, and more.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.google.com/maps/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/maps/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "lead-harvester@timdunn.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}

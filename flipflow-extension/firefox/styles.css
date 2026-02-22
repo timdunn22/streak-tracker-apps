@@ -1,0 +1,227 @@
+/* ===================================================================
+   FlipFlow — styles.css
+   Injected into marketplace pages for FlipFlow UI elements.
+   =================================================================== */
+
+/* ---------- toolbar ---------- */
+.flipflow-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  z-index: 99999;
+  flex-wrap: wrap;
+}
+
+/* ---------- stats ---------- */
+.flipflow-stats {
+  display: flex;
+  gap: 16px;
+  color: #fff;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.flipflow-stat strong {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ---------- buttons ---------- */
+.flipflow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.flipflow-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.flipflow-btn:active {
+  transform: translateY(0);
+}
+
+.flipflow-btn-icon {
+  font-size: 16px;
+}
+
+/* Poshmark-style button */
+.flipflow-btn-poshmark {
+  background: #fff;
+  color: #D5234C;
+}
+
+.flipflow-btn-poshmark:hover {
+  background: #FFF0F3;
+}
+
+/* eBay-style button */
+.flipflow-btn-ebay {
+  background: #fff;
+  color: #3665F3;
+}
+
+.flipflow-btn-ebay:hover {
+  background: #EEF1FF;
+}
+
+/* Mercari-style button */
+.flipflow-btn-mercari {
+  background: #fff;
+  color: #4DC1F1;
+}
+
+.flipflow-btn-mercari:hover {
+  background: #EBF8FF;
+}
+
+/* small variant */
+.flipflow-btn-sm {
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 6px;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+  background: rgba(79, 70, 229, 0.9);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+.flipflow-btn-sm:hover {
+  background: rgba(79, 70, 229, 1);
+}
+
+/* cancel variant */
+.flipflow-btn-cancel {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  margin-top: 8px;
+}
+
+.flipflow-btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- toast ---------- */
+.flipflow-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #fff;
+  z-index: 2147483647;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.3s ease;
+  max-width: 360px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.flipflow-toast-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.flipflow-toast-info {
+  background: #4F46E5;
+}
+
+.flipflow-toast-success {
+  background: #059669;
+}
+
+.flipflow-toast-warn {
+  background: #D97706;
+}
+
+.flipflow-toast-error {
+  background: #DC2626;
+}
+
+/* ---------- progress overlay ---------- */
+.flipflow-progress-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483647;
+  backdrop-filter: blur(4px);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.flipflow-progress-box {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  border-radius: 16px;
+  padding: 28px 32px;
+  min-width: 320px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(79, 70, 229, 0.4);
+}
+
+.flipflow-progress-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.flipflow-progress-status {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 16px;
+}
+
+.flipflow-progress-bar-wrap {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.flipflow-progress-bar {
+  background: #fff;
+  height: 100%;
+  width: 0%;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.flipflow-progress-count {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* ---------- relist button on tiles ---------- */
+.flipflow-relist-btn {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+*:hover > .flipflow-relist-btn {
+  opacity: 1;
+}

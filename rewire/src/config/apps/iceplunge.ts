@@ -84,4 +84,5 @@ export const iceplunge: AppConfig = {
     'What was hardest — the anticipation or the cold itself?',
     'How has cold exposure affected other areas of your life?',
   ],
+  stripeLink: '',
 }

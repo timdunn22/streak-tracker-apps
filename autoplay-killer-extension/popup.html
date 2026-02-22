@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=360" />
+  <link rel="stylesheet" href="popup.css" />
+  <title>AutoPlay Killer</title>
+</head>
+<body>
+  <div class="popup">
+    <header>
+      <img src="icons/icon48.png" alt="" class="logo" />
+      <h1>AutoPlay Killer</h1>
+    </header>
+
+    <section class="site-section">
+      <p class="site-label">Current site</p>
+      <p class="site-domain" id="siteDomain">—</p>
+
+      <label class="toggle-row">
+        <span>Block autoplay on this site</span>
+        <input type="checkbox" id="siteToggle" checked />
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <section class="global-section">
+      <label class="toggle-row">
+        <span>Block autoplay everywhere</span>
+        <input type="checkbox" id="globalToggle" checked />
+        <span class="toggle-slider"></span>
+      </label>
+    </section>
+
+    <section class="stats-section">
+      <p><span id="blockedCount">0</span> videos blocked today</p>
+    </section>
+
+    <section class="whitelist-section">
+      <h2>Whitelisted Sites</h2>
+      <ul id="whitelistContainer"></ul>
+      <p class="empty-msg" id="emptyMsg">No whitelisted sites.</p>
+    </section>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

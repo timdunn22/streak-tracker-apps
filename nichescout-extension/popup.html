@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NicheScout</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="ns-popup">
+
+    <!-- Header -->
+    <header class="ns-header">
+      <div class="ns-header-brand">
+        <span class="ns-logo">NS</span>
+        <div>
+          <h1>NicheScout</h1>
+          <p class="ns-tagline">POD & KDP Research Toolkit</p>
+        </div>
+      </div>
+      <div class="ns-usage" id="ns-usage"></div>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="ns-tabs">
+      <button class="ns-tab active" data-tab="keywords">Keywords</button>
+      <button class="ns-tab" data-tab="bsr">BSR Calc</button>
+      <button class="ns-tab" data-tab="history">History</button>
+      <button class="ns-tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- ─── Keywords Tab ─────────────────────────────────────────────── -->
+    <section class="ns-panel active" id="panel-keywords">
+      <div class="ns-input-group">
+        <input type="text" id="ns-keyword-input" placeholder="Enter seed keyword (e.g. cat lover)" />
+        <button id="ns-keyword-search" class="ns-btn-primary">Search</button>
+      </div>
+
+      <div class="ns-sample-keywords">
+        <span class="ns-sample-label">Try:</span>
+        <button class="ns-sample" data-kw="funny cat shirts">funny cat shirts</button>
+        <button class="ns-sample" data-kw="dog mom">dog mom</button>
+        <button class="ns-sample" data-kw="camping gifts">camping gifts</button>
+        <button class="ns-sample" data-kw="nurse life">nurse life</button>
+        <button class="ns-sample" data-kw="low content books">low content books</button>
+      </div>
+
+      <div id="ns-keyword-results" class="ns-results"></div>
+      <div id="ns-keyword-status" class="ns-status"></div>
+    </section>
+
+    <!-- ─── BSR Calculator Tab ───────────────────────────────────────── -->
+    <section class="ns-panel" id="panel-bsr">
+      <h2 class="ns-section-title">BSR-to-Sales Estimator</h2>
+      <p class="ns-desc">Convert Amazon BSR (Best Seller Rank) to estimated sales volume.</p>
+
+      <div class="ns-form-row">
+        <label for="ns-bsr-input">BSR Number</label>
+        <input type="number" id="ns-bsr-input" placeholder="e.g. 50000" min="1" />
+      </div>
+
+      <div class="ns-form-row">
+        <label for="ns-bsr-category">Category</label>
+        <select id="ns-bsr-category">
+          <option value="default">General</option>
+          <option value="books">Books / KDP</option>
+          <option value="clothing">Clothing / Merch</option>
+          <option value="shirts">T-Shirts</option>
+          <option value="popsockets">PopSockets</option>
+          <option value="stickers">Stickers</option>
+        </select>
+      </div>
+
+      <button id="ns-bsr-calc" class="ns-btn-primary ns-btn-block">Calculate</button>
+
+      <div id="ns-bsr-results" class="ns-bsr-output"></div>
+
+      <div class="ns-bsr-reference">
+        <h3>Quick Reference</h3>
+        <table class="ns-ref-table">
+          <thead><tr><th>BSR Range</th><th>Est. Daily Sales</th><th>Category</th></tr></thead>
+          <tbody>
+            <tr><td>1 - 1,000</td><td>150 - 200+</td><td>Books</td></tr>
+            <tr><td>1,000 - 10,000</td><td>20 - 150</td><td>Books</td></tr>
+            <tr><td>10,000 - 100,000</td><td>2 - 20</td><td>Books</td></tr>
+            <tr><td>100,000+</td><td>0 - 2</td><td>Books</td></tr>
+            <tr><td>1 - 5,000</td><td>30 - 150</td><td>Clothing</td></tr>
+            <tr><td>5,000 - 50,000</td><td>3 - 30</td><td>Clothing</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── History Tab ──────────────────────────────────────────────── -->
+    <section class="ns-panel" id="panel-history">
+      <div class="ns-history-header">
+        <h2 class="ns-section-title">Research History</h2>
+        <button id="ns-clear-history" class="ns-btn-ghost">Clear All</button>
+      </div>
+      <div id="ns-history-list" class="ns-history-list"></div>
+    </section>
+
+    <!-- ─── Settings Tab ─────────────────────────────────────────────── -->
+    <section class="ns-panel" id="panel-settings">
+      <h2 class="ns-section-title">Settings</h2>
+
+      <div class="ns-premium-card" id="ns-premium-card">
+        <div class="ns-premium-badge">FREE</div>
+        <h3>Upgrade to Premium</h3>
+        <ul class="ns-premium-features">
+          <li>Unlimited keyword searches</li>
+          <li>BSR tracking over time</li>
+          <li>Niche reports export</li>
+          <li>Advanced trend analysis</li>
+        </ul>
+        <p class="ns-premium-price">$12.99/month</p>
+        <button id="ns-upgrade-btn" class="ns-btn-primary ns-btn-block">Upgrade Now</button>
+      </div>
+
+      <div class="ns-setting-row">
+        <label>
+          <input type="checkbox" id="ns-toggle-badges" checked />
+          Show badges on Amazon results
+        </label>
+      </div>
+
+      <div class="ns-setting-row">
+        <label>
+          <input type="checkbox" id="ns-toggle-overlay" checked />
+          Show niche summary bar
+        </label>
+      </div>
+
+      <p class="ns-version">NicheScout v1.0.0</p>
+    </section>
+
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

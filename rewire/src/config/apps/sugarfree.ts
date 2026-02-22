@@ -87,4 +87,5 @@ export const sugarfree: AppConfig = {
     'How do your moods compare to when you ate sugar regularly?',
     'What\'s the biggest change you\'ve noticed so far?',
   ],
+  stripeLink: '',
 }

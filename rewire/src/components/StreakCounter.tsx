@@ -11,6 +11,7 @@ import DailyCheckIn from './DailyCheckIn'
 import FloatingParticles from './FloatingParticles'
 import MoneySaved from './MoneySaved'
 import Journal from './Journal'
+import PremiumGate from './PremiumGate'
 import type { JournalEntry } from '../hooks/useStreak'
 
 /** Returns a responsive font-size class based on day count digits to prevent overflow on small screens. */
@@ -52,13 +53,14 @@ interface Props {
   onAddJournal: (mood: number, text: string, triggers?: string[]) => void
   onDeleteJournal: (id: string) => void
   showToast: (message: string, type?: 'success' | 'error' | 'info') => void
+  isPremium: boolean
 }
 
 function getDailyQuote(daysSinceStart: number): string {
   return config.quotes[daysSinceStart % config.quotes.length]
 }
 
-export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, totalCleanDays, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost, onShowBreathing, journal, onAddJournal, onDeleteJournal, showToast }: Props) {
+export default function StreakCounter({ days, isActive, startDate, longestStreak, totalResets, totalCleanDays, onStart, onReset, freezesAvailable, onUseFreeze, dailyCost, moneySaved, onSetDailyCost, onShowBreathing, journal, onAddJournal, onDeleteJournal, showToast, isPremium }: Props) {
   const [showResetConfirm, setShowResetConfirm] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const liveTime = useLiveTimer(startDate)
@@ -400,7 +402,9 @@ export default function StreakCounter({ days, isActive, startDate, longestStreak
 
       {/* Journal */}
       <div className="w-full flex justify-center mb-6">
-        <Journal entries={journal} onAdd={onAddJournal} onDelete={onDeleteJournal} currentDays={days} showToast={showToast} />
+        <PremiumGate feature="Journal" isPremium={isPremium}>
+          <Journal entries={journal} onAdd={onAddJournal} onDelete={onDeleteJournal} currentDays={days} showToast={showToast} />
+        </PremiumGate>
       </div>
 
       <WeeklyRecap currentDays={days} longestStreak={longestStreak} totalResets={totalResets} />

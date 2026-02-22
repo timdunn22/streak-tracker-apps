@@ -87,4 +87,5 @@ export const greenday: AppConfig = {
     'What hobby or activity replaced smoking?',
     'How does sober socializing compare to high socializing?',
   ],
+  stripeLink: '',
 }

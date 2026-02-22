@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Cold Email Sequences for Gmail \u2014 ColdFlow",
+  "version": "1.0.0",
+  "description": "Turn Gmail into a cold email platform. Templates with merge fields, multi-step sequences, contact management, and send tracking \u2014 all client-side.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*"
+      ],
+      "js": [
+        "csv-parser.js",
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "coldflow@timdunn.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}

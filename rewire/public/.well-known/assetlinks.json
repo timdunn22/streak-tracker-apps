@@ -1,0 +1,122 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.vapefree",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.sober",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.rewire",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.clearlungs",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.decaf",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.sugarfree",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.fasttrack",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.greenday",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.iceplunge",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.vercel.primal",
+      "sha256_cert_fingerprints": [
+        "E2:25:9F:D3:D9:A5:98:A1:B3:B3:26:23:C1:B0:C2:9A:4F:EF:4A:58:74:70:81:AE:0B:08:6D:83:C8:21:A6:13"
+      ]
+    }
+  }
+]

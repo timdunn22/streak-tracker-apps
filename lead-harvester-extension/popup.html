@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadHarvest</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="popup-header">
+      <div class="popup-logo">LH</div>
+      <div class="popup-title-group">
+        <h1 class="popup-title">LeadHarvest</h1>
+        <span class="popup-subtitle">Google Maps Lead Scraper</span>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="popup-stats">
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="stat-today">0</span>
+        <span class="popup-stat-label">Today</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="stat-total">0</span>
+        <span class="popup-stat-label">Total Leads</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="stat-emails">0</span>
+        <span class="popup-stat-label">Emails</span>
+      </div>
+      <div class="popup-stat">
+        <span class="popup-stat-value" id="stat-phones">0</span>
+        <span class="popup-stat-label">Phones</span>
+      </div>
+    </div>
+
+    <!-- Tier Badge -->
+    <div class="popup-tier" id="tier-badge">
+      <span class="tier-dot tier-free"></span>
+      <span id="tier-text">Free Plan &mdash; 25 leads/day</span>
+    </div>
+
+    <!-- Lifetime -->
+    <div class="popup-lifetime">
+      <span class="popup-lifetime-label">Lifetime Leads Scraped</span>
+      <span class="popup-lifetime-value" id="stat-lifetime">0</span>
+    </div>
+
+    <!-- Actions -->
+    <div class="popup-actions">
+      <button class="popup-btn popup-btn-primary" id="btn-export">
+        <span class="popup-btn-icon">&#128190;</span> Export All to CSV
+      </button>
+      <button class="popup-btn popup-btn-secondary" id="btn-copy-emails">
+        <span class="popup-btn-icon">&#128231;</span> Copy All Emails
+      </button>
+      <button class="popup-btn popup-btn-danger" id="btn-clear">
+        <span class="popup-btn-icon">&#128465;</span> Clear All Data
+      </button>
+    </div>
+
+    <!-- Status -->
+    <div class="popup-status" id="popup-status"></div>
+
+    <!-- Footer -->
+    <div class="popup-footer">
+      <span>LeadHarvest v1.0.0</span>
+      <a href="#" id="btn-toggle-panel" class="popup-link">Toggle Panel</a>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

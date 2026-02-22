@@ -1,0 +1,87 @@
+{
+  "manifest_version": 3,
+  "name": "Poshmark Sharer & Cross-Listing Tool \u2014 FlipFlow",
+  "version": "1.0.0",
+  "description": "Share, copy, and cross-post listings across Poshmark, eBay, and Mercari. Bulk share your Poshmark closet, track inventory, and manage cross-platform listings.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://poshmark.com/*",
+    "https://www.poshmark.com/*",
+    "https://www.ebay.com/*",
+    "https://ebay.com/*",
+    "https://www.mercari.com/*",
+    "https://mercari.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://poshmark.com/*",
+        "https://www.poshmark.com/*"
+      ],
+      "js": [
+        "content-common.js",
+        "content-poshmark.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.ebay.com/*",
+        "https://ebay.com/*"
+      ],
+      "js": [
+        "content-common.js",
+        "content-ebay.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.mercari.com/*",
+        "https://mercari.com/*"
+      ],
+      "js": [
+        "content-common.js",
+        "content-mercari.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "flipflow@timdunn.dev",
+      "strict_min_version": "109.0"
+    }
+  }
+}

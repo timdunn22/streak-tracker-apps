@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Store — Checkout</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    h1 { margin-bottom: 20px; }
+    .order-summary { background: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+    .order-summary h2 { margin-bottom: 12px; }
+    .line-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+    .order-total { display: flex; justify-content: space-between; padding: 12px 0; font-weight: bold; font-size: 18px; }
+    .coupon-section { margin: 20px 0; }
+    .coupon-section label { display: block; margin-bottom: 6px; font-weight: 600; }
+    .coupon-row { display: flex; gap: 8px; }
+    .coupon-row input[name="coupon"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+    .coupon-row button.apply-coupon { padding: 10px 20px; background: #10b981; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; }
+    .coupon-row button.apply-coupon:hover { background: #059669; }
+    #coupon-message { margin-top: 8px; font-size: 13px; color: #666; }
+    button.checkout-btn { width: 100%; padding: 14px; background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Checkout</h1>
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    <div class="line-item"><span>Premium Widget x2</span><span>$49.98</span></div>
+    <div class="line-item"><span>Shipping</span><span>$5.99</span></div>
+    <div class="order-total"><span>Total</span><span class="cart-total" id="order-total">$55.97</span></div>
+  </div>
+
+  <div class="coupon-section">
+    <label for="coupon-input">Coupon Code</label>
+    <div class="coupon-row">
+      <input type="text" name="coupon" id="coupon-input" placeholder="Enter coupon code" autocomplete="off">
+      <button class="apply-coupon" id="apply-coupon-btn">Apply</button>
+    </div>
+    <div id="coupon-message"></div>
+  </div>
+
+  <button class="checkout-btn">Place Order</button>
+
+  <script>
+    const validCoupons = { 'SAVE10': 10, 'TESTCODE': 15, 'HALFOFF': 50 };
+    const baseTotal = 55.97;
+
+    document.getElementById('apply-coupon-btn').addEventListener('click', () => {
+      const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+      const msg = document.getElementById('coupon-message');
+      const totalEl = document.getElementById('order-total');
+
+      if (validCoupons[code]) {
+        const discount = (baseTotal * validCoupons[code] / 100);
+        const newTotal = (baseTotal - discount).toFixed(2);
+        totalEl.textContent = '$' + newTotal;
+        msg.textContent = 'Coupon applied! You saved $' + discount.toFixed(2);
+        msg.style.color = '#10b981';
+      } else {
+        totalEl.textContent = '$' + baseTotal.toFixed(2);
+        msg.textContent = 'Invalid coupon code';
+        msg.style.color = '#ef4444';
+      }
+    });
+  </script>
+</body>
+</html>

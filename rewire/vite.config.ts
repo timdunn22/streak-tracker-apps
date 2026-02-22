@@ -278,6 +278,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        importScripts: ['notification-sw.js'],
         // Ensure offline navigation always returns index.html (SPA fallback)
         navigateFallback: 'index.html',
         // Only apply fallback to same-origin navigation requests, not static assets

@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "Enable Copy & Right-Click Everywhere \u2014 Clean Copy",
+  "version": "1.0.0",
+  "description": "Re-enable right-click, copy, paste, and text selection on any website. Strip formatting on paste. Works on all sites.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "clean-copy@timdunn.dev",
+      "strict_min_version": "109.0"
+    }
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content-isolated.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content-main.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

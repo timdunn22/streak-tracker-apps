@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProposalPilot</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="popup-logo">
+        <img src="icons/icon48.png" alt="ProposalPilot" width="28" height="28">
+        <div>
+          <h1>ProposalPilot</h1>
+          <p class="popup-tagline">Upwork Proposal Assistant</p>
+        </div>
+      </div>
+      <span class="popup-version">v1.0</span>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="popup-tabs">
+      <button class="popup-tab active" data-tab="dashboard">Dashboard</button>
+      <button class="popup-tab" data-tab="templates">Templates</button>
+      <button class="popup-tab" data-tab="history">History</button>
+      <button class="popup-tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- Dashboard Tab -->
+    <section class="popup-panel active" id="panel-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card stat-applied">
+          <div class="stat-number" id="stat-applied">0</div>
+          <div class="stat-label">Applied</div>
+        </div>
+        <div class="stat-card stat-won">
+          <div class="stat-number" id="stat-won">0</div>
+          <div class="stat-label">Won</div>
+        </div>
+        <div class="stat-card stat-lost">
+          <div class="stat-number" id="stat-lost">0</div>
+          <div class="stat-label">Lost</div>
+        </div>
+        <div class="stat-card stat-skipped">
+          <div class="stat-number" id="stat-skipped">0</div>
+          <div class="stat-label">Skipped</div>
+        </div>
+      </div>
+
+      <div class="stat-highlight">
+        <div class="stat-highlight-label">Win Rate</div>
+        <div class="stat-highlight-value" id="stat-winrate">0%</div>
+      </div>
+
+      <div class="stat-highlight" style="margin-top:8px;">
+        <div class="stat-highlight-label">Daily Proposals Remaining</div>
+        <div class="stat-highlight-value" id="stat-daily-remaining">--</div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <h3 class="section-heading">Top Templates</h3>
+      <div id="top-templates" class="top-templates-list">
+        <p class="empty-state">No template usage data yet</p>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <button class="popup-btn popup-btn-secondary" id="export-btn" style="width:100%;">
+        Export Analytics (JSON)
+      </button>
+    </section>
+
+    <!-- Templates Tab -->
+    <section class="popup-panel" id="panel-templates">
+      <div class="template-form" id="template-form">
+        <h3 class="section-heading" id="template-form-title">New Template</h3>
+        <input type="text" id="tpl-name" placeholder="Template name" class="popup-input">
+        <input type="text" id="tpl-category" placeholder="Category (e.g. Web Development)" class="popup-input">
+        <textarea id="tpl-body" rows="8" placeholder="Write your template here...&#10;&#10;Merge fields: {client_name}, {project_title}, {budget}, {skills}" class="popup-textarea"></textarea>
+        <div class="template-form-actions">
+          <button class="popup-btn popup-btn-primary" id="save-tpl-btn">Save Template</button>
+          <button class="popup-btn popup-btn-secondary" id="cancel-tpl-btn" style="display:none;">Cancel</button>
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <h3 class="section-heading">Your Templates</h3>
+      <div id="template-list" class="template-list">
+        <p class="empty-state">Loading templates...</p>
+      </div>
+    </section>
+
+    <!-- History Tab -->
+    <section class="popup-panel" id="panel-history">
+      <div class="history-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="applied">Applied</button>
+        <button class="filter-btn" data-filter="won">Won</button>
+        <button class="filter-btn" data-filter="lost">Lost</button>
+        <button class="filter-btn" data-filter="skipped">Skipped</button>
+      </div>
+      <div id="history-list" class="history-list">
+        <p class="empty-state">No proposals tracked yet</p>
+      </div>
+    </section>
+
+    <!-- Settings Tab -->
+    <section class="popup-panel" id="panel-settings">
+      <h3 class="section-heading">Account</h3>
+      <div class="settings-row">
+        <span>Plan</span>
+        <span id="settings-plan" class="settings-plan-badge">Free</span>
+      </div>
+      <div class="settings-row">
+        <span>Daily Limit</span>
+        <span id="settings-limit">5 proposals/day</span>
+      </div>
+      <div class="settings-row">
+        <span>Template Limit</span>
+        <span id="settings-tpl-limit">3 custom templates</span>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <h3 class="section-heading">Activate Premium</h3>
+      <div class="premium-form">
+        <input type="text" id="premium-key-input" placeholder="PP-PRO-XXXXXXXXXXXX" class="popup-input">
+        <button class="popup-btn popup-btn-primary" id="activate-premium-btn">Activate</button>
+      </div>
+      <p class="settings-note" id="premium-status-msg"></p>
+
+      <div class="section-divider"></div>
+
+      <h3 class="section-heading">Data</h3>
+      <button class="popup-btn popup-btn-secondary" id="clear-history-btn" style="width:100%;">
+        Clear Proposal History
+      </button>
+    </section>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

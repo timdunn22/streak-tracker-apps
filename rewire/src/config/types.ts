@@ -42,4 +42,6 @@ export interface AppConfig {
   recoveryTimeline?: RecoveryEvent[]
   /** Journal prompts specific to this app's habit */
   journalPrompts?: string[]
+  /** Stripe Payment Link URL for premium unlock */
+  stripeLink?: string
 }

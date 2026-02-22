@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ColdFlow</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- ======== Header ======== -->
+  <header class="header">
+    <div class="header-brand">
+      <img src="icons/icon48.png" alt="" class="header-icon">
+      <div>
+        <h1>ColdFlow</h1>
+        <span class="header-sub">Gmail Cold Email Sequences</span>
+      </div>
+    </div>
+    <div id="premium-badge" class="premium-badge hidden">PRO</div>
+  </header>
+
+  <!-- ======== Navigation Tabs ======== -->
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="dashboard" role="tab" aria-selected="true">Dashboard</button>
+    <button class="tab" data-tab="templates" role="tab" aria-selected="false">Templates</button>
+    <button class="tab" data-tab="contacts" role="tab" aria-selected="false">Contacts</button>
+    <button class="tab" data-tab="sequences" role="tab" aria-selected="false">Sequences</button>
+    <button class="tab" data-tab="settings" role="tab" aria-selected="false">Settings</button>
+  </nav>
+
+  <!-- ======== Tab Panels ======== -->
+
+  <!-- Dashboard -->
+  <section class="panel active" id="panel-dashboard" role="tabpanel">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-sent">0</div>
+        <div class="stat-label">Emails Sent</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-replied">0</div>
+        <div class="stat-label">Replies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-rate">0%</div>
+        <div class="stat-label">Reply Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-contacts">0</div>
+        <div class="stat-label">Contacts</div>
+      </div>
+    </div>
+
+    <div class="daily-limit-section">
+      <div class="daily-limit-header">
+        <span>Daily Sends</span>
+        <span id="daily-limit-text">0 / 50</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="daily-limit-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <h3 class="section-title">Active Sequences</h3>
+    <div id="dashboard-sequences" class="sequence-list">
+      <div class="empty-state">No active sequences</div>
+    </div>
+
+    <h3 class="section-title">Pending Follow-ups</h3>
+    <div id="dashboard-followups" class="followup-count">
+      <span id="followup-count-value">0</span> follow-ups pending
+    </div>
+  </section>
+
+  <!-- Templates -->
+  <section class="panel" id="panel-templates" role="tabpanel">
+    <div class="panel-toolbar">
+      <input type="text" id="template-search" class="search-input" placeholder="Search templates...">
+      <button class="btn btn-primary" id="btn-new-template">+ New Template</button>
+    </div>
+    <div id="template-limit-banner" class="limit-banner hidden">
+      <span>Free plan: 3 templates max.</span>
+      <button class="btn btn-sm btn-upgrade" id="btn-upgrade-templates">Upgrade to Pro</button>
+    </div>
+    <div id="template-list" class="template-list">
+      <div class="empty-state">Loading templates...</div>
+    </div>
+
+    <!-- Template Editor (hidden by default) -->
+    <div id="template-editor" class="editor-panel hidden">
+      <h3 id="editor-title">New Template</h3>
+      <label>Name
+        <input type="text" id="tpl-name" class="input" placeholder="e.g. Sales Introduction">
+      </label>
+      <label>Category
+        <input type="text" id="tpl-category" class="input" placeholder="e.g. Sales, Link Building">
+      </label>
+      <label>Subject Line
+        <input type="text" id="tpl-subject" class="input" placeholder="Use {first_name}, {company}, etc.">
+      </label>
+      <label>Body
+        <textarea id="tpl-body" class="textarea" rows="8" placeholder="Write your email template here. Use {first_name}, {company}, {title}, {custom1} for merge fields."></textarea>
+      </label>
+      <div class="merge-field-hints">
+        Available: <code>{first_name}</code> <code>{last_name}</code> <code>{email}</code> <code>{company}</code> <code>{title}</code> <code>{custom1}</code> <code>{custom2}</code> <code>{custom3}</code>
+      </div>
+      <div class="editor-actions">
+        <button class="btn btn-secondary" id="btn-cancel-template">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-template">Save Template</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacts -->
+  <section class="panel" id="panel-contacts" role="tabpanel">
+    <div class="panel-toolbar">
+      <input type="text" id="contact-search" class="search-input" placeholder="Search contacts...">
+      <button class="btn btn-secondary" id="btn-import-csv">Import CSV</button>
+      <button class="btn btn-primary" id="btn-new-contact">+ Add Contact</button>
+    </div>
+    <input type="file" id="csv-file-input" accept=".csv" class="hidden">
+    <div id="contact-limit-banner" class="limit-banner hidden">
+      <span>Free plan: 10 contacts max.</span>
+      <button class="btn btn-sm btn-upgrade" id="btn-upgrade-contacts">Upgrade to Pro</button>
+    </div>
+    <div id="contact-list" class="contact-list">
+      <div class="empty-state">No contacts yet. Import a CSV or add manually.</div>
+    </div>
+
+    <!-- Contact Editor -->
+    <div id="contact-editor" class="editor-panel hidden">
+      <h3 id="contact-editor-title">Add Contact</h3>
+      <div class="form-row">
+        <label>First Name <input type="text" id="ct-first" class="input"></label>
+        <label>Last Name <input type="text" id="ct-last" class="input"></label>
+      </div>
+      <label>Email <input type="email" id="ct-email" class="input" required></label>
+      <div class="form-row">
+        <label>Company <input type="text" id="ct-company" class="input"></label>
+        <label>Title <input type="text" id="ct-title" class="input"></label>
+      </div>
+      <div class="form-row">
+        <label>Custom 1 <input type="text" id="ct-custom1" class="input"></label>
+        <label>Custom 2 <input type="text" id="ct-custom2" class="input"></label>
+      </div>
+      <div class="editor-actions">
+        <button class="btn btn-secondary" id="btn-cancel-contact">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-contact">Save Contact</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sequences -->
+  <section class="panel" id="panel-sequences" role="tabpanel">
+    <div class="panel-toolbar">
+      <button class="btn btn-primary" id="btn-new-sequence">+ New Sequence</button>
+    </div>
+    <div id="sequence-limit-banner" class="limit-banner hidden">
+      <span>Free plan: 1 active sequence max.</span>
+      <button class="btn btn-sm btn-upgrade" id="btn-upgrade-sequences">Upgrade to Pro</button>
+    </div>
+    <div id="sequence-list" class="sequence-list">
+      <div class="empty-state">No sequences yet.</div>
+    </div>
+
+    <!-- Sequence Editor -->
+    <div id="sequence-editor" class="editor-panel hidden">
+      <h3 id="seq-editor-title">New Sequence</h3>
+      <label>Sequence Name
+        <input type="text" id="seq-name" class="input" placeholder="e.g. Q1 Outreach">
+      </label>
+
+      <h4>Steps</h4>
+      <div id="seq-steps" class="seq-steps"></div>
+      <button class="btn btn-secondary btn-sm" id="btn-add-step">+ Add Step</button>
+
+      <h4>Enroll Contacts</h4>
+      <p class="helper-text">Select contacts to enroll in this sequence.</p>
+      <div id="seq-contact-picker" class="contact-picker"></div>
+
+      <div class="editor-actions">
+        <button class="btn btn-secondary" id="btn-cancel-sequence">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-sequence">Save & Start Sequence</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section class="panel" id="panel-settings" role="tabpanel">
+    <div class="settings-section">
+      <h3>Send Limits</h3>
+      <label>
+        Daily send limit
+        <input type="number" id="setting-daily-limit" class="input input-short" min="1" max="500" value="50">
+      </label>
+      <p class="helper-text">Recommended: 50/day to protect sender reputation. Max 500.</p>
+    </div>
+
+    <div class="settings-section">
+      <h3>Premium</h3>
+      <div id="premium-status" class="premium-status">
+        <p>You are on the <strong>Free</strong> plan.</p>
+        <ul>
+          <li>3 templates</li>
+          <li>10 contacts</li>
+          <li>1 active sequence</li>
+        </ul>
+        <button class="btn btn-primary" id="btn-activate-premium">Activate Premium ($14.99/mo)</button>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <h3>Data</h3>
+      <button class="btn btn-secondary" id="btn-export-data">Export All Data (JSON)</button>
+      <button class="btn btn-danger" id="btn-clear-data">Clear All Data</button>
+    </div>
+
+    <div class="settings-section">
+      <button class="btn btn-primary" id="btn-save-settings">Save Settings</button>
+    </div>
+  </section>
+
+  <script src="csv-parser.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -84,4 +84,5 @@ export const primal: AppConfig = {
     'How is your mental clarity and confidence?',
     'What habit still needs improvement?',
   ],
+  stripeLink: '',
 }

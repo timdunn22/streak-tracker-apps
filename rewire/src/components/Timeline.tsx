@@ -104,8 +104,7 @@ function RecoveryTimeline({ currentDays, events }: { currentDays: number; events
               />
             </div>
           </div>)
-        })()
-        )}
+        })()}
       </div>
 
       {/* Full timeline */}

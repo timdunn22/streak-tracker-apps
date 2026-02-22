@@ -87,4 +87,5 @@ export const vapefree: AppConfig = {
     'What physical improvements have you noticed?',
     'Who or what motivates you to stay vape-free?',
   ],
+  stripeLink: '',
 }

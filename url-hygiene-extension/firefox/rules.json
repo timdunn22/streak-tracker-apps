@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "transform": {
+          "queryTransform": {
+            "removeParams": [
+              "utm_source",
+              "utm_medium",
+              "utm_campaign",
+              "utm_term",
+              "utm_content",
+              "utm_id",
+              "fbclid",
+              "fb_action_ids",
+              "fb_action_types",
+              "fb_ref",
+              "fb_source",
+              "gclid",
+              "gclsrc",
+              "dclid",
+              "gbraid",
+              "wbraid",
+              "msclkid",
+              "hsa_cam",
+              "hsa_grp",
+              "hsa_mt",
+              "hsa_src",
+              "hsa_ad",
+              "hsa_acc",
+              "hsa_net",
+              "hsa_ver",
+              "hsa_la",
+              "hsa_ol",
+              "hsa_kw",
+              "_hsenc",
+              "_hsmi",
+              "__hstc",
+              "__hsfp",
+              "__hssc",
+              "mc_cid",
+              "mc_eid",
+              "s_cid",
+              "ref",
+              "referrer",
+              "_ga",
+              "_gl",
+              "igshid",
+              "si",
+              "feature",
+              "app"
+            ]
+          }
+        }
+      }
+    },
+    "condition": {
+      "resourceTypes": ["main_frame", "sub_frame"]
+    }
+  }
+]

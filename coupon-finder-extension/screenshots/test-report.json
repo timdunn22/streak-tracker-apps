@@ -1,0 +1,215 @@
+[
+  {
+    "name": "Target",
+    "domain": "target.com",
+    "urlLoaded": "https://www.target.com/cart",
+    "finalUrl": "https://www.target.com/cart",
+    "httpStatus": 200,
+    "isCheckoutPage": true,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "extendedInputFound": false,
+    "notificationBarInjected": false,
+    "notificationBarVisible": false,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "loadTime": 953,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "1 expandable coupon element(s) found - input may be hidden behind a click",
+      "Content script did not load or page blocked extension",
+      "Cart appears to be empty - coupon fields may only show with items in cart"
+    ]
+  },
+  {
+    "name": "Amazon",
+    "domain": "amazon.com",
+    "urlLoaded": "https://www.amazon.com/gp/cart/view.html",
+    "finalUrl": "https://www.amazon.com/gp/cart/view.html",
+    "httpStatus": 200,
+    "isCheckoutPage": true,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "extendedInputFound": false,
+    "notificationBarInjected": false,
+    "notificationBarVisible": false,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 405 ()"
+    ],
+    "loadTime": 726,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "3 expandable coupon element(s) found - input may be hidden behind a click",
+      "Content script did not load or page blocked extension",
+      "Cart appears to be empty - coupon fields may only show with items in cart"
+    ]
+  },
+  {
+    "name": "Nike",
+    "domain": "nike.com",
+    "urlLoaded": "https://www.nike.com/cart",
+    "finalUrl": "https://www.nike.com/cart",
+    "httpStatus": 200,
+    "isCheckoutPage": true,
+    "couponInputFound": true,
+    "couponInputDetails": {
+      "found": true,
+      "visible": true,
+      "selector": "input[name*=\"promo\" i]",
+      "tagName": "INPUT",
+      "type": "text",
+      "name": "promotionCode",
+      "id": "",
+      "className": "shadowed-Input css-n6vsqs et014m90",
+      "placeholder": "",
+      "ariaLabel": "Enter a Promo Code"
+    },
+    "extendedInputFound": false,
+    "notificationBarInjected": true,
+    "notificationBarVisible": true,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 9,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 429 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "NikeShop ERROR - TypeError: Cannot convert undefined or null to object",
+      "[NikeAI] users profile is not detected",
+      "[NikeAI] users accessToken is not detected",
+      "PAGE ERROR: Unhandled Promise Rejection: Successful response with errors",
+      "Failed to load resource: the server responded with a status of 429 ()"
+    ],
+    "loadTime": 1446,
+    "rating": "WORKS",
+    "notes": []
+  },
+  {
+    "name": "Best Buy",
+    "domain": "bestbuy.com",
+    "urlLoaded": "https://www.bestbuy.com/cart",
+    "finalUrl": "https://www.bestbuy.com/cart",
+    "httpStatus": 200,
+    "isCheckoutPage": true,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "extendedInputFound": false,
+    "notificationBarInjected": false,
+    "notificationBarVisible": false,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 32,
+    "consoleErrors": [
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR",
+      "PAGE ERROR: Minified React error #419; visit https://reactjs.org/docs/error-decoder.html?invariant=419 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR",
+      "[Network error]: cart-icon-v2 Failed to fetch",
+      "ApolloError: Failed to fetch",
+      "PAGE ERROR: ApolloError: Failed to fetch",
+      "ApolloError: Cannot read properties of undefined (reading 'clientSideFulfillmentLinkConfig')",
+      "ApolloError: Cannot read properties of undefined (reading 'clientSideFulfillmentLinkConfig')",
+      "PAGE ERROR: Minified React error #421; visit https://reactjs.org/docs/error-decoder.html?invariant=421 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+      "Failed to load resource: net::ERR_HTTP2_PROTOCOL_ERROR"
+    ],
+    "loadTime": 4025,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "2 expandable coupon element(s) found - input may be hidden behind a click",
+      "Content script did not load or page blocked extension",
+      "Cart appears to be empty - coupon fields may only show with items in cart"
+    ]
+  },
+  {
+    "name": "Dominos",
+    "domain": "dominos.com",
+    "urlLoaded": "https://www.dominos.com/pages/order/",
+    "finalUrl": "https://www.dominos.com/pages/order",
+    "httpStatus": 404,
+    "isCheckoutPage": true,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "extendedInputFound": false,
+    "notificationBarInjected": false,
+    "notificationBarVisible": false,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 2,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "loadTime": 1113,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "2 expandable coupon element(s) found - input may be hidden behind a click",
+      "Content script did not load or page blocked extension",
+      "Cart appears to be empty - coupon fields may only show with items in cart"
+    ]
+  },
+  {
+    "name": "GoDaddy",
+    "domain": "godaddy.com",
+    "urlLoaded": "https://cart.godaddy.com/",
+    "finalUrl": "https://cart.godaddy.com/",
+    "httpStatus": 403,
+    "isCheckoutPage": true,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "extendedInputFound": false,
+    "notificationBarInjected": false,
+    "notificationBarVisible": false,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 2,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 403 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "loadTime": 254,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "Content script did not load or page blocked extension"
+    ]
+  },
+  {
+    "name": "H&M",
+    "domain": "hm.com",
+    "urlLoaded": "https://www2.hm.com/en_us/cart",
+    "finalUrl": "https://www2.hm.com/en_us/cart",
+    "httpStatus": 200,
+    "isCheckoutPage": true,
+    "couponInputFound": false,
+    "couponInputDetails": null,
+    "extendedInputFound": false,
+    "notificationBarInjected": false,
+    "notificationBarVisible": false,
+    "contentScriptLoaded": false,
+    "dbHasCoupons": true,
+    "dbCouponCount": 5,
+    "consoleErrorCount": 1,
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "loadTime": 2424,
+    "rating": "DOES NOT WORK",
+    "notes": [
+      "3 expandable coupon element(s) found - input may be hidden behind a click",
+      "Content script did not load or page blocked extension",
+      "Cart appears to be empty - coupon fields may only show with items in cart"
+    ]
+  }
+]

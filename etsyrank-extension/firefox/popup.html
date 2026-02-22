@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EtsyRank Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="erp-popup">
+    <!-- Header -->
+    <header class="erp-header">
+      <div class="erp-logo">
+        <img src="icons/icon48.png" alt="" width="28" height="28">
+        <div>
+          <h1>EtsyRank Pro</h1>
+          <span class="erp-tagline">Etsy Seller SEO Dashboard</span>
+        </div>
+      </div>
+      <span id="premium-badge" class="erp-pro-badge hidden">PRO</span>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="erp-tabs">
+      <button class="erp-tab active" data-tab="dashboard">Dashboard</button>
+      <button class="erp-tab" data-tab="keywords">Keywords</button>
+      <button class="erp-tab" data-tab="history">History</button>
+      <button class="erp-tab" data-tab="settings">Settings</button>
+    </nav>
+
+    <!-- Dashboard Tab -->
+    <section id="tab-dashboard" class="erp-tab-content active">
+      <div class="erp-stats-grid">
+        <div class="erp-stat-card">
+          <div class="erp-stat-num" id="stat-today">0</div>
+          <div class="erp-stat-label">Audits Today</div>
+        </div>
+        <div class="erp-stat-card">
+          <div class="erp-stat-num" id="stat-remaining">10</div>
+          <div class="erp-stat-label">Remaining</div>
+        </div>
+        <div class="erp-stat-card">
+          <div class="erp-stat-num" id="stat-total">0</div>
+          <div class="erp-stat-label">Total Audits</div>
+        </div>
+        <div class="erp-stat-card">
+          <div class="erp-stat-num" id="stat-avg-grade">-</div>
+          <div class="erp-stat-label">Avg Grade</div>
+        </div>
+      </div>
+
+      <div class="erp-section">
+        <h3>Quick Start</h3>
+        <ul class="erp-tips">
+          <li>Visit any Etsy listing and click the orange audit button</li>
+          <li>Browse Etsy search results to see sales estimates</li>
+          <li>Use the Keywords tab to research search terms</li>
+          <li>View competitor listing tags on any product page</li>
+        </ul>
+      </div>
+
+      <div class="erp-section">
+        <h3>Recent Audits</h3>
+        <div id="recent-audits" class="erp-recent-list">
+          <p class="erp-empty">No audits yet. Visit an Etsy listing to get started.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Keywords Tab -->
+    <section id="tab-keywords" class="erp-tab-content">
+      <div class="erp-kw-search">
+        <input type="text" id="kw-input" placeholder="Enter a keyword to research..." />
+        <button id="kw-search-btn">Search</button>
+      </div>
+      <div id="kw-results" class="erp-kw-results">
+        <p class="erp-empty">Type a keyword and press Search to see Etsy autocomplete suggestions with competition indicators.</p>
+      </div>
+      <div class="erp-section" style="margin-top: 12px;">
+        <h3>Recent Searches</h3>
+        <div id="kw-history" class="erp-recent-list">
+          <p class="erp-empty">No keyword searches yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Tab -->
+    <section id="tab-history" class="erp-tab-content">
+      <div id="audit-history" class="erp-history-list">
+        <p class="erp-empty">No audit history yet.</p>
+      </div>
+    </section>
+
+    <!-- Settings Tab -->
+    <section id="tab-settings" class="erp-tab-content">
+      <div class="erp-section">
+        <h3>Account</h3>
+        <div id="account-status" class="erp-account-status">
+          <p>Free Plan — 10 audits/day</p>
+        </div>
+      </div>
+
+      <div class="erp-section">
+        <h3>Activate Pro</h3>
+        <p class="erp-desc">Unlock unlimited audits, competitor analysis, report exports, and historical tracking.</p>
+        <div class="erp-license-row">
+          <input type="text" id="license-input" placeholder="Enter license key..." />
+          <button id="activate-btn">Activate</button>
+        </div>
+        <p id="activate-msg" class="erp-msg hidden"></p>
+      </div>
+
+      <div class="erp-section">
+        <h3>Pro Features</h3>
+        <ul class="erp-features">
+          <li>Unlimited listing audits</li>
+          <li>Competitor tag comparison</li>
+          <li>Export audit reports as CSV</li>
+          <li>Historical SEO score tracking</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+
+      <div class="erp-section">
+        <button id="export-btn" class="erp-export-btn">Export Audit History (CSV)</button>
+      </div>
+
+      <div class="erp-footer">
+        <p>EtsyRank Pro v1.0.0</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

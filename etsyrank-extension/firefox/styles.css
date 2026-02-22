@@ -1,0 +1,426 @@
+/* ───────────────────────────────────────────────
+   EtsyRank Pro — Content Script Styles
+   ─────────────────────────────────────────────── */
+
+/* ---------- search-result overlay badges ---------- */
+.erp-badge-wrap {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.erp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font: 600 11px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+  cursor: default;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+
+.erp-badge--sales    { background: rgba(34,139,34,.82); }
+.erp-badge--revenue  { background: rgba(30,90,180,.82); }
+.erp-badge--comp     { background: rgba(180,80,30,.82); }
+.erp-badge--comp-low { background: rgba(34,139,34,.82); }
+.erp-badge--comp-med { background: rgba(200,160,30,.82); }
+.erp-badge--comp-hi  { background: rgba(200,50,50,.82); }
+
+.erp-badge svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* make listing card position:relative so badges position properly */
+.v2-listing-card,
+[data-search-results] .wt-grid__item-xs-6,
+.search-listing-card {
+  position: relative !important;
+}
+
+/* ---------- SEO audit panel ---------- */
+.erp-audit-panel {
+  position: fixed;
+  top: 60px;
+  right: 16px;
+  width: 380px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.15);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  z-index: 99999;
+  padding: 0;
+}
+
+.erp-audit-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.erp-audit-panel::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+/* header */
+.erp-audit-header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(135deg, #f57224, #e04f1a);
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.erp-audit-header h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.erp-audit-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  opacity: .8;
+}
+.erp-audit-close:hover { opacity: 1; }
+
+/* grade circle */
+.erp-grade-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px 16px;
+  gap: 20px;
+}
+
+.erp-grade-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
+.erp-grade-A  { background: linear-gradient(135deg, #22a722, #1a8f1a); }
+.erp-grade-B  { background: linear-gradient(135deg, #6bbd1a, #5aa515); }
+.erp-grade-C  { background: linear-gradient(135deg, #d4a017, #c49010); }
+.erp-grade-D  { background: linear-gradient(135deg, #e07020, #cc5e15); }
+.erp-grade-F  { background: linear-gradient(135deg, #d42020, #b81818); }
+
+.erp-grade-summary {
+  flex: 1;
+}
+
+.erp-grade-summary .erp-score-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: #222;
+}
+
+.erp-grade-summary .erp-score-label {
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* sections */
+.erp-section {
+  padding: 12px 20px;
+  border-top: 1px solid #eee;
+}
+
+.erp-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.erp-section-title svg {
+  width: 16px;
+  height: 16px;
+  fill: #888;
+}
+
+/* metrics row */
+.erp-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13px;
+  color: #333;
+}
+
+.erp-metric-label { color: #666; }
+.erp-metric-value { font-weight: 600; }
+.erp-metric-ok    { color: #22a722; }
+.erp-metric-warn  { color: #d4a017; }
+.erp-metric-bad   { color: #d42020; }
+
+/* progress bars */
+.erp-progress-bar {
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  margin: 4px 0 8px;
+  overflow: hidden;
+}
+
+.erp-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .4s ease;
+}
+
+/* suggestions */
+.erp-suggestion {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 6px 0;
+  background: #fef9f0;
+  border-left: 3px solid #f57224;
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #444;
+}
+
+.erp-suggestion--good {
+  background: #f0fef0;
+  border-left-color: #22a722;
+}
+
+.erp-suggestion-icon {
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* competitor spy */
+.erp-comp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.erp-comp-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #444;
+}
+
+.erp-comp-tag--match {
+  background: #e8f5e9;
+  border-color: #81c784;
+  color: #2e7d32;
+}
+
+.erp-comp-tag--missing {
+  background: #fff3e0;
+  border-color: #ffb74d;
+  color: #e65100;
+}
+
+/* floating trigger button */
+.erp-trigger-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f57224, #e04f1a);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(245,114,36,.4);
+  cursor: pointer;
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.erp-trigger-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(245,114,36,.55);
+}
+
+.erp-trigger-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+/* free tier badge */
+.erp-free-badge {
+  text-align: center;
+  padding: 8px 20px 14px;
+  font-size: 12px;
+  color: #888;
+}
+
+.erp-free-badge strong {
+  color: #f57224;
+}
+
+/* ---------- keyword tool (inline) ---------- */
+.erp-kw-tool {
+  padding: 12px 20px 16px;
+  border-top: 1px solid #eee;
+}
+
+.erp-kw-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.erp-kw-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+}
+.erp-kw-input:focus {
+  border-color: #f57224;
+  box-shadow: 0 0 0 2px rgba(245,114,36,.15);
+}
+
+.erp-kw-btn {
+  padding: 8px 14px;
+  background: #f57224;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.erp-kw-btn:hover { background: #e04f1a; }
+
+.erp-kw-results {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.erp-kw-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.erp-kw-item:last-child { border-bottom: none; }
+
+.erp-kw-term { color: #333; font-weight: 500; }
+
+.erp-kw-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.erp-kw-comp {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.erp-kw-comp--low  { background: #e8f5e9; color: #2e7d32; }
+.erp-kw-comp--med  { background: #fff8e1; color: #f57f17; }
+.erp-kw-comp--high { background: #fce4ec; color: #c62828; }
+
+.erp-kw-trend {
+  font-size: 14px;
+}
+
+/* ---------- premium gate overlay ---------- */
+.erp-premium-gate {
+  padding: 20px;
+  text-align: center;
+  background: #fffaf5;
+  border-top: 1px solid #eee;
+}
+
+.erp-premium-gate h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+.erp-premium-gate p {
+  font-size: 13px;
+  color: #666;
+  margin: 0 0 12px;
+}
+
+.erp-premium-gate input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 8px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.erp-premium-gate button {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(135deg, #f57224, #e04f1a);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}

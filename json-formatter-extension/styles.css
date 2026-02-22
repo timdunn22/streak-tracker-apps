@@ -1,0 +1,295 @@
+/* ═══════════════════════════════════════════════
+   JSONView Pro — Styles
+   ═══════════════════════════════════════════════ */
+
+/* Reset when we take over the page */
+#jvp-root {
+  margin: 0;
+  padding: 0;
+  font-family: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code", "Consolas", "Liberation Mono", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow: auto;
+  min-height: 100vh;
+}
+
+/* ── Dark Theme (default) ── */
+.jvp-theme-dark {
+  background: #1a1b26;
+  color: #c0caf5;
+}
+.jvp-theme-dark .jvp-toolbar {
+  background: #16161e;
+  border-bottom: 1px solid #2f3348;
+}
+.jvp-theme-dark .jvp-search {
+  background: #24283b;
+  color: #c0caf5;
+  border: 1px solid #3b4261;
+}
+.jvp-theme-dark .jvp-search:focus {
+  border-color: #7aa2f7;
+  box-shadow: 0 0 0 2px rgba(122, 162, 247, 0.2);
+}
+.jvp-theme-dark .jvp-btn {
+  background: #24283b;
+  color: #c0caf5;
+  border: 1px solid #3b4261;
+}
+.jvp-theme-dark .jvp-btn:hover {
+  background: #3b4261;
+}
+.jvp-theme-dark .jvp-line-numbers {
+  color: #565f89;
+  background: #16161e;
+  border-right: 1px solid #2f3348;
+}
+.jvp-theme-dark .jvp-key { color: #7dcfff; }
+.jvp-theme-dark .jvp-colon { color: #565f89; }
+.jvp-theme-dark .jvp-bracket { color: #bb9af7; }
+.jvp-theme-dark .jvp-type-string { color: #9ece6a; }
+.jvp-theme-dark .jvp-type-number { color: #7aa2f7; }
+.jvp-theme-dark .jvp-type-boolean { color: #ff9e64; }
+.jvp-theme-dark .jvp-type-null { color: #565f89; font-style: italic; }
+.jvp-theme-dark .jvp-toggle { color: #565f89; }
+.jvp-theme-dark .jvp-badge { background: #24283b; color: #565f89; }
+.jvp-theme-dark .jvp-line:hover,
+.jvp-theme-dark .jvp-leaf:hover { background: rgba(122, 162, 247, 0.05); }
+.jvp-theme-dark .jvp-highlight { background: #e0af68; color: #1a1b26; }
+.jvp-theme-dark .jvp-copied { background: #9ece6a !important; color: #1a1b26 !important; }
+.jvp-theme-dark .jvp-logo { color: #bb9af7; }
+
+/* ── Light Theme ── */
+.jvp-theme-light {
+  background: #fafafa;
+  color: #383a42;
+}
+.jvp-theme-light .jvp-toolbar {
+  background: #f0f0f0;
+  border-bottom: 1px solid #d0d0d0;
+}
+.jvp-theme-light .jvp-search {
+  background: #ffffff;
+  color: #383a42;
+  border: 1px solid #c0c0c0;
+}
+.jvp-theme-light .jvp-search:focus {
+  border-color: #4078f2;
+  box-shadow: 0 0 0 2px rgba(64, 120, 242, 0.2);
+}
+.jvp-theme-light .jvp-btn {
+  background: #ffffff;
+  color: #383a42;
+  border: 1px solid #c0c0c0;
+}
+.jvp-theme-light .jvp-btn:hover {
+  background: #e8e8e8;
+}
+.jvp-theme-light .jvp-line-numbers {
+  color: #9da5b4;
+  background: #f0f0f0;
+  border-right: 1px solid #d0d0d0;
+}
+.jvp-theme-light .jvp-key { color: #e45649; }
+.jvp-theme-light .jvp-colon { color: #9da5b4; }
+.jvp-theme-light .jvp-bracket { color: #a626a4; }
+.jvp-theme-light .jvp-type-string { color: #50a14f; }
+.jvp-theme-light .jvp-type-number { color: #4078f2; }
+.jvp-theme-light .jvp-type-boolean { color: #c18401; }
+.jvp-theme-light .jvp-type-null { color: #9da5b4; font-style: italic; }
+.jvp-theme-light .jvp-toggle { color: #9da5b4; }
+.jvp-theme-light .jvp-badge { background: #e8e8e8; color: #9da5b4; }
+.jvp-theme-light .jvp-line:hover,
+.jvp-theme-light .jvp-leaf:hover { background: rgba(64, 120, 242, 0.05); }
+.jvp-theme-light .jvp-highlight { background: #ffdd57; color: #383a42; }
+.jvp-theme-light .jvp-copied { background: #50a14f !important; color: #fff !important; }
+.jvp-theme-light .jvp-logo { color: #a626a4; }
+
+/* ── Toolbar ── */
+.jvp-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.jvp-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.jvp-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.jvp-logo {
+  font-size: 20px;
+  font-weight: 700;
+}
+.jvp-title {
+  font-weight: 600;
+  font-size: 14px;
+}
+.jvp-meta {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* ── Search ── */
+.jvp-search {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  width: 200px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+/* ── Buttons ── */
+.jvp-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+/* ── Content Area ── */
+.jvp-content {
+  display: flex;
+  min-height: calc(100vh - 50px);
+}
+
+/* ── Line Numbers ── */
+.jvp-line-numbers {
+  padding: 12px 12px 12px 8px;
+  text-align: right;
+  user-select: none;
+  white-space: pre;
+  font-size: 12px;
+  line-height: 1.6;
+  min-width: 40px;
+  flex-shrink: 0;
+}
+
+/* ── Tree ── */
+.jvp-tree {
+  padding: 12px 16px;
+  flex: 1;
+  overflow-x: auto;
+}
+
+/* ── Nodes ── */
+.jvp-node {
+  /* wrapper for collapsible */
+}
+
+.jvp-line,
+.jvp-leaf {
+  padding: 0 4px;
+  border-radius: 3px;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.jvp-line-header {
+  cursor: pointer;
+}
+
+.jvp-toggle {
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  font-size: 10px;
+  vertical-align: middle;
+  transition: transform 0.15s;
+}
+.jvp-toggle-spacer {
+  cursor: default;
+  visibility: hidden;
+}
+
+.jvp-key {
+  cursor: pointer;
+}
+.jvp-key:hover {
+  text-decoration: underline;
+}
+
+.jvp-colon {
+  margin: 0 2px;
+}
+
+.jvp-badge {
+  font-size: 10px;
+  padding: 0 5px;
+  border-radius: 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.jvp-preview {
+  display: none;
+  opacity: 0.5;
+}
+.jvp-collapsed > .jvp-line-header > .jvp-preview {
+  display: inline;
+}
+
+/* ── Collapse / Expand ── */
+.jvp-children {
+  padding-left: 20px;
+}
+.jvp-collapsed > .jvp-children {
+  display: none;
+}
+.jvp-collapsed > .jvp-closing-line {
+  display: none;
+}
+
+.jvp-closing-line {
+  /* closing bracket line */
+}
+
+.jvp-comma {
+  opacity: 0.5;
+}
+
+/* ── Search Highlight ── */
+.jvp-highlight {
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.jvp-search-match {
+  /* parent of highlight - could add outline if needed */
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .jvp-toolbar {
+    padding: 6px 8px;
+  }
+  .jvp-search {
+    width: 140px;
+  }
+  .jvp-title {
+    display: none;
+  }
+  .jvp-line-numbers {
+    display: none;
+  }
+}

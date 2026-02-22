@@ -87,4 +87,5 @@ export const clearlungs: AppConfig = {
     'What surprised you about being smoke-free?',
     'Who has noticed the positive changes in you?',
   ],
+  stripeLink: '',
 }

@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback, Component, type ReactNode } from 'react'
 import { useStreak } from './hooks/useStreak'
+import { usePremium } from './hooks/usePremium'
+import { useNotificationReminder } from './hooks/useNotificationReminder'
 import { useMilestoneAlert } from './hooks/useMilestoneAlert'
 import { useSwipeNavigation } from './hooks/useSwipeNavigation'
 import { useOnlineStatus } from './hooks/useOnlineStatus'
@@ -12,7 +14,11 @@ import Stats from './components/Stats'
 import ShareCard from './components/ShareCard'
 import MilestoneModal from './components/MilestoneModal'
 import BreathingExercise from './components/BreathingExercise'
+import PremiumGate from './components/PremiumGate'
 import Toast from './components/Toast'
+import { inject } from '@vercel/analytics'
+
+inject()
 
 // Error Boundary: catches render errors and shows a recovery UI instead of white-screening.
 // Also catches unhandled promise rejections and global errors that escape React's tree.
@@ -76,7 +82,9 @@ type Tab = 'home' | 'timeline' | 'stats' | 'share'
 const TAB_ORDER: Tab[] = ['home', 'timeline', 'stats', 'share']
 
 function App() {
-  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved, addJournalEntry, deleteJournalEntry, exportData, importData, storageWarning } = useStreak()
+  const { currentDays, longestStreak, totalCleanDays, totalResets, isActive, startStreak, resetStreak, startDate, data, freezesAvailable, useFreeze, dailyCost, setDailyCost, moneySaved, addJournalEntry, deleteJournalEntry, exportData, importData, storageWarning, isPremium, setPremium } = useStreak()
+  usePremium(isPremium, setPremium)
+  useNotificationReminder(isActive, currentDays)
   const [tab, setTab] = useState<Tab>(() => {
     // Restore tab from URL hash on initial load (e.g. #timeline, #stats, #share)
     const hash = window.location.hash.replace('#', '') as Tab
@@ -346,6 +354,7 @@ function App() {
               onAddJournal={(mood, text, triggers) => { addJournalEntry(mood, text, triggers); announce('Journal entry saved.') }}
               onDeleteJournal={deleteJournalEntry}
               showToast={showToast}
+              isPremium={isPremium}
             />
           )}
           {tab === 'timeline' && <Timeline currentDays={currentDays} />}
@@ -423,7 +432,20 @@ function App() {
       {/* Milestone celebration modal */}
       <MilestoneModal milestone={activeMilestone} onClose={() => setActiveMilestone(null)} />
       {/* Breathing exercise modal */}
-      {showBreathing && <BreathingExercise onClose={() => setShowBreathing(false)} />}
+      {showBreathing && (
+        isPremium ? (
+          <BreathingExercise onClose={() => setShowBreathing(false)} />
+        ) : (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-6" onClick={() => setShowBreathing(false)}>
+            <div onClick={e => e.stopPropagation()}>
+              <PremiumGate feature="Breathing Exercise" isPremium={false}>
+                <div className="h-48" />
+              </PremiumGate>
+              <button onClick={() => setShowBreathing(false)} className="mt-4 w-full text-text-muted text-sm py-3 min-h-[44px]">Close</button>
+            </div>
+          </div>
+        )
+      )}
     </div>
   )
 }

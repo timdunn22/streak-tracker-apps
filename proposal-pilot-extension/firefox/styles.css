@@ -1,0 +1,491 @@
+/* ============================================================
+   ProposalPilot — Content Script Sidebar Styles
+   ============================================================ */
+
+/* --------------- Sidebar Container --------------- */
+
+#pp-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  height: 100vh;
+  background: #ffffff;
+  border-left: 2px solid #14a800;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  z-index: 999999;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  color: #1d1d1d;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: transform 0.3s ease;
+}
+
+#pp-sidebar.pp-collapsed {
+  transform: translateX(100%);
+}
+
+#pp-sidebar * {
+  box-sizing: border-box;
+}
+
+/* --------------- Toggle Button --------------- */
+
+#pp-toggle-btn {
+  position: fixed;
+  top: 120px;
+  right: 380px;
+  width: 40px;
+  height: 48px;
+  background: #14a800;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.15);
+  transition: right 0.3s ease, background 0.2s;
+}
+
+#pp-toggle-btn:hover {
+  background: #108a00;
+}
+
+#pp-sidebar.pp-collapsed ~ #pp-toggle-btn {
+  right: 0;
+}
+
+/* --------------- Header --------------- */
+
+.pp-header {
+  background: linear-gradient(135deg, #14a800 0%, #0e8c00 100%);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.pp-header-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.pp-header-subtitle {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.pp-header-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pp-header-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* --------------- Sections --------------- */
+
+.pp-section {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.pp-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #656565;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --------------- Job Score --------------- */
+
+.pp-score-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pp-score-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 4px solid;
+}
+
+.pp-score-circle.pp-score-good {
+  background: #e6f9e0;
+  color: #14a800;
+  border-color: #14a800;
+}
+
+.pp-score-circle.pp-score-caution {
+  background: #fff8e0;
+  color: #c49a00;
+  border-color: #e8b800;
+}
+
+.pp-score-circle.pp-score-bad {
+  background: #fde8e8;
+  color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+.pp-score-details {
+  flex: 1;
+}
+
+.pp-score-label {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pp-score-breakdown {
+  font-size: 12px;
+  color: #656565;
+  line-height: 1.5;
+}
+
+/* --------------- Key Info --------------- */
+
+.pp-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.pp-info-item {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.pp-info-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+
+.pp-info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1d;
+  word-break: break-word;
+}
+
+/* --------------- Red Flags --------------- */
+
+.pp-flags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pp-flag {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.pp-flag-high {
+  background: #fde8e8;
+  color: #b71c1c;
+  border-left: 3px solid #d32f2f;
+}
+
+.pp-flag-medium {
+  background: #fff8e0;
+  color: #8d6e00;
+  border-left: 3px solid #e8b800;
+}
+
+.pp-flag-low {
+  background: #e8f4fd;
+  color: #1565c0;
+  border-left: 3px solid #42a5f5;
+}
+
+.pp-flag-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.pp-no-flags {
+  background: #e6f9e0;
+  color: #14a800;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* --------------- Templates --------------- */
+
+.pp-template-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pp-template-card {
+  background: #f7f7f7;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.pp-template-card:hover {
+  border-color: #14a800;
+  background: #f0faf0;
+}
+
+.pp-template-name {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.pp-template-category {
+  font-size: 11px;
+  color: #888;
+}
+
+.pp-template-preview {
+  font-size: 12px;
+  color: #656565;
+  margin-top: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pp-template-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* --------------- Tracking --------------- */
+
+.pp-tracking-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pp-track-btn {
+  flex: 1;
+  min-width: 70px;
+  padding: 10px 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.pp-track-btn:hover {
+  border-color: #14a800;
+  background: #f0faf0;
+}
+
+.pp-track-btn.pp-active {
+  border-color: #14a800;
+  background: #14a800;
+  color: #fff;
+}
+
+.pp-track-btn.pp-applied { color: #1565c0; }
+.pp-track-btn.pp-applied.pp-active { background: #1565c0; border-color: #1565c0; color: #fff; }
+
+.pp-track-btn.pp-skipped { color: #888; }
+.pp-track-btn.pp-skipped.pp-active { background: #888; border-color: #888; color: #fff; }
+
+.pp-track-btn.pp-won { color: #14a800; }
+.pp-track-btn.pp-won.pp-active { background: #14a800; border-color: #14a800; color: #fff; }
+
+.pp-track-btn.pp-lost { color: #d32f2f; }
+.pp-track-btn.pp-lost.pp-active { background: #d32f2f; border-color: #d32f2f; color: #fff; }
+
+/* --------------- Buttons --------------- */
+
+.pp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.pp-btn:active {
+  transform: scale(0.97);
+}
+
+.pp-btn-primary {
+  background: #14a800;
+  color: #fff;
+}
+
+.pp-btn-primary:hover {
+  background: #108a00;
+}
+
+.pp-btn-secondary {
+  background: #f0f0f0;
+  color: #1d1d1d;
+}
+
+.pp-btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.pp-btn-sm {
+  padding: 5px 10px;
+  font-size: 11px;
+}
+
+.pp-btn-danger {
+  background: #fde8e8;
+  color: #d32f2f;
+}
+
+.pp-btn-danger:hover {
+  background: #f5c0c0;
+}
+
+/* --------------- Premium Banner --------------- */
+
+.pp-premium-banner {
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.pp-premium-banner h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+
+.pp-premium-banner p {
+  margin: 0 0 10px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* --------------- Footer --------------- */
+
+.pp-footer {
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* --------------- Responsive / Print --------------- */
+
+@media (max-width: 768px) {
+  #pp-sidebar {
+    width: 320px;
+  }
+  #pp-toggle-btn {
+    right: 320px;
+  }
+  #pp-sidebar.pp-collapsed ~ #pp-toggle-btn {
+    right: 0;
+  }
+}
+
+/* --------------- Scrollbar --------------- */
+
+#pp-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+#pp-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#pp-sidebar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+#pp-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* --------------- Toast Notification --------------- */
+
+.pp-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 400px;
+  background: #1d1d1d;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 1000000;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.pp-toast.pp-toast-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

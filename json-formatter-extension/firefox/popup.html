@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <div class="header">
+      <span class="logo">{}</span>
+      <h1>JSONView Pro</h1>
+    </div>
+
+    <div class="section">
+      <label class="label">Default Theme</label>
+      <div class="toggle-group">
+        <button id="theme-dark" class="toggle-btn active">🌙 Dark</button>
+        <button id="theme-light" class="toggle-btn">☀️ Light</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="label">Default Collapse Depth</label>
+      <div class="toggle-group">
+        <button class="toggle-btn depth-btn" data-depth="1">1</button>
+        <button class="toggle-btn depth-btn active" data-depth="2">2</button>
+        <button class="toggle-btn depth-btn" data-depth="3">3</button>
+        <button class="toggle-btn depth-btn" data-depth="99">All</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="label">Auto-Format</label>
+      <div class="toggle-row">
+        <span class="desc">Automatically format JSON pages</span>
+        <label class="switch">
+          <input type="checkbox" id="auto-format" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="section stats">
+      <div class="stat">
+        <span class="stat-value" id="pages-count">0</span>
+        <span class="stat-label">Pages Formatted</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      JSONView Pro v1.0.0
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
